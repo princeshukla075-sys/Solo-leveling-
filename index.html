@@ -286,7 +286,7 @@ canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; 
 .inv-icon { font-size: 1.3rem; }
 .inv-empty { color: var(--muted); font-size: 0.82rem; padding: 4px; font-family: var(--font-mono); }
 
-/* Responsive Weight System Grid Fix */
+/* Clean, Full-Width Responsive Weight Layout */
 .weight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 6px; width: 100%; }
 .weight-box { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .weight-box label { font-size: 0.62rem; color: var(--muted); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -371,66 +371,131 @@ canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; 
   background: linear-gradient(160deg, #0c1830, #060e1e);
   border: 1px solid var(--blue);
   border-radius: 14px; padding: 24px;
+  width: 100%; max-width: 400px;
+  box-shadow: 0 0 40px rgba(0,200,255,0.1);
+  animation: slideUp 0.3s cubic-bezier(0.175,0.885,0.32,1.275);
+}
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.modal h3 {
+  font-family: var(--font-title); font-size: 0.7rem;
+  letter-spacing: 3px; color: var(--blue); margin-bottom: 16px;
+}
+.modal .field-group { gap: 12px; }
+.modal-btns { display: flex; gap: 8px; margin-top: 16px; }
 
-/* dailies */
-.daily-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); transition: opacity 0.2s; }
-.daily-item.done { opacity: 0.55; }
-.daily-item:last-of-type { border-bottom: none; }
-.daily-main { flex: 1; min-width: 0; }
-.daily-name { font-size: 0.9rem; font-weight: 600; }
-.daily-reward { font-size: 0.7rem; color: var(--green); font-family: var(--font-mono); margin-top: 2px; }
+/* ─── BUTTONS ─── */
+.btn {
+  border: none; border-radius: 8px; cursor: pointer;
+  font-family: var(--font-hud); font-weight: 700;
+  font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 11px 16px; width: 100%; transition: all 0.2s;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary {
+  background: linear-gradient(135deg, #0055cc, #00a8ff);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(0,120,255,0.25);
+}
+.btn-primary:hover { box-shadow: 0 4px 20px rgba(0,150,255,0.4); filter: brightness(1.1); }
+.btn-danger {
+  background: linear-gradient(135deg, #880020, #cc2244);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(200,20,60,0.2);
+}
+.btn-danger:hover { filter: brightness(1.1); }
+.btn-gold {
+  background: transparent; border: 1px solid var(--gold);
+  color: var(--gold); padding: 6px 14px; width: auto;
+  font-size: 0.75rem;
+}
+.btn-gold:hover { background: rgba(240,192,64,0.1); }
+.btn-sm {
+  padding: 6px 12px; width: auto; font-size: 0.78rem;
+}
+.btn-outline {
+  background: transparent; border: 1px solid rgba(0,200,255,0.3);
+  color: var(--blue);
+}
+.btn-outline:hover { background: rgba(0,200,255,0.08); }
 
-.cb { width: 22px; height: 22px; min-width: 22px; border-radius: 5px; border: 1.5px solid var(--muted); background: rgba(0,0,0,0.3); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; margin-top: 2px; }
-.cb.checked { background: var(--blue); border-color: var(--blue); box-shadow: 0 0 10px rgba(0,200,255,0.3); }
-.cb.checked::after { content: ''; width: 5px; height: 9px; border: 2px solid #000; border-width: 0 2px 2px 0; transform: rotate(45deg) translateY(-1px); }
-.edit-task-btn { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 0.85rem; padding: 4px; border-radius: 4px; transition: color 0.2s; display: flex; align-items: center; }
-.edit-task-btn:hover { color: var(--blue); }
+/* add task button */
+.btn-add-task {
+  background: rgba(0,200,255,0.06); border: 1px dashed rgba(0,200,255,0.25);
+  border-radius: 8px; padding: 8px; width: 100%; cursor: pointer;
+  color: var(--muted); font-family: var(--font-hud); font-size: 0.82rem;
+  text-align: center; transition: all 0.2s; margin-top: 6px;
+}
+.btn-add-task:hover { color: var(--blue); border-color: rgba(0,200,255,0.5); background: rgba(0,200,255,0.1); }
 
-/* shop */
-.shop-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); gap: 10px; }
+/* ─── SHOP ─── */
+.shop-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+  gap: 10px;
+}
 .shop-item:last-of-type { border-bottom: none; }
 .shop-info { flex: 1; }
 .shop-name { font-size: 0.88rem; font-weight: 600; }
 .shop-meta { font-size: 0.7rem; color: var(--muted); font-family: var(--font-mono); margin-top: 2px; }
 .shop-meta .cost { color: var(--gold); }
-.shop-item.owned .shop-name { color: var(--muted); text-decoration: line-through; }
-.owned-badge { font-size: 0.65rem; color: var(--green); border: 1px solid rgba(0,232,122,0.3); padding: 3px 8px; border-radius: 4px; font-family: var(--font-mono); }
+.shop-meta .req { color: var(--muted); }
+.shop-item.owned .shop-name { color: var(--muted); }
+.owned-badge {
+  font-size: 0.65rem; color: var(--green); border: 1px solid rgba(0,232,122,0.3);
+  padding: 3px 8px; border-radius: 4px; font-family: var(--font-mono);
+}
 
-/* modals */
-.modal-overlay { position: fixed; inset: 0; z-index: 7777; background: rgba(0,2,8,0.85); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 20px; animation: fadeInOverlay 0.2s ease; }
-.modal-overlay.hidden { display: none; }
-@keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
-.modal { background: linear-gradient(160deg, #0c1830, #060e1e); border: 1px solid var(--blue); border-radius: 14px; padding: 24px; width: 100%; max-width: 400px; box-shadow: 0 0 40px rgba(0,200,255,0.1); animation: slideUp 0.3s cubic-bezier(0.175,0.885,0.32,1.275); }
-@keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-.modal h3 { font-family: var(--font-title); font-size: 0.7rem; letter-spacing: 3px; color: var(--blue); margin-bottom: 16px; text-transform: uppercase; }
-.modal-btns { display: flex; gap: 8px; margin-top: 16px; }
+/* ─── RESET BTN CONTAINER ─── */
+.reset-row { display: flex; gap: 8px; margin-top: 8px; }
 
-/* buttons */
-.btn { border: none; border-radius: 8px; cursor: pointer; font-family: var(--font-hud); font-weight: 700; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; padding: 11px 16px; width: 100%; transition: all 0.2s; text-align: center; }
-.btn:active { transform: scale(0.97); }
-.btn-primary { background: linear-gradient(135deg, #0055cc, #00a8ff); color: #fff; box-shadow: 0 4px 15px rgba(0,120,255,0.25); }
-.btn-primary:hover { box-shadow: 0 4px 20px rgba(0,150,255,0.4); filter: brightness(1.1); }
-.btn-gold { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 6px 14px; width: auto; font-size: 0.75rem; font-family: var(--font-mono); }
-.btn-gold:hover { background: rgba(240,192,64,0.1); }
-.btn-sm { padding: 6px 12px; width: auto; font-size: 0.78rem; }
-.btn-outline { background: transparent; border: 1px solid rgba(0,200,255,0.3); color: var(--blue); }
-.btn-outline:hover { background: rgba(0,200,255,0.08); }
+/* ─── LEVEL UP FLASH ─── */
+#lvlFlash {
+  position: fixed; inset: 0; z-index: 9000;
+  background: rgba(168,85,247,0.08);
+  pointer-events: none; opacity: 0;
+  transition: opacity 0.2s;
+}
+#lvlFlash.active { opacity: 1; animation: lvlFlashAnim 1s ease forwards; }
+@keyframes lvlFlashAnim {
+  0% { opacity: 0; } 15% { opacity: 1; } 100% { opacity: 0; }
+}
 
-.btn-add-task { background: rgba(0,200,255,0.06); border: 1px dashed rgba(0,200,255,0.25); border-radius: 8px; padding: 8px; width: 100%; cursor: pointer; color: var(--muted); font-family: var(--font-hud); font-size: 0.82rem; text-align: center; transition: all 0.2s; margin-top: 6px; }
-.btn-add-task:hover { color: var(--blue); border-color: rgba(0,200,255,0.5); background: rgba(0,200,255,0.1); }
+/* inline editing */
+.editable-input {
+  background: rgba(0,10,30,0.8); border: 1px solid var(--blue);
+  border-radius: 4px; color: var(--text); font-family: var(--font-hud);
+  font-size: 0.9rem; padding: 3px 8px; width: 100%;
+}
+.editable-input:focus { outline: none; box-shadow: 0 0 0 2px rgba(0,200,255,0.2); }
 
-#lvlFlash { position: fixed; inset: 0; z-index: 9000; background: rgba(168,85,247,0.08); pointer-events: none; opacity: 0; }
-#lvlFlash.active { animation: lvlFlashAnim 1s ease forwards; }
-@keyframes lvlFlashAnim { 0% { opacity: 0; } 15% { opacity: 1; } 100% { opacity: 0; } }
-
+/* day streak */
 .streak-bar { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
-.streak-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s; }
+.streak-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+  transition: all 0.3s;
+}
 .streak-dot.lit { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 6px rgba(240,192,64,0.5); }
 .streak-label { font-size: 0.72rem; color: var(--muted); font-family: var(--font-mono); }
 
-/* bottom menu */
-.tab-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: rgba(6,12,26,0.96); backdrop-filter: blur(10px); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 8px 0 max(8px, env(safe-area-inset-bottom)); }
-.tab-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; background: none; border: none; cursor: pointer; color: var(--muted); font-family: var(--font-hud); font-size: 0.62rem; letter-spacing: 1px; text-transform: uppercase; padding: 4px 14px; transition: color 0.2s; }
+/* ─── Tabs ─── */
+.tab-nav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(6,12,26,0.96); backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-around;
+  padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+}
+.tab-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  background: none; border: none; cursor: pointer;
+  color: var(--muted); font-family: var(--font-hud); font-size: 0.62rem;
+  letter-spacing: 1px; text-transform: uppercase; padding: 4px 14px;
+  transition: color 0.2s;
+}
 .tab-btn .tab-icon { font-size: 1.3rem; transition: transform 0.2s; }
 .tab-btn.active { color: var(--blue); }
 .tab-btn.active .tab-icon { transform: scale(1.15); }
@@ -438,355 +503,22 @@ canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; 
 .tab-section { display: none; }
 .tab-section.active { display: flex; flex-direction: column; gap: 12px; }
 
-.profile-edit-box { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; width: 100%; }
-.profile-edit-box input, .profile-edit-box select { background: rgba(0,10,30,0.6); border: 1px solid rgba(0,200,255,0.2); border-radius: 6px; padding: 10px; color: var(--text); font-family: var(--font-hud); font-size: 1rem; width: 100%; }
-.profile-edit-box label { font-size: 0.75rem; color: var(--blue); font-family: var(--font-mono); text-transform: uppercase; }
-</style>
-</head>
-<body>
-
-<canvas id="particles"></canvas>
-<div class="bg-fx"><div class="scan-line"></div></div>
-<div id="lvlFlash"></div>
-<div id="toastContainer"></div>
-
-<div class="app" id="mainApp">
-
-  <div class="tab-section active" id="tab-status">
-    <div class="hud-panel" id="hudPanel">
-      <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
-      <div class="hud-corner bl"></div><div class="hud-corner br"></div>
-      <div class="sys-title">Hunter Status Window</div>
-      <div class="player-line" id="playerLine">Syncing system parameters...</div>
-      <div class="level-row">
-        <span class="lv-label">LV.</span>
-        <span id="level">1</span>
-        <span class="rank-badge" id="rankBadge">E-Rank</span>
-      </div>
-      <div class="bar-block">
-        <div class="bar-labels">
-          <span style="color:var(--red)">HP — System Integrity</span>
-          <span id="hpText" style="color:var(--red)">100/100</span>
-        </div>
-        <div class="bar-track"><div class="bar-fill" id="hpBar"></div></div>
-      </div>
-      <div class="bar-block">
-        <div class="bar-labels">
-          <span style="color:var(--blue)">EXP Progression Data</span>
-          <span id="expText" style="color:var(--blue)">0/100</span>
-        </div>
-        <div class="bar-track"><div class="bar-fill" id="expBar"></div></div>
-      </div>
-      <div class="gold-row">GOLD INVENTORY: <span class="gold-amt" id="goldDisplay">0</span>G</div>
-      
-      <div class="stats-row">
-        <div class="stat-cell str"><div class="stat-val" id="statStr">10</div><div class="stat-lbl">STR</div></div>
-        <div class="stat-cell int"><div class="stat-val" id="statInt">10</div><div class="stat-lbl">INT</div></div>
-        <div class="stat-cell vit"><div class="stat-val" id="statVit">10</div><div class="stat-lbl">VIT</div></div>
-      </div>
-      
-      <div style="margin-top:14px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
-          <span class="streak-label">DAILY STREAK COUNTER</span>
-          <span class="streak-label" id="streakCount">0 days</span>
-        </div>
-        <div class="streak-bar" id="streakBar"></div>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-hd"><div class="panel-title">⚖️ Weight Target Journey</div></div>
-      <div class="weight-grid">
-        <div class="weight-box"><label>Starting</label><input type="number" id="wStart" value="80" step="0.1" oninput="calculateWeightProgress()"></div>
-        <div class="weight-box"><label>Current</label><input type="number" id="wCurrent" value="77" step="0.1" oninput="calculateWeightProgress()"></div>
-        <div class="weight-box"><label>Target</label><input type="number" id="wTarget" value="70" step="0.1" oninput="calculateWeightProgress()"></div>
-      </div>
-      <div class="weight-bar-track"><div class="weight-bar-fill" id="weightBar"></div></div>
-      <div class="weight-labels"><span id="lblWStart">80kg</span><span id="lblWStatus" style="color:var(--blue);font-weight:bold;">0% Cleared</span><span id="lblWTarget">70kg</span></div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-hd"><div class="panel-title">⚔️ Evolved Traits & Physical Augmentations</div></div>
-      <div class="inv-grid" id="inventoryContainer"></div>
-    </div>
-  </div>
-
-  <div class="tab-section" id="tab-quests">
-    <div class="panel">
-      <div class="panel-hd"><div class="panel-title">⚡ Habits — Continuous Integration</div></div>
-      <div class="habit-item">
-        <div>
-          <div class="habit-name">Healthy Snacking / Hydration Check</div>
-          <div class="habit-reward" style="color:var(--green)">+2 EXP &nbsp;|&nbsp; +2 GOLD</div>
-        </div>
-        <div class="habit-btns">
-          <button class="hbtn plus" onclick="doHabit(2,2,true,event)">+</button>
-          <button class="hbtn minus" onclick="doHabit(-2,-5,false,event)">−</button>
-        </div>
-      </div>
-      <div class="habit-item">
-        <div>
-          <div class="habit-name">Junk Food Intake / Slacking Manifest</div>
-          <div class="habit-reward" style="color:var(--red)">−15 HP Direct Penalty</div>
-        </div>
-        <div class="habit-btns">
-          <button class="hbtn minus" onclick="doHabit(-15,0,false,event,true)">−</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-hd">
-        <div class="panel-title">📋 Non-Negotiable Daily Quests</div>
-        <span style="font-size:0.75rem;color:var(--muted);font-family:var(--font-mono)" id="dailyProgress">0/0</span>
-      </div>
-      <div id="dailiesContainer"></div>
-      <button class="btn-add-task" onclick="openAddModal()">+ Add New Quest Configuration</button>
-      <div class="reset-row" style="margin-top:12px">
-        <button class="btn btn-primary" onclick="executeDailyReset()">⚡ Execute Daily Reset Sequence</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="tab-section" id="tab-shop">
-    <div class="panel">
-      <div class="panel-hd">
-        <div class="panel-title">🔮 The Shadow Armory</div>
-        <span style="font-size:0.8rem;color:var(--gold);font-family:var(--font-mono)"><span id="shopGold">0</span>G</span>
-      </div>
-      <div id="shopContainer"></div>
-    </div>
-  </div>
-
-  <div class="tab-section" id="tab-profile">
-    <div class="panel">
-      <div class="panel-hd"><div class="panel-title">👤 Operational Player Profile</div></div>
-      <div class="profile-row"><span class="profile-label">Designation</span><span class="profile-val" id="pName2">Sahitya Shukla</span></div>
-      <div class="profile-row"><span class="profile-label">Chronology</span><span class="profile-val" id="pAge2">24</span></div>
-      <div class="profile-row"><span class="profile-label">Gender Type</span><span class="profile-val" id="pGender2">Male</span></div>
-      <div class="profile-row"><span class="profile-label">Evolution Tier</span><span class="profile-val" id="pLevel2">—</span></div>
-      <div class="profile-row"><span class="profile-label">System Rank</span><span class="profile-val" id="pRank2" style="color:var(--blue)">—</span></div>
-      <div class="profile-row" style="border:none"><span class="profile-label">Total Grinds Completed</span><span class="profile-val" id="pTotal">0</span></div>
-    </div>
-    
-    <div class="panel">
-      <div class="panel-hd"><div class="panel-title">⚙️ Adjust Parameter Keys (Life 2.0)</div></div>
-      <div class="profile-edit-box">
-         <label>Modify Name</label>
-         <input type="text" id="editProfileName" value="Sahitya Shukla" oninput="saveManualProfile()">
-         <label>Modify Age</label>
-         <input type="number" id="editProfileAge" value="24" oninput="saveManualProfile()">
-         <label>Modify Gender</label>
-         <select id="editProfileGender" onchange="saveManualProfile()">
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Awakened">Awakened / Sovereign</option>
-         </select>
-      </div>
-      <button class="btn btn-sm" style="width:100%;background:rgba(255,45,85,0.1);color:var(--red);border:1px solid rgba(255,45,85,0.25);margin-top:15px" onclick="confirmReset()">Wipe Engine Data</button>
-    </div>
-  </div>
-
-</div>
-
-<div class="modal-overlay hidden" id="editModal">
-  <div class="modal">
-    <h3>✏ Edit Daily Quest Matrix</h3>
-    <div class="field-group">
-      <div class="field">
-        <label>Quest Name</label>
-        <input type="text" id="editTaskName">
-      </div>
-      <div class="field">
-        <label>Reward Payload (EXP &amp; Gold)</label>
-        <input type="number" id="editTaskAmt" min="1" max="200">
-      </div>
-      <div class="field">
-        <label>Core Stat Allocation</label>
-        <select id="editTaskStat">
-          <option value="str">STR (Strength)</option>
-          <option value="int">INT (Intelligence)</option>
-          <option value="vit">VIT (Vitality)</option>
-        </select>
-      </div>
-    </div>
-    <div class="modal-btns">
-      <button class="btn btn-primary" onclick="saveEditTask()">Save Changes</button>
-      <button class="btn btn-sm btn-outline" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-sm" style="background:rgba(255,51,102,0.1);color:var(--red);border:1px solid rgba(255,51,102,0.25);" onclick="deleteTask()">Delete</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay hidden" id="addModal">
-  <div class="modal">
-    <h3>+ New Daily Quest Vector</h3>
-    <div class="field-group">
-      <div class="field">
-        <label>Quest Name</label>
-        <input type="text" id="addTaskName" placeholder="e.g. 100 Situps Grid...">
-      </div>
-      <div class="field">
-        <label>Reward Payload (EXP &amp; Gold)</label>
-        <input type="number" id="addTaskAmt" value="15" min="1" max="200">
-      </div>
-      <div class="field">
-        <label>Core Stat Allocation</label>
-        <select id="addTaskStat">
-          <option value="str">STR (Strength)</option>
-          <option value="int">INT (Intelligence)</option>
-          <option value="vit">VIT (Vitality)</option>
-        </select>
-      </div>
-    </div>
-    <div class="modal-btns">
-      <button class="btn btn-primary" onclick="confirmAddTask()">Inject Quest</button>
-      <button class="btn btn-sm btn-outline" onclick="document.getElementById('addModal').classList.add('hidden')">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<nav class="tab-nav">
-  <button class="tab-btn active" onclick="switchTab('status',this)">
-    <span class="tab-icon">⚔️</span><span>Status</span>
-  </button>
-  <button class="tab-btn" onclick="switchTab('quests',this)">
-    <span class="tab-icon">📋</span><span>Quests</span>
-  </button>
-  <button class="tab-btn" onclick="switchTab('shop',this)">
-    <span class="tab-icon">🔮</span><span>Armory</span>
-  </button>
-  <button class="tab-btn" onclick="switchTab('profile',this)">
-    <span class="tab-icon">👤</span><span>Profile</span>
-  </button>
-</nav>
-
-<script>
-// SCIFI AUDIO ENGINE
-const AudioFX = {
-  ctx: null,
-  init() { if(!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); },
-  play(freq, type, duration, vol=0.1) {
-    try {
-      this.init(); const osc = this.ctx.createOscillator(); const gain = this.ctx.createGain();
-      osc.type = type; osc.frequency.value = freq; gain.gain.setValueAtTime(vol, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.00001, this.ctx.currentTime + duration);
-      osc.connect(gain); gain.connect(this.ctx.destination); osc.start(); osc.stop(this.ctx.currentTime + duration);
-    } catch (e) {}
-  },
-  click() { this.play(600, 'sine', 0.08, 0.15); },
-  success() { this.play(523.25, 'sine', 0.1, 0.12); setTimeout(()=>this.play(659.25, 'sine', 0.15, 0.12), 80); },
-  levelUp() {
-    let t = 0; [440, 554, 659, 880].forEach(f => { setTimeout(()=>this.play(f, 'triangle', 0.25, 0.2), t); t+=120; });
-  },
-  penalty() { this.play(180, 'sawtooth', 0.4, 0.25); setTimeout(()=>this.play(120, 'sawtooth', 0.5, 0.25), 150); }
-};
-
-function ls(k,d='') { return localStorage.getItem(k) ?? d; }
-function lsInt(k,d=0) { const v = localStorage.getItem(k); return v ? parseInt(v) || d : d; }
-function lsFloat(k,d=0.0) { const v = localStorage.getItem(k); return v ? parseFloat(v) || d : d; }
-function lsJSON(k,d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) || d : d; } catch{ return d; } }
-
-// SYNCHRONIZED APP LOGIC SAVES
-const S = {
-  name: ls('sl_h_name','Sahitya Shukla'), age: ls('sl_h_age','24'), gender: ls('sl_h_gender','Male'),
-  level: lsInt('sl_h_level',1), exp: lsInt('sl_h_exp',0), hp: lsInt('sl_h_hp',100), gold: lsInt('sl_h_gold',0),
-  str: lsInt('sl_h_str',10), int: lsInt('sl_h_int',10), vit: lsInt('sl_h_vit',10),
-  inventory: lsJSON('sl_h_inv',[]), streak: lsInt('sl_h_streak',0), totalDone: lsInt('sl_h_totalDone',0),
-  wStart: lsFloat('sl_wStart', 80.0), wCurrent: lsFloat('sl_wCurrent', 77.0), wTarget: lsFloat('sl_wTarget', 70.0),
-  tasks: lsJSON('sl_h_tasks', defaultTasks())
-};
-
-function defaultTasks() {
-  return [
-    {id:'t1', name:'100 Pushups & Sit-ups Core Lock', amt:15, stat:'str', done:false},
-    {id:'t2', name:'10,000 Step Cardio Footwork', amt:10, stat:'vit', done:false},
-    {id:'t3', name:'2+ Hours Intense Focus / Study Matrix', amt:20, stat:'int', done:false}
-  ];
+/* rating popup for task complete */
+.xp-pop {
+  position: fixed; z-index: 5000; pointer-events: none;
+  font-family: var(--font-title); font-size: 1.2rem;
+  color: var(--green); text-shadow: 0 0 10px var(--green);
+  animation: floatUp 1.2s ease forwards;
+}
+@keyframes floatUp {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(-80px) scale(1.3); }
 }
 
-const SHOP = [
-  {id:'dense_muscle', name:'Muscles Like Iron Girders', cost:40, reqLv:2, icon:'💪', statBonus:{str:5}},
-  {id:'arms_guns', name:'Arms Like Railguns Evolution', cost:80, reqLv:4, icon:'💪🔥', statBonus:{str:8}},
-  {id:'super_brain', name:'Super Brain Overclock Sequence', cost:60, reqLv:3, icon:'🧠', statBonus:{int:5}},
-  {id:'iron_skin', name:'Vibranium Nano-Skin Shielding', cost:70, reqLv:3, icon:'🛡️', statBonus:{vit:5}},
-  {id:'superstrength', name:'Absolute God-Tier Superstrength', cost:150, reqLv:7, icon:'⚡', statBonus:{str:10,vit:5}},
-  {id:'omni_mind', name:'Sovereign Omniscient Mind Grid', cost:120, reqLv:5, icon:'🌌', statBonus:{int:8,str:2}}
-];
-
-const RANKS = [[1,'E-Rank'],[3,'D-Rank'],[6,'C-Rank'],[10,'B-Rank'],[15,'A-Rank'],[20,'S-Rank'],[30,'SS-Rank'],[50,'Monarch']];
-function getRank(lv) { let r='E-Rank'; for(const [l,n] of RANKS) { if(lv>=l) r=n; } return r; }
-
-let editingTaskId = null;
-
-function save() {
-  localStorage.setItem('sl_h_name', S.name); localStorage.setItem('sl_h_age', S.age
-.daily-reward { font-size: 0.72rem; color: var(--green); font-family: var(--font-mono); margin-top: 3px; }
-
-.cb { width: 22px; height: 22px; min-width: 22px; border-radius: 6px; border: 1.5px solid var(--muted); background: rgba(0,0,0,0.3); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; margin-top: 2px; }
-.cb.checked { background: var(--blue); border-color: var(--blue); box-shadow: 0 0 10px var(--blue-glow); }
-.cb.checked::after { content: ''; width: 5px; height: 9px; border: solid #000; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg) translateY(-1px); }
-.edit-task-btn { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 0.9rem; padding: 4px; transition: color 0.2s; }
-.edit-task-btn:hover { color: var(--blue); }
-
-/* shop */
-.shop-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); gap: 10px; }
-.shop-item:last-of-type { border-bottom: none; }
-.shop-info { flex: 1; }
-.shop-name { font-size: 0.95rem; font-weight: 600; }
-.shop-meta { font-size: 0.72rem; color: var(--muted); font-family: var(--font-mono); margin-top: 2px; }
-.shop-meta .cost { color: var(--gold); font-weight: bold; }
-.shop-item.owned .shop-name { color: var(--muted); text-decoration: line-through; }
-.owned-badge { font-size: 0.65rem; color: var(--green); border: 1px solid rgba(0,255,135,0.3); padding: 3px 8px; border-radius: 4px; font-family: var(--font-mono); letter-spacing: 1px; }
-
-/* modals */
-.modal-overlay { position: fixed; inset: 0; z-index: 7777; background: rgba(1,4,10,0.9); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; padding: 20px; transition: opacity 0.2s ease; }
-.modal-overlay.hidden { display: none; }
-.modal { background: linear-gradient(160deg, #0c1832, #040916); border: 1px solid var(--blue); border-radius: 14px; padding: 24px; width: 100%; max-width: 390px; box-shadow: 0 0 35px rgba(0,210,255,0.15); }
-.modal h3 { font-family: var(--font-title); font-size: 0.75rem; letter-spacing: 3px; color: var(--blue); margin-bottom: 16px; text-transform: uppercase; }
-.modal-btns { display: flex; gap: 8px; margin-top: 16px; }
-
-/* buttons */
-.btn { border: none; border-radius: 8px; cursor: pointer; font-family: var(--font-hud); font-weight: 700; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; padding: 12px 16px; width: 100%; transition: all 0.2s; text-align: center; }
-.btn:active { transform: scale(0.97); }
-.btn-primary { background: linear-gradient(135deg, #005bb7, #00a8ff); color: #fff; box-shadow: 0 4px 15px rgba(0,130,255,0.3); }
-.btn-gold { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 6px 14px; width: auto; font-size: 0.75rem; font-family: var(--font-mono); }
-.btn-gold:hover { background: rgba(255,215,0,0.08); }
-.btn-sm { padding: 6px 12px; width: auto; font-size: 0.78rem; }
-.btn-outline { background: transparent; border: 1px solid rgba(0,210,255,0.3); color: var(--blue); }
-
-.btn-add-task { background: rgba(0,210,255,0.04); border: 1px dashed rgba(0,210,255,0.25); border-radius: 8px; padding: 10px; width: 100%; cursor: pointer; color: var(--muted); font-family: var(--font-hud); font-size: 0.85rem; text-align: center; transition: all 0.2s; margin-top: 8px; }
-.btn-add-task:hover { color: var(--blue); border-color: var(--blue); background: rgba(0,210,255,0.08); }
-
-#lvlFlash { position: fixed; inset: 0; z-index: 9000; background: rgba(191,85,236,0.12); pointer-events: none; opacity: 0; }
-#lvlFlash.active { animation: lvlFlashAnim 1.2s ease forwards; }
-@keyframes lvlFlashAnim { 0% { opacity: 0; } 20% { opacity: 1; } 100% { opacity: 0; } }
-
-.streak-bar { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
-.streak-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s; }
-.streak-dot.lit { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 8px var(--gold-glow); }
-.streak-label { font-size: 0.75rem; color: var(--muted); font-family: var(--font-mono); }
-
-/* nav elements */
-.tab-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: rgba(4,8,18,0.96); backdrop-filter: blur(12px); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 10px 0 max(10px, env(safe-area-inset-bottom)); }
-.tab-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none; cursor: pointer; color: var(--muted); font-family: var(--font-hud); font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; padding: 4px 16px; transition: color 0.2s; }
-.tab-btn .tab-icon { font-size: 1.4rem; transition: transform 0.2s; }
-.tab-btn.active { color: var(--blue); text-shadow: 0 0 8px var(--blue-glow); }
-.tab-btn.active .tab-icon { transform: scale(1.15); }
-
-.tab-section { display: none; }
-.tab-section.active { display: flex; flex-direction: column; gap: 14px; }
-
-.xp-pop { position: fixed; z-index: 5000; pointer-events: none; font-family: var(--font-title); font-size: 1.3rem; color: var(--green); text-shadow: 0 0 12px var(--green); animation: floatUp 1s ease forwards; }
-@keyframes floatUp { from { opacity: 1; transform: translateY(0) scale(0.9); } to { opacity: 0; transform: translateY(-70px) scale(1.2); } }
-
-.profile-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
-.profile-label { font-size: 0.85rem; color: var(--muted); font-family: var(--font-mono); flex: 1; text-transform: uppercase; }
-.profile-val { font-size: 0.95rem; font-weight: 600; }
-
-.profile-edit-box { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; width: 100%; }
-.profile-edit-box input, .profile-edit-box select { background: rgba(0,0,0,0.4); border: 1px solid rgba(0,210,255,0.3); border-radius: 6px; padding: 10px; color: var(--text); font-family: var(--font-hud); font-size: 1rem; width: 100%; }
-.profile-edit-box label { font-size: 0.75rem; color: var(--blue); font-family: var(--font-mono); text-transform: uppercase; }
+/* settings/profile */
+.profile-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.profile-label { font-size: 0.8rem; color: var(--muted); font-family: var(--font-mono); flex: 1; }
+.profile-val { font-size: 0.88rem; font-weight: 600; }
 </style>
 </head>
 <body>
@@ -796,6 +528,93 @@ function save() {
 <div id="lvlFlash"></div>
 <div id="toastContainer"></div>
 
+<div id="welcomeOverlay">
+  <div class="welcome-inner">
+    <div class="alert-banner">System Notification</div>
+    <div class="system-msg">
+      You have been <strong>selected as a Player</strong>.<br>
+      To step beyond the ordinary and rewrite your existence,<br>initialize your parameter keys.
+      <br><br><strong>Your Life 2.0 begins now.</strong>
+    </div>
+    <div class="field-group">
+      <div class="field">
+        <label>Player Designation Name</label>
+        <input type="text" id="inputName" placeholder="Enter name...">
+      </div>
+      <div class="field">
+        <label>Chronological Age</label>
+        <input type="number" id="inputAge" placeholder="Enter age..." min="1" max="120">
+      </div>
+      <div class="field">
+        <label>Gender Manifestation</label>
+        <select id="inputGender">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Awakened">Awakened / Other</option>
+        </select>
+      </div>
+      <button class="btn btn-danger" style="margin-top:8px" onclick="initSystem()">⚡ Accept Activation Protocol</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="editModal">
+  <div class="modal">
+    <h3>✏ Edit Quest</h3>
+    <div class="field-group">
+      <div class="field">
+        <label>Quest Name</label>
+        <input type="text" id="editTaskName" placeholder="Task name...">
+      </div>
+      <div class="field">
+        <label>Reward (EXP &amp; Gold)</label>
+        <input type="number" id="editTaskAmt" placeholder="e.g. 15" min="1" max="200">
+      </div>
+      <div class="field">
+        <label>Stat Boost</label>
+        <select id="editTaskStat">
+          <option value="str">STR (Strength)</option>
+          <option value="int">INT (Intelligence)</option>
+          <option value="vit">VIT (Vitality)</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-primary" onclick="saveEditTask()">Save Quest</button>
+      <button class="btn btn-sm btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-sm" style="background:rgba(255,45,85,0.12);color:var(--red);border:1px solid rgba(255,45,85,0.3);width:auto;padding:6px 12px;" onclick="deleteTask()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="addModal">
+  <div class="modal">
+    <h3>+ New Daily Quest</h3>
+    <div class="field-group">
+      <div class="field">
+        <label>Quest Name</label>
+        <input type="text" id="addTaskName" placeholder="e.g. Read 30 minutes...">
+      </div>
+      <div class="field">
+        <label>Reward (EXP &amp; Gold)</label>
+        <input type="number" id="addTaskAmt" value="10" min="1" max="200">
+      </div>
+      <div class="field">
+        <label>Stat Boost</label>
+        <select id="addTaskStat">
+          <option value="str">STR (Strength)</option>
+          <option value="int">INT (Intelligence)</option>
+          <option value="vit">VIT (Vitality)</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-primary" onclick="confirmAddTask()">Add Quest</button>
+      <button class="btn btn-sm btn-outline" onclick="document.getElementById('addModal').classList.add('hidden')">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <div class="app" id="mainApp">
 
   <div class="tab-section active" id="tab-status">
@@ -803,7 +622,7 @@ function save() {
       <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
       <div class="hud-corner bl"></div><div class="hud-corner br"></div>
       <div class="sys-title">Hunter Status Window</div>
-      <div class="player-line" id="playerLine">Syncing operational parameters...</div>
+      <div class="player-line" id="playerLine">Initializing...</div>
       <div class="level-row">
         <span class="lv-label">LV.</span>
         <span id="level">1</span>
@@ -811,29 +630,27 @@ function save() {
       </div>
       <div class="bar-block">
         <div class="bar-labels">
-          <span style="color:var(--red)">HP — System Integrity</span>
+          <span style="color:var(--red)">HP — Integrity</span>
           <span id="hpText" style="color:var(--red)">100/100</span>
         </div>
         <div class="bar-track"><div class="bar-fill" id="hpBar"></div></div>
       </div>
       <div class="bar-block">
         <div class="bar-labels">
-          <span style="color:var(--blue)">EXP Progression Data</span>
+          <span style="color:var(--blue)">EXP Progression</span>
           <span id="expText" style="color:var(--blue)">0/100</span>
         </div>
         <div class="bar-track"><div class="bar-fill" id="expBar"></div></div>
       </div>
-      <div class="gold-row">GOLD INVENTORY: <span class="gold-amt" id="goldDisplay">0</span>G</div>
-      
+      <div class="gold-row">GOLD: <span class="gold-amt" id="goldDisplay">0</span>G</div>
       <div class="stats-row">
         <div class="stat-cell str"><div class="stat-val" id="statStr">10</div><div class="stat-lbl">STR</div></div>
         <div class="stat-cell int"><div class="stat-val" id="statInt">10</div><div class="stat-lbl">INT</div></div>
         <div class="stat-cell vit"><div class="stat-val" id="statVit">10</div><div class="stat-lbl">VIT</div></div>
       </div>
-      
       <div style="margin-top:14px">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
-          <span class="streak-label">DAILY STREAK COUNTER</span>
+          <span class="streak-label">DAILY STREAK</span>
           <span class="streak-label" id="streakCount">0 days</span>
         </div>
         <div class="streak-bar" id="streakBar"></div>
@@ -852,44 +669,50 @@ function save() {
     </div>
 
     <div class="panel">
-      <div class="panel-hd"><div class="panel-title">⚔️ Evolved Traits & Physical Augmentations</div></div>
-      <div class="inv-grid" id="inventoryContainer"></div>
+      <div class="panel-hd">
+        <div class="panel-title">⚔ Evolved Traits</div>
+      </div>
+      <div class="inv-grid" id="inventoryContainer">
+        <div class="inv-empty" style="grid-column:span 2">No traits evolved yet. Visit the Armory.</div>
+      </div>
     </div>
   </div>
 
   <div class="tab-section" id="tab-quests">
     <div class="panel">
-      <div class="panel-hd"><div class="panel-title">⚡ Habits — Continuous Integration</div></div>
+      <div class="panel-hd">
+        <div class="panel-title">⚡ Habits — Continuous</div>
+      </div>
       <div class="habit-item">
         <div>
-          <div class="habit-name">Healthy Snacking / Hydration Check</div>
+          <div class="habit-name">Healthy Snacking / Hydration</div>
           <div class="habit-reward" style="color:var(--green)">+2 EXP &nbsp;|&nbsp; +2 GOLD</div>
         </div>
         <div class="habit-btns">
-          <button class="hbtn plus" onclick="doHabit(2,2,true,event)">+</button>
-          <button class="hbtn minus" onclick="doHabit(-2,-5,false,event)">−</button>
+          <button class="hbtn plus" onclick="doHabit(2,2,true,event)" title="Complete">+</button>
+          <button class="hbtn minus" onclick="doHabit(-2,-5,false,event)" title="Undo">−</button>
         </div>
       </div>
       <div class="habit-item">
         <div>
-          <div class="habit-name">Junk Food Intake / Slacking Manifest</div>
-          <div class="habit-reward" style="color:var(--red)">−15 HP Direct Penalty</div>
+          <div class="habit-name">Junk Food / Slacking Off</div>
+          <div class="habit-reward" style="color:var(--red)">−15 HP Penalty</div>
         </div>
         <div class="habit-btns">
-          <button class="hbtn minus" onclick="doHabit(-15,0,false,event,true)">−</button>
+          <button class="hbtn minus" onclick="doHabit(-15,0,false,event,true)" title="Log it">−</button>
         </div>
       </div>
     </div>
 
     <div class="panel">
       <div class="panel-hd">
-        <div class="panel-title">📋 Non-Negotiable Daily Quests</div>
-        <span style="font-size:0.75rem;color:var(--muted);font-family:var(--font-mono)" id="dailyProgress">0/0</span>
+        <div class="panel-title">📋 Daily Quests</div>
+        <span style="font-size:0.7rem;color:var(--muted);font-family:var(--font-mono)" id="dailyProgress">0/0</span>
       </div>
       <div id="dailiesContainer"></div>
-      <button class="btn-add-task" onclick="openAddModal()">+ Add New Quest Configuration</button>
+      <button class="btn-add-task" onclick="openAddModal()">+ Add New Quest</button>
       <div class="reset-row" style="margin-top:12px">
-        <button class="btn btn-primary" onclick="executeDailyReset()">⚡ Execute Daily Reset Sequence</button>
+        <button class="btn btn-primary" onclick="executeDailyReset()">⚡ Daily Reset Sequence</button>
       </div>
     </div>
   </div>
@@ -897,8 +720,8 @@ function save() {
   <div class="tab-section" id="tab-shop">
     <div class="panel">
       <div class="panel-hd">
-        <div class="panel-title">🔮 The Shadow Armory</div>
-        <span style="font-size:0.8rem;color:var(--gold);font-family:var(--font-mono)"><span id="shopGold">0</span>G</span>
+        <div class="panel-title">🔮 Shadow Armory</div>
+        <span style="font-size:0.75rem;color:var(--gold);font-family:var(--font-mono)"><span id="shopGold">0</span>G</span>
       </div>
       <div id="shopContainer"></div>
     </div>
@@ -906,95 +729,28 @@ function save() {
 
   <div class="tab-section" id="tab-profile">
     <div class="panel">
-      <div class="panel-hd"><div class="panel-title">👤 Operational Player Profile</div></div>
-      <div class="profile-row"><span class="profile-label">Designation</span><span class="profile-val" id="pName2">Sahitya Shukla</span></div>
-      <div class="profile-row"><span class="profile-label">Chronology</span><span class="profile-val" id="pAge2">24</span></div>
-      <div class="profile-row"><span class="profile-label">Gender Type</span><span class="profile-val" id="pGender2">Male</span></div>
-      <div class="profile-row"><span class="profile-label">Evolution Tier</span><span class="profile-val" id="pLevel2">—</span></div>
-      <div class="profile-row"><span class="profile-label">System Rank</span><span class="profile-val" id="pRank2" style="color:var(--blue)">—</span></div>
-      <div class="profile-row" style="border:none"><span class="profile-label">Total Grinds Completed</span><span class="profile-val" id="pTotal">0</span></div>
+      <div class="panel-hd"><div class="panel-title">👤 Player Profile</div></div>
+      <div class="profile-row"><span class="profile-label">Name</span><span class="profile-val" id="pName2">—</span></div>
+      <div class="profile-row"><span class="profile-label">Age</span><span class="profile-val" id="pAge2">—</span></div>
+      <div class="profile-row"><span class="profile-label">Gender</span><span class="profile-val" id="pGender2">—</span></div>
+      <div class="profile-row"><span class="profile-label">Level</span><span class="profile-val" id="pLevel2">—</span></div>
+      <div class="profile-row"><span class="profile-label">Rank</span><span class="profile-val" id="pRank2" style="color:var(--blue)">—</span></div>
+      <div class="profile-row" style="border:none"><span class="profile-label">Total Quests Completed</span><span class="profile-val" id="pTotal">0</span></div>
     </div>
-    
     <div class="panel">
-      <div class="panel-hd"><div class="panel-title">⚙️ Adjust Parameter Keys (Life 2.0)</div></div>
-      <div class="profile-edit-box">
-         <label>Modify Name</label>
-         <input type="text" id="editProfileName" value="Sahitya Shukla" oninput="saveManualProfile()">
-         <label>Modify Age</label>
-         <input type="number" id="editProfileAge" value="24" oninput="saveManualProfile()">
-         <label>Modify Gender</label>
-         <select id="editProfileGender" onchange="saveManualProfile()">
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Awakened">Awakened / Sovereign</option>
-         </select>
+      <div class="panel-hd"><div class="panel-title">⚙ Settings</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button class="btn btn-outline btn-sm" style="width:100%" onclick="openChangeProfile()">Edit Profile</button>
+        <button class="btn btn-sm" style="width:100%;background:rgba(255,45,85,0.1);color:var(--red);border:1px solid rgba(255,45,85,0.25)" onclick="confirmReset()">Reset All Progress</button>
       </div>
-      <button class="btn btn-sm" style="width:100%;background:rgba(255,45,85,0.1);color:var(--red);border:1px solid rgba(255,45,85,0.25);margin-top:15px" onclick="confirmReset()">Wipe Engine Data</button>
     </div>
   </div>
 
-</div>
-
-<div class="modal-overlay hidden" id="editModal">
-  <div class="modal">
-    <h3>✏ Edit Daily Quest Matrix</h3>
-    <div class="field-group">
-      <div class="field">
-        <label>Quest Name</label>
-        <input type="text" id="editTaskName">
-      </div>
-      <div class="field">
-        <label>Reward Payload (EXP &amp; Gold)</label>
-        <input type="number" id="editTaskAmt" min="1" max="200">
-      </div>
-      <div class="field">
-        <label>Core Stat Allocation</label>
-        <select id="editTaskStat">
-          <option value="str">STR (Strength)</option>
-          <option value="int">INT (Intelligence)</option>
-          <option value="vit">VIT (Vitality)</option>
-        </select>
-      </div>
-    </div>
-    <div class="modal-btns">
-      <button class="btn btn-primary" onclick="saveEditTask()">Save Changes</button>
-      <button class="btn btn-sm btn-outline" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-sm" style="background:rgba(255,51,102,0.1);color:var(--red);border:1px solid rgba(255,51,102,0.25);" onclick="deleteTask()">Delete</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay hidden" id="addModal">
-  <div class="modal">
-    <h3>+ New Daily Quest Vector</h3>
-    <div class="field-group">
-      <div class="field">
-        <label>Quest Name</label>
-        <input type="text" id="addTaskName" placeholder="e.g. 100 Situps Grid...">
-      </div>
-      <div class="field">
-        <label>Reward Payload (EXP &amp; Gold)</label>
-        <input type="number" id="addTaskAmt" value="15" min="1" max="200">
-      </div>
-      <div class="field">
-        <label>Core Stat Allocation</label>
-        <select id="addTaskStat">
-          <option value="str">STR (Strength)</option>
-          <option value="int">INT (Intelligence)</option>
-          <option value="vit">VIT (Vitality)</option>
-        </select>
-      </div>
-    </div>
-    <div class="modal-btns">
-      <button class="btn btn-primary" onclick="confirmAddTask()">Inject Quest</button>
-      <button class="btn btn-sm btn-outline" onclick="document.getElementById('addModal').classList.add('hidden')">Cancel</button>
-    </div>
-  </div>
 </div>
 
 <nav class="tab-nav">
   <button class="tab-btn active" onclick="switchTab('status',this)">
-    <span class="tab-icon">⚔️</span><span>Status</span>
+    <span class="tab-icon">⚔</span><span>Status</span>
   </button>
   <button class="tab-btn" onclick="switchTab('quests',this)">
     <span class="tab-icon">📋</span><span>Quests</span>
@@ -1008,55 +764,43 @@ function save() {
 </nav>
 
 <script>
-// AUDIO PROCESSING MATRIX
-const AudioFX = {
-  ctx: null,
-  init() { if(!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); },
-  play(freq, type, duration, vol=0.1) {
-    try {
-      this.init(); const osc = this.ctx.createOscillator(); const gain = this.ctx.createGain();
-      osc.type = type; osc.frequency.value = freq; gain.gain.setValueAtTime(vol, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.00001, this.ctx.currentTime + duration);
-      osc.connect(gain); gain.connect(this.ctx.destination); osc.start(); osc.stop(this.ctx.currentTime + duration);
-    } catch (e) {}
-  },
-  click() { this.play(600, 'sine', 0.08, 0.15); },
-  success() { this.play(523.25, 'sine', 0.1, 0.12); setTimeout(()=>this.play(659.25, 'sine', 0.15, 0.12), 80); },
-  levelUp() {
-    let t = 0; [440, 554, 659, 880].forEach(f => { setTimeout(()=>this.play(f, 'triangle', 0.25, 0.2), t); t+=120; });
-  },
-  penalty() { this.play(180, 'sawtooth', 0.4, 0.25); setTimeout(()=>this.play(120, 'sawtooth', 0.5, 0.25), 150); }
-};
-
-function ls(k,d='') { return localStorage.getItem(k) ?? d; }
-function lsInt(k,d=0) { const v = localStorage.getItem(k); return v ? parseInt(v) || d : d; }
-function lsFloat(k,d=0.0) { const v = localStorage.getItem(k); return v ? parseFloat(v) || d : d; }
-function lsJSON(k,d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) || d : d; } catch{ return d; } }
-
+// ─── STATE ───
 const S = {
-  name: ls('sl_h_name','Sahitya Shukla'), age: ls('sl_h_age','24'), gender: ls('sl_h_gender','Male'),
-  level: lsInt('sl_h_level',1), exp: lsInt('sl_h_exp',0), hp: lsInt('sl_h_hp',100), gold: lsInt('sl_h_gold',0),
-  str: lsInt('sl_h_str',10), int: lsInt('sl_h_int',10), vit: lsInt('sl_h_vit',10),
-  inventory: lsJSON('sl_h_inv',[]), streak: lsInt('sl_h_streak',0), totalDone: lsInt('sl_h_totalDone',0),
-  wStart: lsFloat('sl_wStart', 80.0), wCurrent: lsFloat('sl_wCurrent', 77.0), wTarget: lsFloat('sl_wTarget', 70.0),
-  tasks: lsJSON('sl_h_tasks', defaultTasks())
+  name: ls('sl_name',''),
+  age: ls('sl_age',''),
+  gender: ls('sl_gender','Male'),
+  level: lsInt('sl_level',1),
+  exp: lsInt('sl_exp',0),
+  hp: lsInt('sl_hp',100),
+  gold: lsInt('sl_gold',0),
+  str: lsInt('sl_str',10),
+  int: lsInt('sl_int',10),
+  vit: lsInt('sl_vit',10),
+  inventory: lsJSON('sl_inv',[]),
+  streak: lsInt('sl_streak',0),
+  lastReset: ls('sl_lastReset',''),
+  totalDone: lsInt('sl_totalDone',0),
+  wStart: lsFloat('sl_wStart', 80.0),
+  wCurrent: lsFloat('sl_wCurrent', 77.0),
+  wTarget: lsFloat('sl_wTarget', 70.0),
+  tasks: lsJSON('sl_tasks', defaultTasks())
 };
 
 function defaultTasks() {
   return [
     {id:'t1', name:'100 Pushups & Sit-ups', amt:15, stat:'str', done:false},
     {id:'t2', name:'10,000 Step Footwork', amt:10, stat:'vit', done:false},
-    {id:'t3', name:'2+ Hours Focus / Study', amt:20, stat:'int', done:false}
+    {id:'t3', name:'2+ Hours Focus / Study', amt:20, stat:'int', done:false},
   ];
 }
 
 const SHOP = [
   {id:'dense_muscle', name:'Dense Muscle Augmentation', cost:40, reqLv:2, icon:'💪', statBonus:{str:5}},
-  {id:'arms_guns', name:'Arms Like Guns Evolution', cost:80, reqLv:4, icon:'💪🔥', statBonus:{str:8}},
-  {id:'super_brain', name:'Super Brain Processing Clock', cost:60, reqLv:3, icon:'🧠', statBonus:{int:5}},
-  {id:'iron_skin', name:'Iron Skin Defense Protocol', cost:70, reqLv:3, icon:'🛡️', statBonus:{vit:5}},
-  {id:'superstrength', name:'Absolute Superstrength Grid', cost:150, reqLv:7, icon:'⚡', statBonus:{str:10,vit:5}},
-  {id:'omni_mind', name:'Omniscient Mind Domain Matrix', cost:120, reqLv:5, icon:'🌌', statBonus:{int:8,str:2}}
+  {id:'arms_guns', name:'Arms Like Guns', cost:80, reqLv:4, icon:'💪🔥', statBonus:{str:8}},
+  {id:'super_brain', name:'Super Brain Processing', cost:60, reqLv:3, icon:'🧠', statBonus:{int:5}},
+  {id:'iron_skin', name:'Iron Skin Protocol', cost:70, reqLv:3, icon:'🛡️', statBonus:{vit:5}},
+  {id:'superstrength', name:'Absolute Superstrength', cost:150, reqLv:7, icon:'⚡', statBonus:{str:10,vit:5}},
+  {id:'omni_mind', name:'Omniscient Mind Grid', cost:120, reqLv:5, icon:'🌌', statBonus:{int:8,str:2}},
 ];
 
 const RANKS = [[1,'E-Rank'],[3,'D-Rank'],[6,'C-Rank'],[10,'B-Rank'],[15,'A-Rank'],[20,'S-Rank'],[30,'SS-Rank'],[50,'Monarch']];
@@ -1064,255 +808,404 @@ function getRank(lv) { let r='E-Rank'; for(const [l,n] of RANKS) { if(lv>=l) r=n
 
 let editingTaskId = null;
 
+function ls(k,d='') { return localStorage.getItem(k) ?? d; }
+function lsInt(k,d=0) { return parseInt(localStorage.getItem(k)) || d; }
+function lsFloat(k,d=0.0) { return parseFloat(localStorage.getItem(k)) || d; }
+function lsJSON(k,d) { try { return JSON.parse(localStorage.getItem(k)) || d; } catch{ return d; } }
 function save() {
-  localStorage.setItem('sl_h_name', S.name); localStorage.setItem('sl_h_age', S.age); localStorage.setItem('sl_h_gender', S.gender);
-  localStorage.setItem('sl_h_level', S.level); localStorage.setItem('sl_h_exp', S.exp); localStorage.setItem('sl_h_hp', S.hp);
-  localStorage.setItem('sl_h_gold', S.gold); localStorage.setItem('sl_h_str', S.str); localStorage.setItem('sl_h_int', S.int); localStorage.setItem('sl_h_vit', S.vit);
-  localStorage.setItem('sl_h_inv', JSON.stringify(S.inventory)); localStorage.setItem('sl_h_streak', S.streak); localStorage.setItem('sl_h_totalDone', S.totalDone);
-  localStorage.setItem('sl_wStart', S.wStart); localStorage.setItem('sl_wCurrent', S.wCurrent); localStorage.setItem('sl_wTarget', S.wTarget);
-  localStorage.setItem('sl_h_tasks', JSON.stringify(S.tasks));
+  localStorage.setItem('sl_name', S.name);
+  localStorage.setItem('sl_age', S.age);
+  localStorage.setItem('sl_gender', S.gender);
+  localStorage.setItem('sl_level', S.level);
+  localStorage.setItem('sl_exp', S.exp);
+  localStorage.setItem('sl_hp', S.hp);
+  localStorage.setItem('sl_gold', S.gold);
+  localStorage.setItem('sl_str', S.str);
+  localStorage.setItem('sl_int', S.int);
+  localStorage.setItem('sl_vit', S.vit);
+  localStorage.setItem('sl_inv', JSON.stringify(S.inventory));
+  localStorage.setItem('sl_streak', S.streak);
+  localStorage.setItem('sl_lastReset', S.lastReset);
+  localStorage.setItem('sl_totalDone', S.totalDone);
+  localStorage.setItem('sl_wStart', S.wStart);
+  localStorage.setItem('sl_wCurrent', S.wCurrent);
+  localStorage.setItem('sl_wTarget', S.wTarget);
+  localStorage.setItem('sl_tasks', JSON.stringify(S.tasks));
 }
 
-function saveManualProfile() {
-  S.name = document.getElementById('editProfileName').value.trim() || "Sahitya Shukla";
-  S.age = document.getElementById('editProfileAge').value.trim() || "24";
-  S.gender = document.getElementById('editProfileGender').value;
-  save(); updateUI();
+// ─── INIT ───
+if (!S.name || !S.age) {
+  document.getElementById('welcomeOverlay').style.display = 'flex';
+} else {
+  document.getElementById('welcomeOverlay').style.display = 'none';
+}
+
+function initSystem() {
+  const n = document.getElementById('inputName').value.trim();
+  const a = document.getElementById('inputAge').value.trim();
+  const g = document.getElementById('inputGender').value;
+  if (!n || !a) { toast('All fields required.','danger'); return; }
+  S.name = n; S.age = a; S.gender = g;
+  save();
+  const ov = document.getElementById('welcomeOverlay');
+  ov.style.opacity = '0';
+  setTimeout(() => ov.style.display='none', 800);
+  toast(`Welcome, ${n}. Your ascent begins.`, 'success');
+  updateUI();
 }
 
 function toast(msg, type='info') {
-  const c = document.getElementById('toastContainer'); if(!c) return;
+  const c = document.getElementById('toastContainer');
   const t = document.createElement('div');
-  t.className = `toast ${type}`; t.innerHTML = msg; c.appendChild(t);
-  setTimeout(() => t.remove(), 3800);
+  t.className = `toast ${type}`;
+  t.innerHTML = msg;
+  c.appendChild(t);
+  setTimeout(() => t.remove(), 3700);
 }
 
 function xpPop(text, el) {
-  if(!el) return;
-  const rect = el.getBoundingClientRect(); const d = document.createElement('div');
-  d.className = 'xp-pop'; d.style.left = (rect.left + rect.width/2 - 25) + 'px'; d.style.top = (rect.top - 15) + 'px';
-  d.textContent = text; document.body.appendChild(d);
-  setTimeout(() => d.remove(), 1000);
+  const rect = el.getBoundingClientRect();
+  const d = document.createElement('div');
+  d.className = 'xp-pop';
+  d.style.left = (rect.left + rect.width/2 - 30) + 'px';
+  d.style.top = (rect.top - 10) + 'px';
+  d.textContent = text;
+  document.body.appendChild(d);
+  setTimeout(() => d.remove(), 1300);
 }
 
 function updateUI() {
   const rank = getRank(S.level);
-  
-  const pLine = document.getElementById('playerLine'); if(pLine) pLine.textContent = `${S.name} · ${S.age} yr · ${S.gender}`;
-  const pn2 = document.getElementById('pName2'); if(pn2) pn2.textContent = S.name;
-  const pa2 = document.getElementById('pAge2'); if(pa2) pa2.textContent = S.age;
-  const pg2 = document.getElementById('pGender2'); if(pg2) pg2.textContent = S.gender;
-  const pl2 = document.getElementById('pLevel2'); if(pl2) pl2.textContent = `LV.${S.level}`;
-  const pr2 = document.getElementById('pRank2'); if(pr2) pr2.textContent = rank;
-  const pt = document.getElementById('pTotal'); if(pt) pt.textContent = S.totalDone;
-  
-  document.getElementById('edit
-.shop-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); gap: 10px; }
-.shop-item:last-of-type { border-bottom: none; }
-.shop-info { flex: 1; }
-.shop-name { font-size: 0.95rem; font-weight: 600; }
-.shop-meta { font-size: 0.72rem; color: var(--muted); font-family: var(--font-mono); margin-top: 2px; }
-.shop-meta .cost { color: var(--gold); font-weight: bold; }
-.shop-item.owned .shop-name { color: var(--muted); text-decoration: line-through; }
-.owned-badge { font-size: 0.65rem; color: var(--green); border: 1px solid rgba(0,255,135,0.3); padding: 3px 8px; border-radius: 4px; font-family: var(--font-mono); letter-spacing: 1px; }
+  if (S.name) {
+    document.getElementById('playerLine').textContent = `${S.name} · ${S.age}yr · ${S.gender}`;
+    document.getElementById('pName2').textContent = S.name;
+    document.getElementById('pAge2').textContent = S.age;
+    document.getElementById('pGender2').textContent = S.gender;
+  }
+  document.getElementById('level').textContent = S.level;
+  document.getElementById('rankBadge').textContent = rank;
+  document.getElementById('pLevel2').textContent = `LV.${S.level}`;
+  document.getElementById('pRank2').textContent = rank;
+  document.getElementById('pTotal').textContent = S.totalDone;
 
-.modal-overlay { position: fixed; inset: 0; z-index: 7777; background: rgba(1,4,10,0.9); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; padding: 20px; transition: opacity 0.2s ease; }
-.modal-overlay.hidden { display: none; }
-.modal { background: linear-gradient(160deg, #0c1832, #040916); border: 1px solid var(--blue); border-radius: 14px; padding: 24px; width: 100%; max-width: 390px; box-shadow: 0 0 35px rgba(0,210,255,0.15); }
-.modal h3 { font-family: var(--font-title); font-size: 0.75rem; letter-spacing: 3px; color: var(--blue); margin-bottom: 16px; text-transform: uppercase; }
-.modal-btns { display: flex; gap: 8px; margin-top: 16px; }
+  const expNeeded = 100 + (S.level-1)*20;
+  document.getElementById('hpText').textContent = `${S.hp}/100`;
+  document.getElementById('hpBar').style.width = Math.max(0,S.hp)+'%';
+  document.getElementById('expText').textContent = `${S.exp}/${expNeeded}`;
+  document.getElementById('expBar').style.width = Math.min(100, (S.exp/expNeeded)*100)+'%';
+  document.getElementById('goldDisplay').textContent = S.gold;
+  document.getElementById('shopGold').textContent = S.gold;
+  document.getElementById('statStr').textContent = S.str;
+  document.getElementById('statInt').textContent = S.int;
+  document.getElementById('statVit').textContent = S.vit;
 
-.btn { border: none; border-radius: 8px; cursor: pointer; font-family: var(--font-hud); font-weight: 700; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; padding: 12px 16px; width: 100%; transition: all 0.2s; text-align: center; }
-.btn:active { transform: scale(0.97); }
-.btn-primary { background: linear-gradient(135deg, #005bb7, #00a8ff); color: #fff; box-shadow: 0 4px 15px rgba(0,130,255,0.3); }
-.btn-gold { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 6px 14px; width: auto; font-size: 0.75rem; font-family: var(--font-mono); }
-.btn-gold:hover { background: rgba(255,215,0,0.08); }
-.btn-sm { padding: 6px 12px; width: auto; font-size: 0.78rem; }
-.btn-outline { background: transparent; border: 1px solid rgba(0,210,255,0.3); color: var(--blue); }
+  document.getElementById('wStart').value = S.wStart;
+  document.getElementById('wCurrent').value = S.wCurrent;
+  document.getElementById('wTarget').value = S.wTarget;
 
-.btn-add-task { background: rgba(0,210,255,0.04); border: 1px dashed rgba(0,210,255,0.25); border-radius: 8px; padding: 10px; width: 100%; cursor: pointer; color: var(--muted); font-family: var(--font-hud); font-size: 0.85rem; text-align: center; transition: all 0.2s; margin-top: 8px; }
-.btn-add-task:hover { color: var(--blue); border-color: var(--blue); background: rgba(0,210,255,0.08); }
+  const sb = document.getElementById('streakBar');
+  sb.innerHTML = '';
+  for (let i=0;i<7;i++) {
+    const d = document.createElement('div');
+    d.className = 'streak-dot' + (i < S.streak%7 || (S.streak>=7 && S.streak%7===0) ? ' lit' : '');
+    sb.appendChild(d);
+  }
+  document.getElementById('streakCount').textContent = `${S.streak} days`;
 
-#lvlFlash { position: fixed; inset: 0; z-index: 9000; background: rgba(191,85,236,0.12); pointer-events: none; opacity: 0; }
-#lvlFlash.active { animation: lvlFlashAnim 1.2s ease forwards; }
-@keyframes lvlFlashAnim { 0% { opacity: 0; } 20% { opacity: 1; } 100% { opacity: 0; } }
+  calculateWeightProgress();
+  renderInventory();
+  renderDailies();
+  renderShop();
+}
 
-.streak-bar { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
-.streak-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s; }
-.streak-dot.lit { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 8px var(--gold-glow); }
-.streak-label { font-size: 0.75rem; color: var(--muted); font-family: var(--font-mono); }
+function calculateWeightProgress() {
+  const start = parseFloat(document.getElementById('wStart').value) || 0;
+  const current = parseFloat(document.getElementById('wCurrent').value) || 0;
+  const target = parseFloat(document.getElementById('wTarget').value) || 0;
 
-.tab-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: rgba(4,8,18,0.96); backdrop-filter: blur(12px); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 10px 0 max(10px, env(safe-area-inset-bottom)); }
-.tab-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none; cursor: pointer; color: var(--muted); font-family: var(--font-hud); font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; padding: 4px 16px; transition: color 0.2s; }
-.tab-btn .tab-icon { font-size: 1.4rem; transition: transform 0.2s; }
-.tab-btn.active { color: var(--blue); text-shadow: 0 0 8px var(--blue-glow); }
-.tab-btn.active .tab-icon { transform: scale(1.15); }
+  S.wStart = start; S.wCurrent = current; S.wTarget = target;
+  localStorage.setItem('sl_wStart', start);
+  localStorage.setItem('sl_wCurrent', current);
+  localStorage.setItem('sl_wTarget', target);
 
-.tab-section { display: none; }
-.tab-section.active { display: flex; flex-direction: column; gap: 14px; }
+  document.getElementById('lblWStart').innerText = start + "kg";
+  document.getElementById('lblWTarget').innerText = target + "kg";
 
-.xp-pop { position: fixed; z-index: 5000; pointer-events: none; font-family: var(--font-title); font-size: 1.3rem; color: var(--green); text-shadow: 0 0 12px var(--green); animation: floatUp 1s ease forwards; }
-@keyframes floatUp { from { opacity: 1; transform: translateY(0) scale(0.9); } to { opacity: 0; transform: translateY(-70px) scale(1.2); } }
+  let percentage = 0;
+  if (start !== target) {
+    percentage = ((current - start) / (target - start)) * 100;
+  }
+  percentage = Math.max(0, Math.min(100, percentage));
 
-.profile-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
-.profile-label { font-size: 0.85rem; color: var(--muted); font-family: var(--font-mono); flex: 1; text-transform: uppercase; }
-.profile-val { font-size: 0.95rem; font-weight: 600; }
+  document.getElementById('weightBar').style.width = percentage + "%";
+  document.getElementById('lblWStatus').innerText = `${percentage.toFixed(1)}% Cleared`;
+}
 
-.profile-edit-box { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; width: 100%; }
-.profile-edit-box input, .profile-edit-box select { background: rgba(0,0,0,0.4); border: 1px solid rgba(0,210,255,0.3); border-radius: 6px; padding: 10px; color: var(--text); font-family: var(--font-hud); font-size: 1rem; width: 100%; }
-.profile-edit-box label { font-size: 0.75rem; color: var(--blue); font-family: var(--font-mono); text-transform: uppercase; }
-</style>
-</head>
-<body>
+function renderInventory() {
+  const c = document.getElementById('inventoryContainer');
+  if (S.inventory.length === 0) {
+    c.innerHTML = '<div class="inv-empty" style="grid-column:span 2">No traits evolved yet. Visit the Armory.</div>';
+    return;
+  }
+  c.innerHTML = '';
+  S.inventory.forEach(item => {
+    c.innerHTML += `<div class="inv-card"><span class="inv-icon">${item.icon}</span><span>${item.name}</span></div>`;
+  });
+}
 
-<canvas id="particles"></canvas>
-<div class="bg-fx"><div class="scan-line"></div></div>
-<div id="lvlFlash"></div>
-<div id="toastContainer"></div>
-
-<div class="app" id="mainApp">
-
-  <div class="tab-section active" id="tab-status">
-    <div class="hud-panel" id="hudPanel">
-      <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
-      <div class="hud-corner bl"></div><div class="hud-corner br"></div>
-      <div class="sys-title">Hunter Status Window</div>
-      <div class="player-line" id="playerLine">Syncing parameters...</div>
-      <div class="level-row">
-        <span class="lv-label">LV.</span>
-        <span id="level">1</span>
-        <span class="rank-badge" id="rankBadge">E-Rank</span>
+function renderDailies() {
+  const c = document.getElementById('dailiesContainer');
+  const done = S.tasks.filter(t=>t.done).length;
+  document.getElementById('dailyProgress').textContent = `${done}/${S.tasks.length}`;
+  c.innerHTML = '';
+  S.tasks.forEach(task => {
+    const div = document.createElement('div');
+    div.className = 'daily-item' + (task.done?' done':'');
+    div.innerHTML = `
+      <div class="cb${task.done?' checked':''}" onclick="toggleTask('${task.id}',this)"></div>
+      <div class="daily-main">
+        <div class="daily-name">${task.name}</div>
+        <div class="daily-reward">+${task.amt}G &nbsp;|&nbsp; +${task.amt} EXP &nbsp;|&nbsp; ${task.stat.toUpperCase()}++</div>
       </div>
-      <div class="bar-block">
-        <div class="bar-labels">
-          <span style="color:var(--red)">HP — System Integrity</span>
-          <span id="hpText" style="color:var(--red)">100/100</span>
-        </div>
-        <div class="bar-track"><div class="bar-fill" id="hpBar"></div></div>
-      </div>
-      <div class="bar-block">
-        <div class="bar-labels">
-          <span style="color:var(--blue)">EXP Progression Data</span>
-          <span id="expText" style="color:var(--blue)">0/100</span>
-        </div>
-        <div class="bar-track"><div class="bar-fill" id="expBar"></div></div>
-      </div>
-      <div class="gold-row">GOLD INVENTORY: <span class="gold-amt" id="goldDisplay">0</span>G</div>
-      
-      <div class="stats-row">
-        <div class="stat-cell str"><div class="stat-val" id="statStr">10</div><div class="stat-lbl">STR</div></div>
-        <div class="stat-cell int"><div class="stat-val" id="statInt">10</div><div class="stat-lbl">INT</div></div>
-        <div class="stat-cell vit"><div class="stat-val" id="statVit">10</div><div class="stat-lbl">VIT</div></div>
-      </div>
-      
-      <div style="margin-top:14px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
-          <span class="streak-label">DAILY STREAK COUNTER</span>
-          <span class="streak-label" id="streakCount">0 days</span>
-        </div>
-        <div class="streak-bar" id="streakBar"></div>
-      </div>
-    </div>
+      <button class="edit-task-btn" onclick="openEditTask('${task.id}')" title="Edit quest">✏</button>
+    `;
+    c.appendChild(div);
+  });
+}
 
-    <div class="panel">
-      <div class="panel-hd"><div class="panel-title">⚖️ Weight Target Journey</div></div>
-      <div class="weight-grid">
-        <div class="weight-box"><label>Starting</label><input type="number" id="wStart" value="80" step="0.1" oninput="calculateWeightProgress()"></div>
-        <div class="weight-box"><label>Current</label><input type="number" id="wCurrent" value="77" step="0.1" oninput="calculateWeightProgress()"></div>
-        <div class="weight-box"><label>Target</label><input type="number" id="wTarget" value="70" step="0.1" oninput="calculateWeightProgress()"></div>
-      </div>
-      <div class="weight-bar-track"><div class="weight-bar-fill" id="weightBar"></div></div>
-      <div class="weight-labels"><span id="lblWStart">80kg</span><span id="lblWStatus" style="color:var(--blue);font-weight:bold;">0% Cleared</span><span id="lblWTarget">70kg</span></div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-hd"><div class="panel-title">⚔️ Evolved Traits & Physical Augmentations</div></div>
-      <div class="inv-grid" id="inventoryContainer"></div>
-    </div>
-  </div>
-
-  <div class="tab-section" id="tab-quests">
-    <div class="panel">
-      <div class="panel-hd"><div class="panel-title">⚡ Habits — Continuous Integration</div></div>
-      <div class="habit-item">
-        <div>
-          <div class="habit-name">Healthy Snacking / Hydration Check</div>
-          <div class="habit-reward" style="color:var(--green)">+2 EXP &nbsp;|&nbsp; +2 GOLD</div>
-        </div>
-        <div class="habit-btns">
-          <button class="hbtn plus" onclick="doHabit(2,2,true,event)">+</button>
-          <button class="hbtn minus" onclick="doHabit(-2,-5,false,event)">−</button>
+function renderShop() {
+  const c = document.getElementById('shopContainer');
+  c.innerHTML = '';
+  SHOP.forEach(item => {
+    const owned = S.inventory.some(i=>i.id===item.id);
+    const canAfford = S.gold >= item.cost;
+    const canLevel = S.level >= item.reqLv;
+    const div = document.createElement('div');
+    div.className = 'shop-item' + (owned?' owned':'');
+    div.innerHTML = `
+      <div style="font-size:1.4rem">${item.icon}</div>
+      <div class="shop-info">
+        <div class="shop-name">${item.name}</div>
+        <div class="shop-meta">
+          <span class="cost">${item.cost}G</span>
+          <span class="req"> · Req LV.${item.reqLv}</span>
+          ${Object.entries(item.statBonus).map(([k,v])=>`<span style="color:var(--blue)"> · +${v} ${k.toUpperCase()}</span>`).join('')}
         </div>
       </div>
-      <div class="habit-item">
-        <div>
-          <div class="habit-name">Junk Food Intake / Slacking Manifest</div>
-          <div class="habit-reward" style="color:var(--red)">−15 HP Direct Penalty</div>
-        </div>
-        <div class="habit-btns">
-          <button class="hbtn minus" onclick="doHabit(-15,0,false,event,true)">−</button>
-        </div>
-      </div>
-    </div>
+      ${owned
+        ? '<span class="owned-badge">OWNED</span>'
+        : `<button class="btn btn-gold" onclick="buyTrait('${item.id}')" ${(!canAfford||!canLevel)?'style="opacity:0.45"':''}>Evolve</button>`}
+    `;
+    c.appendChild(div);
+  });
+}
 
-    <div class="panel">
-      <div class="panel-hd">
-        <div class="panel-title">📋 Non-Negotiable Daily Quests</div>
-        <span style="font-size:0.75rem;color:var(--muted);font-family:var(--font-mono)" id="dailyProgress">0/0</span>
-      </div>
-      <div id="dailiesContainer"></div>
-      <button class="btn-add-task" onclick="openAddModal()">+ Add New Quest Configuration</button>
-      <div class="reset-row" style="margin-top:12px">
-        <button class="btn btn-primary" onclick="executeDailyReset()">⚡ Execute Daily Reset Sequence</button>
-      </div>
-    </div>
-  </div>
+function toggleTask(id, el) {
+  const task = S.tasks.find(t=>t.id===id);
+  if (!task) return;
+  if (!task.done) {
+    task.done = true;
+    S.exp += task.amt;
+    S.gold += task.amt;
+    if (task.stat==='str') S.str++;
+    else if (task.stat==='int') S.int++;
+    else if (task.stat==='vit') S.vit++;
+    S.totalDone++;
+    xpPop(`+${task.amt} EXP`, el);
+    toast(`Quest complete: <strong>${task.name}</strong> +${task.amt}EXP +${task.amt}G`, 'success');
+    checkLevelUp();
+  } else {
+    task.done = false;
+    S.exp = Math.max(0, S.exp - task.amt);
+    S.gold = Math.max(0, S.gold - task.amt);
+    if (task.stat==='str') S.str = Math.max(10,S.str-1);
+    else if (task.stat==='int') S.int = Math.max(10,S.int-1);
+    else if (task.stat==='vit') S.vit = Math.max(10,S.vit-1);
+    S.totalDone = Math.max(0,S.totalDone-1);
+  }
+  save(); updateUI();
+}
 
-  <div class="tab-section" id="tab-shop">
-    <div class="panel">
-      <div class="panel-hd">
-        <div class="panel-title">🔮 The Shadow Armory</div>
-        <span style="font-size:0.8rem;color:var(--gold);font-family:var(--font-mono)"><span id="shopGold">0</span>G</span>
-      </div>
-      <div id="shopContainer"></div>
-    </div>
-  </div>
+function openEditTask(id) {
+  editingTaskId = id;
+  const task = S.tasks.find(t=>t.id===id);
+  document.getElementById('editTaskName').value = task.name;
+  document.getElementById('editTaskAmt').value = task.amt;
+  document.getElementById('editTaskStat').value = task.stat;
+  document.getElementById('editModal').classList.remove('hidden');
+}
 
-  <div class="tab-section" id="tab-profile">
-    <div class="panel">
-      <div class="panel-hd"><div class="panel-title">👤 Operational Player Profile</div></div>
-      <div class="profile-row"><span class="profile-label">Designation</span><span class="profile-val" id="pName2">Sahitya Shukla</span></div>
-      <div class="profile-row"><span class="profile-label">Chronology</span><span class="profile-val" id="pAge2">24</span></div>
-      <div class="profile-row"><span class="profile-label">Gender Type</span><span class="profile-val" id="pGender2">Male</span></div>
-      <div class="profile-row"><span class="profile-label">Evolution Tier</span><span class="profile-val" id="pLevel2">—</span></div>
-      <div class="profile-row"><span class="profile-label">System Rank</span><span class="profile-val" id="pRank2" style="color:var(--blue)">—</span></div>
-      <div class="profile-row" style="border:none"><span class="profile-label">Total Grinds Completed</span><span class="profile-val" id="pTotal">0</span></div>
-    </div>
-    
-    <div class="panel">
-      <div class="panel-hd"><div class="panel-title">⚙️ Adjust Parameter Keys (Life 2.0)</div></div>
-      <div class="profile-edit-box">
-         <label>Modify Name</label>
-         <input type="text" id="editProfileName" value="Sahitya Shukla" oninput="saveManualProfile()">
-         <label>Modify Age</label>
-         <input type="number" id="editProfileAge" value="24" oninput="saveManualProfile()">
-         <label>Modify Gender</label>
-         <select id="editProfileGender" onchange="saveManualProfile()">
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Awakened">Awakened / Sovereign</option>
-         </select>
-      </div>
-      <button class="btn btn-sm" style="width:100%;background:rgba(255,45,85,0.1);color:var(--red);border:1px solid rgba(255,45,85,0.25);margin-top:15px" onclick="confirmReset()">Wipe Engine Data</button>
-    </div>
-  </div>
+function saveEditTask() {
+  const task = S.tasks.find(t=>t.id===editingTaskId);
+  if (!task) return;
+  const name = document.getElementById('editTaskName').value.trim();
+  const amt = parseInt(document.getElementById('editTaskAmt').value) || 10;
+  const stat = document.getElementById('editTaskStat').value;
+  if (!name) { toast('Quest name cannot be empty','danger'); return; }
+  task.name = name; task.amt = amt; task.stat = stat;
+  closeModal(); save(); updateUI();
+  toast('Quest updated!', 'info');
+}
 
-</div>
+function deleteTask() {
+  S.tasks = S.tasks.filter(t=>t.id!==editingTaskId);
+  closeModal(); save(); updateUI();
+  toast('Quest removed.', 'danger');
+}
 
-<div class="modal-overlay hidden" id="editModal">
-  <div class="modal">
-    <h3>✏ Edit Daily Quest Matrix</h3>
-    <div class="field-group">
-      <div class="field">
-        <label>Quest Name</label>
-        <input type="text" id="editTaskName">
+function openAddModal() {
+  document.getElementById('addTaskName').value = '';
+  document.getElementById('addTaskAmt').value = '10';
+  document.getElementById('addModal').classList.remove('hidden');
+}
+
+function confirmAddTask() {
+  const name = document.getElementById('addTaskName').value.trim();
+  const amt = parseInt(document.getElementById('addTaskAmt').value) || 10;
+  const stat = document.getElementById('addTaskStat').value;
+  if (!name) { toast('Enter a quest name','danger'); return; }
+  const id = 't'+Date.now();
+  S.tasks.push({id, name, amt, stat, done:false});
+  document.getElementById('addModal').classList.add('hidden');
+  save(); updateUI();
+  toast(`New quest added: <strong>${name}</strong>`, 'success');
+}
+
+function closeModal() {
+  document.getElementById('editModal').classList.add('hidden');
+  editingTaskId = null;
+}
+
+function doHabit(hpD, goldD, isPos, ev, hpPenalty=false) {
+  if (isPos) {
+    S.exp += Math.abs(hpD); S.gold += goldD;
+    xpPop(`+${Math.abs(hpD)}EXP`, ev.target);
+    toast('Habit logged! +2 EXP +2G', 'success');
+    checkLevelUp();
+  } else if (hpPenalty) {
+    S.hp = Math.max(0, S.hp + hpD);
+    xpPop(`${hpD} HP`, ev.target);
+    toast('⚠ HP penalty applied. Stay disciplined, Hunter.', 'danger');
+    checkDeath();
+  } else {
+    S.gold = Math.max(0, S.gold + goldD);
+    S.exp = Math.max(0, S.exp + Math.abs(hpD));
+    toast('Habit adjusted.', 'info');
+  }
+  save(); updateUI();
+}
+
+function executeDailyReset() {
+  const done = S.tasks.filter(t=>t.done).length;
+  const total = S.tasks.length;
+  const allDone = done === total;
+
+  if (allDone) {
+    S.gold += 20; S.exp += 20; S.vit++;
+    S.streak++;
+    toast('🎉 ALL QUESTS COMPLETE! Bonus +20G +20EXP +VIT awarded. Keep ascending!', 'gold');
+  } else {
+    const missed = total - done;
+    S.hp = Math.max(1, S.hp - missed * 10);
+    if (S.streak > 0) S.streak--;
+    toast(`⚠ ${missed} quest(s) missed. −${missed*10} HP. Break the pattern.`, 'danger');
+    checkDeath();
+  }
+
+  S.tasks.forEach(t => t.done = false);
+  S.lastReset = new Date().toISOString().split('T')[0];
+  checkLevelUp();
+  save(); updateUI();
+}
+
+function buyTrait(id) {
+  const item = SHOP.find(s=>s.id===id);
+  if (!item) return;
+  if (S.level < item.reqLv) { toast(`Requires LV.${item.reqLv}. Keep grinding!`, 'danger'); return; }
+  if (S.inventory.some(i=>i.id===id)) { toast('Trait already evolved!', 'danger'); return; }
+  if (S.gold < item.cost) { toast(`Insufficient Gold. Need ${item.cost}G.`, 'danger'); return; }
+  S.gold -= item.cost;
+  S.inventory.push({id, name:item.name, icon:item.icon});
+  Object.entries(item.statBonus).forEach(([k,v]) => { S[k] += v; });
+  toast(`🧬 EVOLVED: [${item.name}] — Stats boosted!`, 'gold');
+  save(); updateUI();
+}
+
+function checkLevelUp() {
+  const expNeeded = 100 + (S.level-1)*20;
+  while (S.exp >= expNeeded) {
+    S.exp -= expNeeded;
+    S.level++;
+    S.hp = 100;
+    document.getElementById('lvlFlash').classList.remove('active');
+    void document.getElementById('lvlFlash').offsetWidth;
+    document.getElementById('lvlFlash').classList.add('active');
+    toast(`🎉 LEVEL UP! You are now LV.${S.level} — ${getRank(S.level)}`, 'lvlup');
+  }
+}
+
+function checkDeath() {
+  if (S.hp <= 0) {
+    toast('☠ HP CRITICAL. Stat loss applied. Rise and grind harder.', 'danger');
+    S.hp = 30;
+    S.str = Math.max(10, S.str-2);
+    S.int = Math.max(10, S.int-2);
+    S.vit = Math.max(10, S.vit-2);
+  }
+}
+
+function openChangeProfile() {
+  document.getElementById('inputName').value = S.name;
+  document.getElementById('inputAge').value = S.age;
+  document.getElementById('inputGender').value = S.gender;
+  const ov = document.getElementById('welcomeOverlay');
+  ov.style.opacity = '1'; ov.style.display = 'flex';
+}
+
+function confirmReset() {
+  if (!confirm('Reset ALL progress? This cannot be undone.')) return;
+  localStorage.clear();
+  location.reload();
+}
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Particle Canvas Animation Code (Typo Fixed)
+(function() {
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let W, H, pts = [];
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+  for (let i=0;i<40;i++) pts.push({
+    x:Math.random()*window.innerWidth, y:Math.random()*window.innerHeight,
+    vx:(Math.random()-0.5)*0.3, vy:(Math.random()-0.5)*0.3,
+    r:Math.random()*1.5+0.5, a:Math.random()
+  });
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p => {
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0) p.x=W; if(p.x>W) p.x=0;
+      if(p.y<0) p.y=H; if(p.y>H) p.y=0;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(0,200,255,${p.a*0.25})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+updateUI();
+</script>
+</body>
+</html>
+
