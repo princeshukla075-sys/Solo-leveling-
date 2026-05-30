@@ -56,7 +56,7 @@ canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; 
   position: fixed; inset: 0; z-index: 9999;
   background: #01040a;
   display: flex; align-items: center; justify-content: center;
-  padding: 20px; transition: opacity 0.6s ease;
+  padding: 20px; transition: opacity 0.4s ease;
 }
 .welcome-inner {
   width: 100%; max-width: 430px;
@@ -76,7 +76,7 @@ canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; 
 .alert-banner::after { transform: scaleX(-1); }
 
 .system-msg { font-size: 1rem; line-height: 1.6; color: #cbd5e1; margin-bottom: 24px; }
-.system-msg strong { color: #fff; text-shadow: 0 0 8px var(--accent-blue); }
+.system-msg strong { color: #fff; text-shadow: 0 0 8px var(--blue); }
 
 .field-group { display: flex; flex-direction: column; gap: 14px; }
 .field { display: flex; flex-direction: column; gap: 5px; }
@@ -157,7 +157,7 @@ canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; 
 .inv-icon { font-size: 1.4rem; }
 .inv-empty { color: var(--muted); font-size: 0.85rem; padding: 6px; font-family: var(--font-mono); grid-column: span 2; text-align: center; }
 
-/* Fixed Responsive Weight Grid Layout */
+/* Responsive Weight Layout */
 .weight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 6px; width: 100%; }
 .weight-box { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .weight-box label { font-size: 0.62rem; color: var(--muted); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -253,6 +253,103 @@ canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; 
 <body>
 
 <canvas id="particles"></canvas>
+<div class="bg-fx"><div class="scan-line"></div></div>
+<div id="lvlFlash"></div>
+<div id="toastContainer"></div>
+
+<div id="welcomeOverlay">
+  <div class="welcome-inner">
+    <div class="alert-banner">System Notification</div>
+    <div class="system-msg">
+      You have been <strong>selected as a Player</strong>.<br>
+      To break past your human limitations and expand your matrix,<br>initialize your baseline parameter keys.
+      <br><br><strong>Your Life 2.0 blueprint begins now.</strong>
+    </div>
+    <div class="field-group">
+      <div class="field">
+        <label>Player Designation Name</label>
+        <input type="text" id="inputName" placeholder="Enter registration name...">
+      </div>
+      <div class="field">
+        <label>Chronological Age</label>
+        <input type="number" id="inputAge" placeholder="Enter age..." min="1" max="120">
+      </div>
+      <div class="field">
+        <label>Gender Manifestation</label>
+        <select id="inputGender">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Awakened">Awakened / Sovereign</option>
+        </select>
+      </div>
+      <button class="btn btn-danger" style="margin-top:8px" onclick="initSystem()">⚡ Accept Activation Protocol</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="editModal">
+  <div class="modal">
+    <h3>✏ Edit Daily Quest Matrix</h3>
+    <div class="field-group">
+      <div class="field">
+        <label>Quest Name</label>
+        <input type="text" id="editTaskName">
+      </div>
+      <div class="field">
+        <label>Reward Payload (EXP &amp; Gold)</label>
+        <input type="number" id="editTaskAmt" min="1" max="200">
+      </div>
+      <div class="field">
+        <label>Core Stat Allocation</label>
+        <select id="editTaskStat">
+          <option value="str">STR (Strength)</option>
+          <option value="int">INT (Intelligence)</option>
+          <option value="vit">VIT (Vitality)</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-primary" onclick="saveEditTask()">Save Changes</button>
+      <button class="btn btn-sm btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-sm" style="background:rgba(255,51,102,0.1);color:var(--red);border:1px solid rgba(255,51,102,0.25);" onclick="deleteTask()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="addModal">
+  <div class="modal">
+    <h3>+ New Daily Quest Vector</h3>
+    <div class="field-group">
+      <div class="field">
+        <label>Quest Name</label>
+        <input type="text" id="addTaskName" placeholder="e.g. 100 Situps Grid...">
+      </div>
+      <div class="field">
+        <label>Reward Payload (EXP &amp; Gold)</label>
+        <input type="number" id="addTaskAmt" value="15" min="1" max="200">
+      </div>
+      <div class="field">
+        <label>Core Stat Allocation</label>
+        <select id="addTaskStat">
+          <option value="str">STR (Strength)</option>
+          <option value="int">INT (Intelligence)</option>
+          <option value="vit">VIT (Vitality)</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-primary" onclick="confirmAddTask()">Inject Quest</button>
+      <button class="btn btn-sm btn-outline" onclick="document.getElementById('addModal').classList.add('hidden')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="app" id="mainApp">
+
+  <div class="tab-section active" id="tab-status">
+    <div class="hud-panel" id="hudPanel">
+      <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
+      <div class="hud-corner bl">
 <div class="bg-fx"><div class="scan-line"></div></div>
 <div id="lvlFlash"></div>
 <div id="toastContainer"></div>
