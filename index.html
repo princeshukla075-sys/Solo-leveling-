@@ -764,26 +764,6 @@ canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; 
 </nav>
 
 <script>
-// ─── NATIVE WEBAUDIO SOUND ENG MATRIX ───
-const AudioFX = {
-  ctx: null,
-  init() { if(!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); },
-  play(freq, type, duration, vol=0.08) {
-    try {
-      this.init(); const osc = this.ctx.createOscillator(); const gain = this.ctx.createGain();
-      osc.type = type; osc.frequency.value = freq; gain.gain.setValueAtTime(vol, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.00001, this.ctx.currentTime + duration);
-      osc.connect(gain); gain.connect(this.ctx.destination); osc.start(); osc.stop(this.ctx.currentTime + duration);
-    } catch (e) {}
-  },
-  click() { this.play(580, 'sine', 0.08, 0.12); },
-  success() { this.play(523.25, 'sine', 0.1, 0.1); setTimeout(()=>this.play(659.25, 'sine', 0.14, 0.1), 70); },
-  levelUp() {
-    let t = 0; [440, 554, 659, 880].forEach(f => { setTimeout(()=>this.play(f, 'triangle', 0.22, 0.15), t); t+=100; });
-  },
-  penalty() { this.play(170, 'sawtooth', 0.35, 0.2); setTimeout(()=>this.play(110, 'sawtooth', 0.45, 0.2), 140); }
-};
-
 // ─── STATE ───
 const S = {
   name: ls('sl_name',''),
@@ -870,7 +850,6 @@ function initSystem() {
   const ov = document.getElementById('welcomeOverlay');
   ov.style.opacity = '0';
   setTimeout(() => ov.style.display='none', 800);
-  try { AudioFX.levelUp(); } catch(e){}
   toast(`Welcome, ${n}. Your ascent begins.`, 'success');
   updateUI();
 }
@@ -1024,7 +1003,6 @@ function renderShop() {
 function toggleTask(id, el) {
   const task = S.tasks.find(t=>t.id===id);
   if (!task) return;
-  try { AudioFX.click(); } catch(e){}
   if (!task.done) {
     task.done = true;
     S.exp += task.amt;
@@ -1101,13 +1079,11 @@ function closeModal() {
 function doHabit(hpD, goldD, isPos, ev, hpPenalty=false) {
   if (isPos) {
     S.exp += Math.abs(hpD); S.gold += goldD;
-    try { AudioFX.success(); } catch(e){}
     xpPop(`+${Math.abs(hpD)}EXP`, ev.target);
     toast('Habit logged! +2 EXP +2G', 'success');
     checkLevelUp();
   } else if (hpPenalty) {
     S.hp = Math.max(0, S.hp + hpD);
-    try { AudioFX.penalty(); } catch(e){}
     xpPop(`${hpD} HP`, ev.target);
     toast('⚠ HP penalty applied. Stay disciplined, Hunter.', 'danger');
     checkDeath();
@@ -1127,13 +1103,11 @@ function executeDailyReset() {
   if (allDone) {
     S.gold += 20; S.exp += 20; S.vit++;
     S.streak++;
-    try { AudioFX.levelUp(); } catch(e){}
     toast('🎉 ALL QUESTS COMPLETE! Bonus +20G +20EXP +VIT awarded. Keep ascending!', 'gold');
   } else {
     const missed = total - done;
     S.hp = Math.max(1, S.hp - missed * 10);
     if (S.streak > 0) S.streak--;
-    try { AudioFX.penalty(); } catch(e){}
     toast(`⚠ ${missed} quest(s) missed. −${missed*10} HP. Break the pattern.`, 'danger');
     checkDeath();
   }
@@ -1147,13 +1121,12 @@ function executeDailyReset() {
 function buyTrait(id) {
   const item = SHOP.find(s=>s.id===id);
   if (!item) return;
-  if (S.level < item.reqLv) { toast(`Requires LV.${item.reqLv}. Keep grinding!`, 'danger'); try { AudioFX.penalty(); } catch(e){} return; }
+  if (S.level < item.reqLv) { toast(`Requires LV.${item.reqLv}. Keep grinding!`, 'danger'); return; }
   if (S.inventory.some(i=>i.id===id)) { toast('Trait already evolved!', 'danger'); return; }
-  if (S.gold < item.cost) { toast(`Insufficient Gold. Need ${item.cost}G.`, 'danger'); try { AudioFX.penalty(); } catch(e){} return; }
+  if (S.gold < item.cost) { toast(`Insufficient Gold. Need ${item.cost}G.`, 'danger'); return; }
   S.gold -= item.cost;
   S.inventory.push({id, name:item.name, icon:item.icon});
   Object.entries(item.statBonus).forEach(([k,v]) => { S[k] += v; });
-  try { AudioFX.levelUp(); } catch(e){}
   toast(`🧬 EVOLVED: [${item.name}] — Stats boosted!`, 'gold');
   save(); updateUI();
 }
@@ -1167,7 +1140,6 @@ function checkLevelUp() {
     document.getElementById('lvlFlash').classList.remove('active');
     void document.getElementById('lvlFlash').offsetWidth;
     document.getElementById('lvlFlash').classList.add('active');
-    try { AudioFX.levelUp(); } catch(e){}
     toast(`🎉 LEVEL UP! You are now LV.${S.level} — ${getRank(S.level)}`, 'lvlup');
   }
 }
@@ -1203,7 +1175,7 @@ function switchTab(name, btn) {
   btn.classList.add('active');
 }
 
-// Particle Canvas Animation Code
+// Particle Canvas Animation Code (Typo Fixed)
 (function() {
   const canvas = document.getElementById('particles');
   const ctx = canvas.getContext('2d');
@@ -1224,7 +1196,7 @@ function switchTab(name, btn) {
       if(p.y<0) p.y=H; if(p.y>H) p.y=0;
       ctx.beginPath();
       ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle = `rgba(0,200,255,${p.a*0.25})`;
+      ctx.fillStyle=`rgba(0,200,255,${p.a*0.25})`;
       ctx.fill();
     });
     requestAnimationFrame(draw);
