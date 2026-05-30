@@ -27,6 +27,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow-x: hidden;
         }
 
         .container {
@@ -45,6 +46,85 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
+        /* Welcome & Alert Overlay Screens */
+        #welcomeOverlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #02050b;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: opacity 1s ease;
+        }
+
+        .welcome-box {
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+            border: 2px solid var(--danger);
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.2);
+            background: #090e1a;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        .alert-glow {
+            color: var(--danger);
+            font-size: 1.1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 15px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; text-shadow: 0 0 5px var(--danger); }
+            50% { opacity: 1; text-shadow: 0 0 15px var(--danger); }
+            100% { opacity: 0.6; text-shadow: 0 0 5px var(--danger); }
+        }
+
+        .system-msg {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            margin-bottom: 20px;
+        }
+
+        .setup-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .setup-form label {
+            font-size: 0.75rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .setup-form input, .setup-form select {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            padding: 10px;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .setup-form input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 8px var(--accent-glow);
+        }
+
         /* Status Window Header */
         .header-panel {
             background: linear-gradient(180deg, #091630, #050d1d);
@@ -56,13 +136,21 @@
         }
 
         .system-title {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             letter-spacing: 4px;
             color: var(--accent-blue);
             text-transform: uppercase;
             font-weight: bold;
             text-shadow: 0 0 5px var(--accent-blue);
             margin-bottom: 5px;
+        }
+
+        .player-info-line {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .level-display {
@@ -88,17 +176,15 @@
         .stat-val { font-size: 1.1rem; font-weight: bold; color: var(--accent-blue); }
         .stat-lbl { font-size: 0.65rem; color: var(--text-muted); font-weight: bold; }
 
-        /* Habitica Multi-Column Design */
+        /* Columns styling */
         .panel-title { font-size: 0.9rem; color: var(--accent-blue); margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid rgba(0,210,255,0.2); padding-bottom: 4px; }
         
-        /* Habits (+ / - System) */
         .habit-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
         .habit-btns { display: flex; gap: 6px; }
         .btn-h { border: none; color: #fff; width: 28px; height: 28px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
         .btn-plus { background: #00aa5b; }
         .btn-minus { background: #b3002d; }
 
-        /* Checklists */
         .task-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
         .task-info { font-size: 0.9rem; }
         .task-rewards { font-size: 0.7rem; color: var(--success); }
@@ -110,26 +196,53 @@
         .cb-container input:checked ~ .mark { background-color: var(--accent-blue); border-color: var(--accent-blue); }
         .cb-container input:checked ~ .mark:after { content: ""; position: absolute; left: 6px; top: 2px; width: 5px; height: 10px; border: solid #000; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); }
 
-        /* Dynamic Inventory Box */
         .inventory-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 5px; }
         .inv-card { background: linear-gradient(135deg, #0f1a36, #070e22); border: 1px solid rgba(255,255,255,0.05); padding: 8px; border-radius: 6px; font-size: 0.8rem; display: flex; align-items: center; gap: 8px; }
         .inv-icon { font-size: 1.2rem; }
 
-        /* Shop Row */
         .shop-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 0.85rem;}
         .shop-row:last-child { border-bottom: none; }
         .btn-buy { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold; }
-        .btn-buy:active { transform: scale(0.95); }
 
         .btn-action { background: linear-gradient(90deg, #0055ff, var(--accent-blue)); border: none; color: white; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; box-shadow: 0 0 10px rgba(0, 210, 255, 0.2); }
+        .btn-danger-action { background: linear-gradient(90deg, #ff3366, #b3002d); box-shadow: 0 0 10px rgba(255, 51, 102, 0.2); }
     </style>
 </head>
 <body>
+
+    <!-- Dynamic System Activation Welcome Screen -->
+    <div id="welcomeOverlay">
+        <div class="welcome-box">
+            <div class="alert-glow">🚨 System Notification 🚨</div>
+            <div class="system-msg">
+                Welcome. You have been selected as a Player.<br>
+                To step out of the ordinary and change your life, initialize your parameter keys. 
+                <br><br><strong>Your Life 2.0 begins now.</strong>
+            </div>
+            <div class="setup-form">
+                <label>Player Designation Name</label>
+                <input type="text" id="inputName" placeholder="Enter name...">
+                
+                <label>Chronological Age</label>
+                <input type="number" id="inputAge" placeholder="Enter age...">
+                
+                <label>Gender Manifestation</label>
+                <select id="inputGender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Unspecified">Awakened / Other</option>
+                </select>
+                
+                <button class="btn-action btn-danger-action" style="margin-top: 10px;" onclick="initializeSystem()">Accept Activation Protocol</button>
+            </div>
+        </div>
+    </div>
 
     <div class="container">
         <!-- Status Window Header -->
         <div class="header-panel">
             <div class="system-title">Hunter Status Window</div>
+            <div class="player-info-line" id="playerMetadataDisplay">Player: Loading...</div>
             <div class="level-display">LV. <span id="level">1</span></div>
             
             <div class="bar-wrapper">
@@ -155,9 +268,7 @@
         <!-- Unlocked Traits Inventory Box -->
         <div class="panel">
             <div class="panel-title">Active Physical Upgrades & Inventory</div>
-            <div class="inventory-grid" id="inventoryContainer">
-                <!-- Injected via JavaScript dynamically -->
-            </div>
+            <div class="inventory-grid" id="inventoryContainer"></div>
         </div>
 
         <!-- Habits Column (+/-) -->
@@ -165,15 +276,15 @@
             <div class="panel-title">Habits (Continuous Integration)</div>
             <div class="habit-item">
                 <div><strong>Healthy Snacking / Water Drink</strong><br><small style="color:var(--success)">+2 EXP | +2G</small></div>
-                <div class="habit-items"><div class="habit-btns"><button class="btn-h btn-plus" onclick="adjustHabit(2, 2, true)">+</button><button class="btn-h btn-minus" onclick="adjustHabit(-2, -5, false)">-</button></div></div>
+                <div class="habit-btns"><button class="btn-h btn-plus" onclick="adjustHabit(2, 2, true)">+</button><button class="btn-h btn-minus" onclick="adjustHabit(-2, -5, false)">-</button></div>
             </div>
             <div class="habit-item">
                 <div><strong>Junk Food / Slacking Off</strong><br><small style="color:var(--danger)">-15 HP Penalty</small></div>
-                <div class="habit-items"><div class="habit-btns"><button class="btn-h btn-plus" style="background:#444" disabled>+</button><button class="btn-h btn-minus" onclick="adjustHabit(-15, 0, false, true)">-</button></div></div>
+                <div class="habit-btns"><button class="btn-h btn-plus" style="background:#444" disabled>+</button><button class="btn-h btn-minus" onclick="adjustHabit(-15, 0, false, true)">-</button></div>
             </div>
         </div>
 
-        <!-- Dailies Checklists (Non-Negotiable) -->
+        <!-- Dailies Checklists -->
         <div class="panel">
             <div class="panel-title">Dailies (24Hr Active Quests)</div>
             <div class="task-item">
@@ -214,47 +325,72 @@
     </div>
 
     <script>
-        // Game Metrics Initialization
+        let pName = localStorage.getItem('sl_name');
+        let pAge = localStorage.getItem('sl_age');
+        let pGender = localStorage.getItem('sl_gender');
+
+        if (!pName || !pAge || !pGender) {
+            document.getElementById('welcomeOverlay').style.display = 'flex';
+        } else {
+            document.getElementById('welcomeOverlay').style.display = 'none';
+        }
+
         let level = parseInt(localStorage.getItem('sl_h_level')) || 1;
         let exp = parseInt(localStorage.getItem('sl_h_exp')) || 0;
         let hp = parseInt(localStorage.getItem('sl_h_hp')) || 100;
         let gold = parseInt(localStorage.getItem('sl_h_gold')) || 0;
-
         let str = parseInt(localStorage.getItem('sl_h_str')) || 10;
         let int = parseInt(localStorage.getItem('sl_h_int')) || 10;
         let vit = parseInt(localStorage.getItem('sl_h_vit')) || 10;
-        
         let inventory = JSON.parse(localStorage.getItem('sl_h_inv')) || [];
 
+        function initializeSystem() {
+            const nameIn = document.getElementById('inputName').value.trim();
+            const ageIn = document.getElementById('inputAge').value.trim();
+            const genderIn = document.getElementById('inputGender').value;
+
+            if(!nameIn || !ageIn) {
+                alert("❌ INITIALIZATION FAILURE: All tracking metric variables must be assigned.");
+                return;
+            }
+
+            localStorage.setItem('sl_name', nameIn);
+            localStorage.setItem('sl_age', ageIn);
+            localStorage.setItem('sl_gender', genderIn);
+
+            const overlay = document.getElementById('welcomeOverlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => { overlay.style.display = 'none'; }, 1000);
+
+            pName = nameIn; pAge = ageIn; pGender = genderIn;
+            alert("🔒 SYSTEM SYNC COMPLETE: Welcome, Player. Your constraints have shattered. Life 2.0 begins.");
+            updateUI();
+        }
+
         function updateUI() {
+            if(pName) {
+                document.getElementById('playerMetadataDisplay').innerText = `${pName} | Age ${pAge} | ${pGender}`;
+            }
             document.getElementById('level').innerText = level;
             document.getElementById('hpText').innerText = `${hp}/100`;
             document.getElementById('hpBar').style.width = `${hp}%`;
             document.getElementById('expText').innerText = `${exp}/100`;
             document.getElementById('expBar').style.width = `${exp}%`;
             document.getElementById('goldDisplay').innerText = gold;
-
             document.getElementById('statStr').innerText = str;
             document.getElementById('statInt').innerText = int;
             document.getElementById('statVit').innerText = vit;
 
-            // Render Unlocked Perks Inventory Box
             const invContainer = document.getElementById('inventoryContainer');
             invContainer.innerHTML = '';
             if(inventory.length === 0) {
-                invContainer.innerHTML = `<div style="color:var(--text-muted); font-size:0.8rem; padding: 5px;">No active physical traits evolved yet. Grind daily targets to purchase upgrades.</div>`;
+                invContainer.innerHTML = `<div style="color:var(--text-muted); font-size:0.8rem; padding: 5px;">No physical traits evolved. Grind daily targets to purchase updates.</div>`;
             } else {
                 inventory.forEach(item => {
-                    invContainer.innerHTML += `
-                        <div class="inv-card">
-                            <span class="inv-icon">${item.icon}</span>
-                            <span>${item.name}</span>
-                        </div>
-                    `;
+                    invContainer.innerHTML += `<div class="inv-card"><span class="inv-icon">${item.icon}</span><span>${item.name}</span></div>`;
                 });
             }
 
-            // Sync with local memory
             localStorage.setItem('sl_h_level', level);
             localStorage.setItem('sl_h_exp', exp);
             localStorage.setItem('sl_h_hp', hp);
@@ -279,8 +415,8 @@
                 gold += goldDelta;
             } else {
                 if(absoluteHpPenalty) {
-                    hp += hpDelta; // Deducts direct raw HP value
-                    alert("💥 PENALTY DETECTED: You engaged in a negative habit. -15 HP.");
+                    hp += hpDelta;
+                    alert("💥 WARNING: HEALTH LOW, GOING DOWN. THIS IS LIFE 2.0 - DON'T WASTE IT. DO IT.");
                 } else {
                     gold = Math.max(0, gold + goldDelta);
                     exp = Math.max(0, exp + hpDelta);
@@ -312,12 +448,12 @@
 
             if(missedAny) {
                 hp -= 25;
-                alert("⚠️ PROTOCOL BREACH: Incomplete daily quests! Penalty induced: -25 HP.");
+                alert("🚨 WARNING: PROTOCOL BREACH. HEALTH LOW, GOING DOWN. THIS IS LIFE 2.0 - DON'T WASTE IT. DO IT.");
             } else {
                 gold += 15;
                 exp += 15;
                 vit += 1;
-                alert("⚡ QUEST COMPLETE: Perfect day clearance bonus unlocked!");
+                alert("🎉 CONGRATULATIONS PLAYER. YOU HAVE CONQUERED THE DAY. CORE CONSTRICTIONS ARE SHATTERING. CONTINUE THE ASCENSION!");
             }
 
             checkLevelUps();
@@ -327,26 +463,25 @@
 
         function purchaseTrait(traitName, cost, reqLv, symbol) {
             if (level < reqLv) {
-                alert(`🔒 ACCESS DENIED: Your current operational level is too low. Requires LV.${reqLv}.`);
+                alert(`🔒 ACCESS DENIED: Your level is too low. Requires LV.${reqLv}.`);
                 return;
             }
             if (inventory.some(i => i.name === traitName)) {
-                alert("❌ TRAIT ALREADY ACTIVATED: Evolution slot occupied.");
+                alert("❌ TRAIT ALREADY ACTIVATED.");
                 return;
             }
             if (gold >= cost) {
                 gold -= cost;
                 inventory.push({ name: traitName, icon: symbol });
                 
-                // Instantly apply a nice stat booster depending on mutation type
                 if(traitName.includes('Muscle') || traitName.includes('Guns')) str += 5;
                 if(traitName.includes('Brain')) int += 5;
                 if(traitName.includes('strength')) { str += 10; vit += 5; }
 
-                alert(`🧬 EVOLUTION COMPLETE: Trait [${traitName}] integrated into your operational matrix! Core stats boosted.`);
+                alert(`🧬 EVOLUTION COMPLETE: Trait [${traitName}] integrated! Core stats boosted.`);
                 updateUI();
             } else {
-                alert("❌ INSUFFICIENT GOLD TOKENS: Grind more daily quests.");
+                alert("❌ INSUFFICIENT GOLD TOKENS.");
             }
         }
 
@@ -354,23 +489,23 @@
             while (exp >= 100) {
                 exp -= 100;
                 level++;
-                hp = 100; // Refill health on evolution tier adjustments
-                alert(`🎉 SYSTEM NOTIFICATION: Level Up achieved! You have ascended to Level ${level}.`);
+                hp = 100;
+                alert(`🎉 CONGRATULATIONS PLAYER. LEVEL UP ACHIEVED! LEVEL ${level} UNLOCKED.`);
             }
         }
 
         function checkDeathCondition() {
             if (hp <= 0) {
-                alert("☠️ SYSTEM RESET WARNING: HP dropped to zero. Inducing stat degradation penalty.");
-                hp = 60;
+                alert("☠️ CRITICAL FAILURE: HP DROPPED TO ZERO. STAT DEGRADATION INDUCED. GET BACK TO THE GRIND.");
+                hp = 50;
                 str = Math.max(10, str - 2);
                 int = Math.max(10, int - 2);
                 vit = Math.max(10, vit - 2);
             }
         }
 
-        // Boot system update loops
         updateUI();
     </script>
 </body>
 </html>
+
