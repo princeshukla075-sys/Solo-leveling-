@@ -3,24 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System: Solo Leveling</title>
+    <title>System: Solo Leveling Pro</title>
+    <link rel="manifest" href="manifest.json">
     <style>
         :root {
-            --bg-color: #0a0f1d;
-            --panel-color: #131a30;
+            --bg-color: #040812;
+            --panel-color: #0b1224;
             --accent-blue: #00d2ff;
             --accent-glow: rgba(0, 210, 255, 0.3);
             --text-main: #ffffff;
-            --text-muted: #8a99ad;
+            --text-muted: #627595;
             --success: #00ff87;
+            --danger: #ff3366;
+            --gold: #ffd700;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
-            padding: 15px;
+            padding: 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -28,493 +31,346 @@
 
         .container {
             width: 100%;
-            max-width: 450px;
+            max-width: 460px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 12px;
         }
 
-        /* System Header */
-        .header-panel {
-            background: linear-gradient(135deg, var(--panel-color), #1a2444);
-            border: 2px solid var(--accent-blue);
-            box-shadow: 0 0 15px var(--accent-glow);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-        }
-
-        .system-title {
-            font-size: 1.2rem;
-            letter-spacing: 4px;
-            color: var(--accent-blue);
-            margin: 0 0 10px 0;
-            text-transform: uppercase;
-            font-weight: bold;
-            text-shadow: 0 0 8px var(--accent-blue);
-        }
-
-        .level-display {
-            font-size: 3rem;
-            font-weight: 900;
-            margin: 5px 0;
-            color: var(--text-main);
-        }
-
-        .exp-bar-container {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            height: 12px;
-            width: 100%;
-            margin-top: 10px;
-            overflow: hidden;
-            border: 1px solid rgba(0, 210, 255, 0.2);
-        }
-
-        .exp-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-blue), #0066ff);
-            width: 0%;
-            transition: width 0.5s ease;
-            box-shadow: 0 0 10px var(--accent-blue);
-        }
-
-        .exp-text {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 5px;
-            display: block;
-        }
-
-        /* Quest Panel */
         .panel {
             background-color: var(--panel-color);
             border-radius: 12px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 14px;
+            border: 1px solid rgba(0, 210, 255, 0.15);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
-        .panel-title {
-            font-size: 1.1rem;
-            color: var(--accent-blue);
-            margin-top: 0;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 1px solid rgba(0, 210, 255, 0.2);
-            padding-bottom: 5px;
-        }
-
-        .quest-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .quest-item:last-child {
-            border-bottom: none;
-        }
-
-        .quest-details {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .quest-name {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        .quest-reward {
-            font-size: 0.75rem;
-            color: var(--success);
-            margin-top: 2px;
-        }
-
-        /* Custom Checkbox Replacement */
-        .checkbox-container {
-            position: relative;
-            cursor: pointer;
-            font-size: 22px;
-            user-select: none;
-            padding-left: 30px;
-        }
-
-        .checkbox-container input {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-            height: 0;
-            width: 0;
-        }
-
-        .checkmark {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 24px;
-            width: 24px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--text-muted);
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
-
-        .checkbox-container input:checked ~ .checkmark {
-            background-color: var(--success);
-            border-color: var(--success);
-            box-shadow: 0 0 10px rgba(0, 255, 135, 0.4);
-        }
-
-        .checkmark:after {
-            content: "";
-            position: absolute;
-            display: none;
-            left: 8px;
-            top: 4px;
-            width: 5px;
-            height: 10px;
-            border: solid var(--bg-color);
-            border-width: 0 3px 3px 0;
-            transform: rotate(45deg);
-        }
-
-        .checkbox-container input:checked ~ .checkmark:after {
-            display: block;
-        }
-
-        /* Weight Scale Module */
-        .weight-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .weight-input-box {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .weight-input-box label {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .weight-input-box input {
-            background-color: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-            padding: 8px;
-            border-radius: 6px;
-            font-size: 1rem;
+        /* Status Window Header */
+        .header-panel {
+            background: linear-gradient(180deg, #091630, #050d1d);
+            border: 2px solid var(--accent-blue);
+            box-shadow: 0 0 15px var(--accent-glow);
+            border-radius: 12px;
+            padding: 16px;
             text-align: center;
         }
 
-        .weight-input-box input:focus {
-            border-color: var(--accent-blue);
-            outline: none;
-        }
-
-        /* Achieving Curve Progress */
-        .curve-container {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            padding: 15px;
-            position: relative;
-            text-align: center;
-        }
-
-        .curve-track {
-            height: 8px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            position: relative;
-            margin: 20px 0 10px 0;
-            overflow: hidden;
-        }
-
-        .curve-progress {
-            height: 100%;
-            background: linear-gradient(90deg, #ff007b, var(--accent-blue));
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-
-        .curve-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .current-status-txt {
+        .system-title {
             font-size: 0.9rem;
+            letter-spacing: 4px;
+            color: var(--accent-blue);
+            text-transform: uppercase;
             font-weight: bold;
-            color: var(--text-main);
+            text-shadow: 0 0 5px var(--accent-blue);
+            margin-bottom: 5px;
         }
 
-        .btn-reset {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: var(--text-muted);
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
-            font-size: 0.85rem;
-            transition: all 0.2s;
+        .level-display {
+            font-size: 2.4rem;
+            font-weight: 900;
+            margin: 0;
+            letter-spacing: 1px;
         }
 
-        .btn-reset:hover {
-            border-color: var(--accent-blue);
-            color: white;
-        }
+        /* Status Bars */
+        .bar-wrapper { margin-top: 8px; text-align: left; }
+        .bar-label { font-size: 0.75rem; display: flex; justify-content: space-between; margin-bottom: 2px; font-weight: 600;}
+        .bar-container { background-color: rgba(255, 255, 255, 0.05); border-radius: 3px; height: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);}
+        .bar-fill { height: 100%; width: 0%; transition: width 0.3s ease; }
+        #hpBar { background: linear-gradient(90deg, var(--danger), #b3002d); }
+        #expBar { background: linear-gradient(90deg, var(--accent-blue), #0055ff); }
+
+        .currency-row { font-weight: bold; font-size: 1.1rem; color: var(--gold); margin-top: 10px; text-shadow: 0 0 5px rgba(255,215,0,0.2); }
+
+        /* Stats Sub-Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+        .stat-box { background: rgba(0,0,0,0.3); padding: 6px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.03); text-align: center;}
+        .stat-val { font-size: 1.1rem; font-weight: bold; color: var(--accent-blue); }
+        .stat-lbl { font-size: 0.65rem; color: var(--text-muted); font-weight: bold; }
+
+        /* Habitica Multi-Column Design */
+        .panel-title { font-size: 0.9rem; color: var(--accent-blue); margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid rgba(0,210,255,0.2); padding-bottom: 4px; }
+        
+        /* Habits (+ / - System) */
+        .habit-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .habit-btns { display: flex; gap: 6px; }
+        .btn-h { border: none; color: #fff; width: 28px; height: 28px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
+        .btn-plus { background: #00aa5b; }
+        .btn-minus { background: #b3002d; }
+
+        /* Checklists */
+        .task-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .task-info { font-size: 0.9rem; }
+        .task-rewards { font-size: 0.7rem; color: var(--success); }
+
+        /* Checkboxes */
+        .cb-container { position: relative; cursor: pointer; display: block; height: 20px; width: 20px; }
+        .cb-container input { opacity: 0; position: absolute; }
+        .mark { position: absolute; top: 0; left: 0; height: 20px; width: 20px; background-color: rgba(255, 255, 255, 0.05); border: 1px solid var(--text-muted); border-radius: 4px; }
+        .cb-container input:checked ~ .mark { background-color: var(--accent-blue); border-color: var(--accent-blue); }
+        .cb-container input:checked ~ .mark:after { content: ""; position: absolute; left: 6px; top: 2px; width: 5px; height: 10px; border: solid #000; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); }
+
+        /* Dynamic Inventory Box */
+        .inventory-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 5px; }
+        .inv-card { background: linear-gradient(135deg, #0f1a36, #070e22); border: 1px solid rgba(255,255,255,0.05); padding: 8px; border-radius: 6px; font-size: 0.8rem; display: flex; align-items: center; gap: 8px; }
+        .inv-icon { font-size: 1.2rem; }
+
+        /* Shop Row */
+        .shop-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 0.85rem;}
+        .shop-row:last-child { border-bottom: none; }
+        .btn-buy { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold; }
+        .btn-buy:active { transform: scale(0.95); }
+
+        .btn-action { background: linear-gradient(90deg, #0055ff, var(--accent-blue)); border: none; color: white; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; box-shadow: 0 0 10px rgba(0, 210, 255, 0.2); }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Status Header -->
+        <!-- Status Window Header -->
         <div class="header-panel">
-            <div class="system-title">Active System Status</div>
+            <div class="system-title">Hunter Status Window</div>
             <div class="level-display">LV. <span id="level">1</span></div>
-            <div class="exp-bar-container">
-                <div class="exp-bar" id="expBar"></div>
+            
+            <div class="bar-wrapper">
+                <div class="bar-label"><span>HP (Integrity)</span><span id="hpText">100/100</span></div>
+                <div class="bar-container"><div class="bar-fill" id="hpBar"></div></div>
             </div>
-            <span class="exp-text" id="expText">EXP: 0 / 100</span>
+
+            <div class="bar-wrapper">
+                <div class="bar-label"><span>EXP Progression</span><span id="expText">0/100</span></div>
+                <div class="bar-container"><div class="bar-fill" id="expBar"></div></div>
+            </div>
+
+            <div class="currency-row">GOLD TOKEN: <span id="goldDisplay">0</span>G</div>
+
+            <!-- Stats Sub-Grid -->
+            <div class="stats-grid">
+                <div class="stat-box"><div class="stat-val" id="statStr">10</div><div class="stat-lbl">STR</div></div>
+                <div class="stat-box"><div class="stat-val" id="statInt">10</div><div class="stat-lbl">INT</div></div>
+                <div class="stat-box"><div class="stat-val" id="statVit">10</div><div class="stat-lbl">VIT</div></div>
+            </div>
         </div>
 
-        <!-- Daily Quests -->
+        <!-- Unlocked Traits Inventory Box -->
         <div class="panel">
-            <div class="panel-title">Daily Quest: Preparation for Greatness</div>
-            
-            <div class="quest-item">
-                <div class="quest-details">
-                    <span class="quest-name">10,000 Daily Steps</span>
-                    <span class="quest-reward">+15 EXP</span>
-                </div>
-                <label class="checkbox-container">
-                    <input type="checkbox" class="quest-check" data-exp="15" id="q1">
-                    <span class="checkmark"></span>
-                </label>
+            <div class="panel-title">Active Physical Upgrades & Inventory</div>
+            <div class="inventory-grid" id="inventoryContainer">
+                <!-- Injected via JavaScript dynamically -->
             </div>
-
-            <div class="quest-item">
-                <div class="quest-details">
-                    <span class="quest-name">100 Push-Ups</span>
-                    <span class="quest-reward">+15 EXP</span>
-                </div>
-                <label class="checkbox-container">
-                    <input type="checkbox" class="quest-check" data-exp="15" id="q2">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-
-            <div class="quest-item">
-                <div class="quest-details">
-                    <span class="quest-name">100 Sit-Ups</span>
-                    <span class="quest-reward">+15 EXP</span>
-                </div>
-                <label class="checkbox-container">
-                    <input type="checkbox" class="quest-check" data-exp="15" id="q3">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-
-            <div class="quest-item">
-                <div class="quest-details">
-                    <span class="quest-name">100 Crunches / Squats</span>
-                    <span class="quest-reward">+15 EXP</span>
-                </div>
-                <label class="checkbox-container">
-                    <input type="checkbox" class="quest-check" data-exp="15" id="q4">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-
-            <div class="quest-item">
-                <div class="quest-details">
-                    <span class="quest-name">Intellect Build (2+ Hours Study/Read)</span>
-                    <span class="quest-reward">+20 EXP</span>
-                </div>
-                <label class="checkbox-container">
-                    <input type="checkbox" class="quest-check" data-exp="20" id="q5">
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-            
-            <button class="btn-reset" onclick="resetQuests()">Reset Daily Quests</button>
         </div>
 
-        <!-- Weight Curve Tracker -->
+        <!-- Habits Column (+/-) -->
         <div class="panel">
-            <div class="panel-title">Weight Target Journey</div>
-            <div class="weight-grid">
-                <div class="weight-input-box">
-                    <label>Start (kg)</label>
-                    <input type="number" id="startWeight" value="80" step="0.1" oninput="updateWeightCurve()">
-                </div>
-                <div class="weight-input-box">
-                    <label>Target (kg)</label>
-                    <input type="number" id="targetWeight" value="70" step="0.1" oninput="updateWeightCurve()">
-                </div>
+            <div class="panel-title">Habits (Continuous Integration)</div>
+            <div class="habit-item">
+                <div><strong>Healthy Snacking / Water Drink</strong><br><small style="color:var(--success)">+2 EXP | +2G</small></div>
+                <div class="habit-items"><div class="habit-btns"><button class="btn-h btn-plus" onclick="adjustHabit(2, 2, true)">+</button><button class="btn-h btn-minus" onclick="adjustHabit(-2, -5, false)">-</button></div></div>
             </div>
-            <div class="weight-input-box" style="margin-bottom: 15px;">
-                <label>Current Weight (kg)</label>
-                <input type="number" id="currentWeight" value="78" step="0.1" oninput="updateWeightCurve()">
+            <div class="habit-item">
+                <div><strong>Junk Food / Slacking Off</strong><br><small style="color:var(--danger)">-15 HP Penalty</small></div>
+                <div class="habit-items"><div class="habit-btns"><button class="btn-h btn-plus" style="background:#444" disabled>+</button><button class="btn-h btn-minus" onclick="adjustHabit(-15, 0, false, true)">-</button></div></div>
             </div>
+        </div>
 
-            <div class="curve-container">
-                <div class="current-status-txt" id="curveStatus">Progress: 0% Completed</div>
-                <div class="curve-track">
-                    <div class="curve-progress" id="curveProgress"></div>
-                </div>
-                <div class="curve-labels">
-                    <span id="lblStart">80kg</span>
-                    <span style="color: var(--accent-blue); font-weight: bold;">Current</span>
-                    <span id="lblTarget">70kg</span>
-                </div>
+        <!-- Dailies Checklists (Non-Negotiable) -->
+        <div class="panel">
+            <div class="panel-title">Dailies (24Hr Active Quests)</div>
+            <div class="task-item">
+                <div class="task-info"><strong>100 Pushups & Sit-ups Grid</strong><br><span class="task-rewards">+15G | +15 EXP | STR++</span></div>
+                <label class="cb-container"><input type="checkbox" class="daily-check" data-type="str" data-amt="15" id="d1"><span class="mark"></span></label>
+            </div>
+            <div class="task-item">
+                <div class="task-info"><strong>10,000 Step Footwork</strong><br><span class="task-rewards">+10G | +10 EXP | VIT++</span></div>
+                <label class="cb-container"><input type="checkbox" class="daily-check" data-type="vit" data-amt="10" id="d2"><span class="mark"></span></label>
+            </div>
+            <div class="task-item">
+                <div class="task-info"><strong>2+ Hours Mental Studio / Focus</strong><br><span class="task-rewards">+20G | +20 EXP | INT++</span></div>
+                <label class="cb-container"><input type="checkbox" class="daily-check" data-type="int" data-amt="20" id="d3"><span class="mark"></span></label>
+            </div>
+            <button class="btn-action" onclick="evaluateDailiesAndReset()">Execute Daily Reset Sequence</button>
+        </div>
+
+        <!-- Shadow Armory Trait Shop -->
+        <div class="panel">
+            <div class="panel-title">The Shadow Armory (Trait Evolution)</div>
+            <div class="shop-row">
+                <div><strong>Dense Muscle Augmentation</strong><br><small>Cost: 40G | Requires LV.2</small></div>
+                <button class="btn-buy" onclick="purchaseTrait('Dense Muscle', 40, 2, '💪')">Evolve</button>
+            </div>
+            <div class="shop-row">
+                <div><strong>Arms Like Guns Tier</strong><br><small>Cost: 80G | Requires LV.4</small></div>
+                <button class="btn-buy" onclick="purchaseTrait('Arms Like Guns', 80, 4, '💪🔥')">Evolve</button>
+            </div>
+            <div class="shop-row">
+                <div><strong>Super Brain Processing Clock</strong><br><small>Cost: 60G | Requires LV.3</small></div>
+                <button class="btn-buy" onclick="purchaseTrait('Super Brain', 60, 3, '🧠')">Evolve</button>
+            </div>
+            <div class="shop-row">
+                <div><strong>Absolute Superstrength Grid</strong><br><small>Cost: 150G | Requires LV.7</small></div>
+                <button class="btn-buy" onclick="purchaseTrait('Superstrength', 150, 7, '⚡')">Evolve</button>
             </div>
         </div>
     </div>
 
     <script>
-        // State Management variables
-        let level = parseInt(localStorage.getItem('sl_level')) || 1;
-        let exp = parseInt(localStorage.getItem('sl_exp')) || 0;
-        const expNeeded = 100; // EXP required to level up
+        // Game Metrics Initialization
+        let level = parseInt(localStorage.getItem('sl_h_level')) || 1;
+        let exp = parseInt(localStorage.getItem('sl_h_exp')) || 0;
+        let hp = parseInt(localStorage.getItem('sl_h_hp')) || 100;
+        let gold = parseInt(localStorage.getItem('sl_h_gold')) || 0;
 
-        // Load initial data on startup
-        document.getElementById('level').innerText = level;
+        let str = parseInt(localStorage.getItem('sl_h_str')) || 10;
+        let int = parseInt(localStorage.getItem('sl_h_int')) || 10;
+        let vit = parseInt(localStorage.getItem('sl_h_vit')) || 10;
         
-        // Restore checkbox states from local storage
-        const checkboxes = document.querySelectorAll('.quest-check');
-        checkboxes.forEach(cb => {
-            const savedState = localStorage.getItem('cb_' + cb.id);
-            if (savedState === 'true') {
-                cb.checked = true;
+        let inventory = JSON.parse(localStorage.getItem('sl_h_inv')) || [];
+
+        function updateUI() {
+            document.getElementById('level').innerText = level;
+            document.getElementById('hpText').innerText = `${hp}/100`;
+            document.getElementById('hpBar').style.width = `${hp}%`;
+            document.getElementById('expText').innerText = `${exp}/100`;
+            document.getElementById('expBar').style.width = `${exp}%`;
+            document.getElementById('goldDisplay').innerText = gold;
+
+            document.getElementById('statStr').innerText = str;
+            document.getElementById('statInt').innerText = int;
+            document.getElementById('statVit').innerText = vit;
+
+            // Render Unlocked Perks Inventory Box
+            const invContainer = document.getElementById('inventoryContainer');
+            invContainer.innerHTML = '';
+            if(inventory.length === 0) {
+                invContainer.innerHTML = `<div style="color:var(--text-muted); font-size:0.8rem; padding: 5px;">No active physical traits evolved yet. Grind daily targets to purchase upgrades.</div>`;
+            } else {
+                inventory.forEach(item => {
+                    invContainer.innerHTML += `
+                        <div class="inv-card">
+                            <span class="inv-icon">${item.icon}</span>
+                            <span>${item.name}</span>
+                        </div>
+                    `;
+                });
             }
-            
-            cb.addEventListener('change', (e) => {
-                localStorage.setItem('cb_' + cb.id, cb.checked);
-                calculateExp();
+
+            // Sync with local memory
+            localStorage.setItem('sl_h_level', level);
+            localStorage.setItem('sl_h_exp', exp);
+            localStorage.setItem('sl_h_hp', hp);
+            localStorage.setItem('sl_h_gold', gold);
+            localStorage.setItem('sl_h_str', str);
+            localStorage.setItem('sl_h_int', int);
+            localStorage.setItem('sl_h_vit', vit);
+            localStorage.setItem('sl_h_inv', JSON.stringify(inventory));
+        }
+
+        const dailies = document.querySelectorAll('.daily-check');
+        dailies.forEach(d => {
+            d.checked = localStorage.getItem('h_daily_' + d.id) === 'true';
+            d.addEventListener('change', () => {
+                localStorage.setItem('h_daily_' + d.id, d.checked);
             });
         });
 
-        // Load saved weights
-        if(localStorage.getItem('sl_startWeight')) document.getElementById('startWeight').value = localStorage.getItem('sl_startWeight');
-        if(localStorage.getItem('sl_targetWeight')) document.getElementById('targetWeight').value = localStorage.getItem('sl_targetWeight');
-        if(localStorage.getItem('sl_currentWeight')) document.getElementById('currentWeight').value = localStorage.getItem('sl_currentWeight');
-
-        function calculateExp() {
-            let currentQuestExp = 0;
-            let allCompleted = true;
-
-            checkboxes.forEach(cb => {
-                if (cb.checked) {
-                    currentQuestExp += parseInt(cb.getAttribute('data-exp'));
+        function adjustHabit(hpDelta, goldDelta, isPositive, absoluteHpPenalty = false) {
+            if(isPositive) {
+                exp += hpDelta;
+                gold += goldDelta;
+            } else {
+                if(absoluteHpPenalty) {
+                    hp += hpDelta; // Deducts direct raw HP value
+                    alert("💥 PENALTY DETECTED: You engaged in a negative habit. -15 HP.");
                 } else {
-                    allCompleted = false;
+                    gold = Math.max(0, gold + goldDelta);
+                    exp = Math.max(0, exp + hpDelta);
                 }
-            });
-
-            // Perfection Bonus logic (if all tasks done in 24 hours)
-            if (allCompleted && checkboxes.length > 0) {
-                currentQuestExp += 20; // 20 Bonus EXP for absolute completion
             }
-
-            // Check if user has gained enough combined points to level up
-            // Note: Total static exp + active daily exp
-            let totalAvailableExp = exp + currentQuestExp;
-            
-            // Simple Level up execution loop
-            while (totalAvailableExp >= expNeeded) {
-                totalAvailableExp -= expNeeded;
-                level += 1;
-                alert("❗ WARNING: YOU HAVE LEVELED UP! Current Power Tier Raised.");
-            }
-
-            document.getElementById('level').innerText = level;
-            
-            let displayPercent = (totalAvailableExp / expNeeded) * 100;
-            document.getElementById('expBar').style.width = displayPercent + "%";
-            document.getElementById('expText').innerText = `EXP: ${totalAvailableExp} / ${expNeeded}`;
-            
-            // Persist base level metrics
-            localStorage.setItem('sl_level', level);
+            checkLevelUps();
+            checkDeathCondition();
+            updateUI();
         }
 
-        function resetQuests() {
-            // Commit active checkbox EXP permanently to baseline before clearing checklist
-            let earnedToday = 0;
-            let allCompleted = true;
-            
-            checkboxes.forEach(cb => {
-                if (cb.checked) earnedToday += parseInt(cb.getAttribute('data-exp'));
-                else allCompleted = false;
-            });
-            if (allCompleted) earnedToday += 20;
-
-            exp += earnedToday;
-            
-            while (exp >= expNeeded) {
-                exp -= expNeeded;
-                level += 1;
-            }
-
-            // Save baseline adjustments
-            localStorage.setItem('sl_level', level);
-            localStorage.setItem('sl_exp', exp);
-
-            // Clean checkboxes layout for new 24 hour cycle
-            checkboxes.forEach(cb => {
-                cb.checked = false;
-                localStorage.removeItem('cb_' + cb.id);
+        function evaluateDailiesAndReset() {
+            let missedAny = false;
+            dailies.forEach(d => {
+                const amt = parseInt(d.getAttribute('data-amt'));
+                const type = d.getAttribute('data-type');
+                
+                if(d.checked) {
+                    gold += amt;
+                    exp += amt;
+                    if(type === 'str') str += 1;
+                    if(type === 'int') int += 1;
+                    if(type === 'vit') vit += 1;
+                } else {
+                    missedAny = true;
+                }
+                d.checked = false;
+                localStorage.removeItem('h_daily_' + d.id);
             });
 
-            document.getElementById('level').innerText = level;
-            calculateExp();
-        }
-
-        function updateWeightCurve() {
-            const start = parseFloat(document.getElementById('startWeight').value) || 0;
-            const target = parseFloat(document.getElementById('targetWeight').value) || 0;
-            const current = parseFloat(document.getElementById('currentWeight').value) || 0;
-
-            // Save settings locally
-            localStorage.setItem('sl_startWeight', start);
-            localStorage.setItem('sl_targetWeight', target);
-            localStorage.setItem('sl_currentWeight', current);
-
-            document.getElementById('lblStart').innerText = start + "kg";
-            document.getElementById('lblTarget').innerText = target + "kg";
-
-            let percentage = 0;
-            
-            // Handles mathematical direction dynamically (Weight Loss vs Weight Gain paths)
-            if (start !== target) {
-                const totalDistance = target - start;
-                const currentDistance = current - start;
-                percentage = (currentDistance / totalDistance) * 100;
+            if(missedAny) {
+                hp -= 25;
+                alert("⚠️ PROTOCOL BREACH: Incomplete daily quests! Penalty induced: -25 HP.");
+            } else {
+                gold += 15;
+                exp += 15;
+                vit += 1;
+                alert("⚡ QUEST COMPLETE: Perfect day clearance bonus unlocked!");
             }
 
-            // Cap boundaries properly between 0% and 100%
-            if (percentage < 0) percentage = 0;
-            if (percentage > 100) percentage = 100;
-
-            document.getElementById('curveProgress').style.width = percentage + "%";
-            document.getElementById('curveStatus').innerText = `Journey Track: ${percentage.toFixed(1)}% Achieved`;
+            checkLevelUps();
+            checkDeathCondition();
+            updateUI();
         }
 
-        // Initialize execution on runtime base
-        calculateExp();
-        updateWeightCurve();
+        function purchaseTrait(traitName, cost, reqLv, symbol) {
+            if (level < reqLv) {
+                alert(`🔒 ACCESS DENIED: Your current operational level is too low. Requires LV.${reqLv}.`);
+                return;
+            }
+            if (inventory.some(i => i.name === traitName)) {
+                alert("❌ TRAIT ALREADY ACTIVATED: Evolution slot occupied.");
+                return;
+            }
+            if (gold >= cost) {
+                gold -= cost;
+                inventory.push({ name: traitName, icon: symbol });
+                
+                // Instantly apply a nice stat booster depending on mutation type
+                if(traitName.includes('Muscle') || traitName.includes('Guns')) str += 5;
+                if(traitName.includes('Brain')) int += 5;
+                if(traitName.includes('strength')) { str += 10; vit += 5; }
+
+                alert(`🧬 EVOLUTION COMPLETE: Trait [${traitName}] integrated into your operational matrix! Core stats boosted.`);
+                updateUI();
+            } else {
+                alert("❌ INSUFFICIENT GOLD TOKENS: Grind more daily quests.");
+            }
+        }
+
+        function checkLevelUps() {
+            while (exp >= 100) {
+                exp -= 100;
+                level++;
+                hp = 100; // Refill health on evolution tier adjustments
+                alert(`🎉 SYSTEM NOTIFICATION: Level Up achieved! You have ascended to Level ${level}.`);
+            }
+        }
+
+        function checkDeathCondition() {
+            if (hp <= 0) {
+                alert("☠️ SYSTEM RESET WARNING: HP dropped to zero. Inducing stat degradation penalty.");
+                hp = 60;
+                str = Math.max(10, str - 2);
+                int = Math.max(10, int - 2);
+                vit = Math.max(10, vit - 2);
+            }
+        }
+
+        // Boot system update loops
+        updateUI();
     </script>
 </body>
 </html>
