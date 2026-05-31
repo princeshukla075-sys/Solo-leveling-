@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>System: Overlord</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #020810;
+  --panel: #080f1f;
+  --panel2: #0c1628;
+  --border: rgba(0,180,255,0.18);
+  --blue: #00c8ff;
+  --blue-glow: rgba(0,200,255,0.25);
+  --gold: #f0c040;
+  --gold-glow: rgba(240,192,64,0.2);
+  --green: #00e87a;
+  --red: #ff2d55;
+  --purple: #a855f7;
+  --text: #e8f0ff;
+  --muted: #4a6080;
+  --hp-col: #ff2d55;
+  --exp-col: #00c8ff;
+  --font-hud: 'Rajdhani', sans-serif;
+  --font-mono: 'Share Tech Mono', monospace;
+  --font-title: 'Orbitron', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: var(--font-hud);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  padding-top: 50px;
+  padding-bottom: 80px;
+}
+
+/* IMMERSIVE TOP HUD SYSTEM BANNER (WEBINTOAPP FIX) */
+.sys-header-bar {
+  position: fixed; top: 0; left: 0; right: 0; height: 46px;
+  background: #040a18; border-bottom: 1px solid var(--blue);
+  box-shadow: 0 2px 15px rgba(0,200,255,0.15);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px; z-index: 9995;
+}
+.sys-header-logo {
+  font-family: var(--font-title); font-size: 0.85rem; font-weight: 900;
+  color: #fff; letter-spacing: 2px; text-shadow: 0 0 10px var(--blue);
+}
+.sys-link-node {
+  font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 1px;
+  display: flex; align-items: center; gap: 6px; color: var(--green);
+}
+.sys-link-node.critical { color: var(--red); text-shadow: 0 0 8px var(--red); }
+.pulse-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: currentColor;
+  animation: pulseAnim 1.4s infinite ease-in-out;
+}
+@keyframes pulseAnim { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+/* Background effects */
+.bg-fx { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-fx::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0,100,200,0.12), transparent 70%);
+}
+.scan-line {
+  position: absolute; top: -100%; left: 0; width: 100%; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(0,200,255,0.15), transparent);
+  animation: scan 8s linear infinite;
+}
+@keyframes scan { to { top: 110%; } }
+canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+/* FATIGUE DEBUFF SYSTEM STYLING */
+body.state-fatigued { --blue: #ff9d00; --border: rgba(255,150,0,0.2); }
+.fatigue-banner-hud {
+  background: rgba(255,150,0,0.1); border: 1px dashed var(--blue);
+  border-radius: 6px; padding: 6px; font-size: 0.75rem; text-align: center;
+  font-family: var(--font-mono); color: var(--blue); margin-bottom: 8px; display: none;
+}
+
+/* WELCOME OVERLAY */
+#welcomeOverlay {
+  position: fixed; inset: 0; z-index: 9999; background: #010510;
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+  transition: opacity 0.8s ease;
+}
+.welcome-inner {
+  width: 100%; max-width: 420px; background: linear-gradient(160deg, #0a1530, #060d1e);
+  border: 1px solid var(--red); border-radius: 12px; padding: 32px 28px;
+  box-shadow: 0 0 60px rgba(255,45,85,0.15); animation: welcomePop 0.6s cubic-bezier(0.175,0.885,0.32,1.275);
+}
+@keyframes welcomePop { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.alert-banner {
+  display: flex; align-items: center; gap: 10px; font-family: var(--font-title); font-size: 0.75rem;
+  letter-spacing: 3px; color: var(--red); text-transform: uppercase; margin-bottom: 20px; animation: blink 1.8s infinite;
+}
+@keyframes blink { 0%,100% { opacity: 0.6; } 50% { opacity: 1; text-shadow: 0 0 15px var(--red); } }
+.alert-banner::before, .alert-banner::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--red)); }
+.system-msg { font-size: 0.95rem; line-height: 1.7; color: #b0c4e0; margin-bottom: 24px; }
+.field-group { display: flex; flex-direction: column; gap: 14px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--blue); font-family: var(--font-mono); }
+.field input, .field select {
+  background: rgba(0,10,30,0.6); border: 1px solid rgba(0,200,255,0.25);
+  border-radius: 6px; padding: 10px 12px; color: var(--text); font-family: var(--font-hud); font-size: 1rem;
+}
+
+/* TOAST INDICATORS */
+#toastContainer { position: fixed; top: 60px; right: 20px; z-index: 8888; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast {
+  background: var(--panel2); border-left: 3px solid var(--blue); border-radius: 8px; padding: 12px 16px;
+  font-family: var(--font-hud); font-size: 0.9rem; max-width: 300px; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  animation: slideIn 0.3s ease, fadeOut 0.4s ease 3.2s forwards; pointer-events: auto;
+}
+.toast.success { border-color: var(--green); }
+.toast.danger { border-color: var(--red); }
+.toast.gold { border-color: var(--gold); }
+.toast.lvlup { border-color: var(--purple); background: #160a2a; }
+@keyframes slideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: translateX(60px); } }
+
+/* APP LAYOUT CORE */
+.app { position: relative; z-index: 1; max-width: 500px; margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+
+/* PANELS ARCHITECTURE */
+.hud-panel {
+  background: linear-gradient(160deg, #0a1a3a, #050c1c); border: 1px solid var(--blue);
+  border-radius: 14px; padding: 20px 18px; box-shadow: 0 0 30px rgba(0,200,255,0.08); position: relative;
+}
+.hud-corner { position: absolute; width: 10px; height: 10px; border-color: var(--blue); border-style: solid; opacity: 0.6; }
+.hud-corner.tl { top: 6px; left: 6px; border-width: 2px 0 0 2px; }
+.hud-corner.tr { top: 6px; right: 6px; border-width: 2px 2px 0 0; }
+.hud-corner.bl { bottom: 6px; left: 6px; border-width: 0 0 2px 2px; }
+.hud-corner.br { bottom: 6px; right: 6px; border-width: 0 2px 2px 0; }
+
+.sys-title { font-family: var(--font-title); font-size: 0.6rem; letter-spacing: 5px; color: var(--blue); text-transform: uppercase; text-align: center; margin-bottom: 4px; }
+.player-line { text-align: center; font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 1px; margin-bottom: 3px; }
+.title-line { text-align: center; font-family: var(--font-title); font-size: 0.75rem; color: var(--gold); letter-spacing: 2px; margin-bottom: 8px; font-weight: bold; }
+.level-row { display: flex; align-items: baseline; justify-content: center; gap: 4px; margin-bottom: 16px; }
+.lv-label { font-family: var(--font-title); font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; }
+#level { font-family: var(--font-title); font-size: 3rem; color: var(--blue); line-height: 1; text-shadow: 0 0 20px var(--blue); }
+.rank-badge { font-family: var(--font-mono); font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; background: rgba(0,200,255,0.1); border: 1px solid rgba(0,200,255,0.3); color: var(--blue); align-self: center; }
+
+.bar-block { margin-bottom: 8px; }
+.bar-labels { display: flex; justify-content: space-between; font-size: 0.72rem; font-weight: 600; margin-bottom: 3px; font-family: var(--font-mono); }
+.bar-track { background: rgba(255,255,255,0.04); border-radius: 3px; height: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); }
+.bar-fill { height: 100%; width: 0%; border-radius: 3px; transition: width 0.5s ease; position: relative; }
+#hpBar { background: linear-gradient(90deg, #aa0033, var(--red)); }
+#expBar { background: linear-gradient(90deg, #006699, var(--blue)); }
+
+.gold-row { text-align: center; margin-top: 12px; font-family: var(--font-mono); font-size: 1.1rem; color: var(--gold); }
+.gold-amt { font-size: 1.4rem; font-weight: 700; }
+
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+.stat-cell { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; padding: 8px 6px; text-align: center; }
+.stat-val { font-family: var(--font-title); font-size: 1.2rem; color: var(--blue); }
+.stat-lbl { font-size: 0.6rem; color: var(--muted); letter-spacing: 2px; font-family: var(--font-mono); }
+.stat-cell.str .stat-val { color: #ff8c42; }
+.stat-cell.int .stat-val { color: #a78bfa; }
+.stat-cell.vit .stat-val { color: #34d399; }
+
+.panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+.panel-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(0,200,255,0.1); }
+.panel-title { font-family: var(--font-title); font-size: 0.62rem; letter-spacing: 3px; color: var(--blue); text-transform: uppercase; }
+
+/* WEIGHT CANVAS SCALE METER GRAPH */
+.graph-container {
+  background: rgba(0,5,15,0.6); border: 1px solid rgba(0,200,255,0.1);
+  border-radius: 8px; padding: 8px; margin-top: 10px; position: relative;
+}
+canvas#weightGraph { width: 100%; height: 110px; display: block; }
+
+/* INVENTORY SPLITS */
+.inv-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.inv-card { background: linear-gradient(135deg, #0d1e3e, #07111f); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 10px; display: flex; align-items: center; gap: 10px; font-size: 0.82rem; }
+.inv-icon { font-size: 1.3rem; }
+.inv-empty { color: var(--muted); font-size: 0.82rem; font-family: var(--font-mono); }
+
+/* FIT SEGMENT STRUCTS */
+.fit-env-bar { display: flex; gap: 6px; margin-bottom: 12px; }
+.fit-env-btn { flex: 1; padding: 8px; background: rgba(0,0,0,0.4); border: 1px solid rgba(0,200,255,0.2); color: var(--muted); border-radius: 6px; font-family: var(--font-hud); font-weight: bold; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; }
+.fit-env-btn.active { background: rgba(0,200,255,0.15); border-color: var(--blue); color: var(--blue); box-shadow: 0 0 10px rgba(0,200,255,0.2); }
+
+.macro-grid-shortcuts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; }
+.macro-sc-btn { padding: 6px 2px; background: rgba(240,192,64,0.06); border: 1px dashed rgba(240,192,64,0.3); border-radius: 6px; color: var(--gold); font-family: var(--font-mono); font-size: 0.65rem; cursor: pointer; text-align: center; }
+
+.ledger-box-form { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.03); }
+.ledger-field { display: flex; flex-direction: column; gap: 4px; }
+.ledger-field label { font-size: 0.6rem; font-family: var(--font-mono); color: var(--muted); text-transform: uppercase; }
+.ledger-field input, .ledger-field select { background: rgba(0,5,15,0.8); border: 1px solid rgba(0,200,255,0.15); border-radius: 4px; padding: 5px 8px; color: #fff; font-family: var(--font-hud); font-size: 0.85rem; }
+
+.ex-card-item { background: rgba(0,10,25,0.4); border: 1px solid rgba(255,255,255,0.03); border-radius: 8px; padding: 10px; margin-bottom: 8px; }
+.ex-card-item:last-child { margin-bottom: 0; }
+.ex-header-row { display: flex; align-items: flex-start; gap: 10px; }
+.ex-main-info { flex: 1; }
+.ex-title-line { font-size: 0.9rem; font-weight: 600; color: #fff; }
+.ex-sub-line { font-size: 0.72rem; font-family: var(--font-mono); color: var(--muted); margin-top: 2px; }
+.ex-guide-trigger { background: none; border: none; color: var(--blue); font-size: 0.72rem; font-family: var(--font-mono); cursor: pointer; padding: 2px 0; margin-top: 4px; display: block; }
+.ex-guide-body { display: none; background: rgba(0,0,0,0.3); border-left: 2px solid var(--blue); padding: 6px 8px; font-size: 0.78rem; color: #b0c4e0; line-height: 1.4; margin-top: 6px; border-radius: 0 4px 4px 0; }
+
+/* HABITS & DAILIES ITEMS */
+.habit-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.habit-name { font-size: 0.9rem; font-weight: 600; }
+.habit-reward { font-size: 0.72rem; font-family: var(--font-mono); }
+.habit-btns { display: flex; gap: 6px; }
+.hbtn { width: 32px; height: 32px; border-radius: 6px; border: none; cursor: pointer; font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.hbtn.plus { background: rgba(0,232,122,0.15); color: var(--green); border: 1px solid rgba(0,232,122,0.3); }
+.hbtn.minus { background: rgba(255,45,85,0.12); color: var(--red); border: 1px solid rgba(255,45,85,0.3); }
+
+.daily-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.daily-item.done { opacity: 0.55; }
+.daily-main { flex: 1; min-width: 0; }
+.daily-name { font-size: 0.9rem; font-weight: 600; }
+.daily-reward { font-size: 0.7rem; color: var(--green); font-family: var(--font-mono); margin-top: 2px; }
+
+/* MODALS CONFIGURATION */
+.modal-overlay { position: fixed; inset: 0; z-index: 7777; background: rgba(0,2,8,0.85); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 20px; }
+.modal-overlay.hidden { display: none; }
+.modal { background: linear-gradient(160deg, #0c1830, #060e1e); border: 1px solid var(--blue); border-radius: 14px; padding: 24px; width: 100%; max-width: 400px; box-shadow: 0 0 40px rgba(0,200,255,0.1); }
+.modal h3 { font-family: var(--font-title); font-size: 0.7rem; letter-spacing: 3px; color: var(--blue); margin-bottom: 16px; }
+.modal-btns { display: flex; gap: 8px; margin-top: 16px; }
+
+/* BUTTON MATRICES */
+.btn { border: none; border-radius: 8px; cursor: pointer; font-family: var(--font-hud); font-weight: 700; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; padding: 11px 16px; width: 100%; transition: all 0.2s; }
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: linear-gradient(135deg, #0055cc, #00a8ff); color: #fff; box-shadow: 0 4px 15px rgba(0,120,255,0.25); }
+.btn-danger { background: linear-gradient(135deg, #880020, #cc2244); color: #fff; }
+.btn-gold { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 6px 14px; width: auto; font-size: 0.75rem; }
+.btn-sm { padding: 6px 12px; width: auto; font-size: 0.78rem; }
+.btn-outline { background: transparent; border: 1px solid rgba(0,200,255,0.3); color: var(--blue); }
+
+.weight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 6px; width: 100%; }
+.weight-box { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.weight-box label { font-size: 0.62rem; color: var(--muted); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.weight-box input { background: rgba(0,10,30,0.6); border: 1px solid rgba(0,200,255,0.2); border-radius: 6px; padding: 6px 4px; color: #fff; font-family: var(--font-hud); font-size: 0.9rem; text-align: center; width: 100%; }
+.weight-bar-track { background: rgba(255,255,255,0.04); border-radius: 4px; height: 8px; position: relative; margin: 12px 0 6px 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); }
+.weight-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--purple), var(--blue)); transition: width 0.5s ease; }
+.weight-labels { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--muted); font-family: var(--font-mono); }
+
+/* BOTTOM TABS CONTROLLERS */
+.tab-nav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 9990;
+  background: rgba(6,12,26,0.96); backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border); display: flex; justify-content: space-around;
+  padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+}
+.tab-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  background: none; border: none; cursor: pointer; color: var(--muted);
+  font-family: var(--font-hud); font-size: 0.62rem; letter-spacing: 1px;
+  text-transform: uppercase; padding: 4px 10px; transition: color 0.2s;
+}
+.tab-btn .tab-icon { font-size: 1.2rem; transition: transform 0.2s; }
+.tab-btn.active { color: var(--blue); }
+.tab-btn.active .tab-icon { transform: scale(1.15); }
+
+.tab-section { display: none; }
+.tab-section.active { display: flex; flex-direction: column; gap: 12px; }
+</style>
+</head>
+<body>
+
+<!-- WEB AUDIO EMBEDDED HEAD BANNER HUD -->
+<header class="sys-header-bar">
+  <div class="sys-header-logo">⚡ S Y S T E M : O V E R L O R D ⚡</div>
+  <div class="sys-link-node" id="sysLinkNode"><div class="pulse-dot"></div><span id="sysLinkText">● LINK SYNC: ACTIVE</span></div>
+</header>
+
+<canvas id="particles"></canvas>
+<div class="bg-fx"><div class="scan-line"></div></div>
+<div id="lvlFlash"></div>
+<div id="toastContainer"></div>
+
+<!-- ACCOUNT PARAMETER KEYS MODAL OVERLAY -->
+<div id="welcomeOverlay">
+  <div class="welcome-inner">
+    <div class="alert-banner">System Notification</div>
+    <div class="system-msg">
+      You have been <strong>selected as a Player</strong>.<br>
+      To step beyond the ordinary and rewrite your existence, initialize your parameter keys.
+      <br><br><strong>Your Life 2.0 begins now.</strong>
+    </div>
+    <div class="field-group">
+      <div class="field">
+        <label>Player Designation Name</label>
+        <input type="text" id="inputName" placeholder="Enter name...">
+      </div>
+      <div class="field">
+        <label>Chronological Age</label>
+        <input type="number" id="inputAge" placeholder="Enter age..." min="1" max="120">
+      </div>
+      <div class="field">
+        <label>Gender Manifestation</label>
+        <select id="inputGender">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Awakened">Awakened / Other</option>
+        </select>
+      </div>
+      <button class="btn btn-danger" style="margin-top:8px" onclick="initSystem()">⚡ Accept Activation Protocol</button>
+    </div>
+  </div>
+</div>
+
+<!-- QUEST TASK MUTATION ENGINE WINDOWS -->
+<div class="modal-overlay hidden" id="editModal">
+  <div class="modal">
+    <h3>✏ Edit Quest</h3>
+    <div class="field-group">
+      <div class="field">
+        <label>Quest Name</label>
+        <input type="text" id="editTaskName" placeholder="Task name...">
+      </div>
+      <div class="field">
+        <label>Reward (EXP &amp; Gold)</label>
+        <input type="number" id="editTaskAmt" placeholder="e.g. 15" min="1" max="200">
+      </div>
+      <div class="field">
+        <label>Stat Boost</label>
+        <select id="editTaskStat">
+          <option value="str">STR (Strength)</option>
+          <option value="int">INT (Intelligence)</option>
+          <option value="vit">VIT (Vitality)</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-primary" onclick="saveEditTask()">Save Quest</button>
+      <button class="btn btn-sm btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-sm" style="background:rgba(255,45,85,0.12);color:var(--red);border:1px solid rgba(255,45,85,0.3);width:auto;padding:6px 12px;" onclick="deleteTask()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="addModal">
+  <div class="modal">
+    <h3>+ New Daily Quest</h3>
+    <div class="field-group">
+      <div class="field">
+        <label>Quest Name</label>
+        <input type="text" id="addTaskName" placeholder="e.g. Read 30 minutes...">
+      </div>
+      <div class="field">
+        <label>Reward (EXP &amp; Gold)</label>
+        <input type="number" id="addTaskAmt" value="10" min="1" max="200">
+      </div>
+      <div class="field">
+        <label>Stat Boost</label>
+        <select id="addTaskStat">
+          <option value="str">STR (Strength)</option>
+          <option value="int">INT (Intelligence)</option>
+          <option value="vit">VIT (Vitality)</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-primary" onclick="confirmAddTask()">Add Quest</button>
+      <button class="btn btn-sm btn-outline" onclick="document.getElementById('addModal').classList.add('hidden')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- VISUAL APP ARENA CONTAINER -->
+<div class="app" id="mainApp">
+
+  <!-- TAB PANEL 1: SYSTEM CORE CHARACTER HUD -->
+  <div class="tab-section active" id="tab-status">
+    <div class="hud-panel" id="hudPanel">
+      <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
+      <div class="hud-corner bl"></div><div class="hud-corner br"></div>
+      <div class="fatigue-banner-hud" id="fatigueBanner">⚠️ STATUS FAULT CONDITION: FATIGUE ACTIVE (-10% EXP MODIFIER)</div>
+      <div class="sys-title">Hunter Status Window</div>
+      <div class="player-line" id="playerLine">Initializing...</div>
+      <div class="title-line" id="titleLine">Title: [Unawakened Cadet]</div>
+      <div class="level-row">
+        <span class="lv-label">LV.</span>
+        <span id="level">1</span>
+        <span class="rank-badge" id="rankBadge">E-Rank</span>
+      </div>
+      <div class="bar-block">
+        <div class="bar-labels"><span style="color:var(--red)">HP — Integrity</span><span id="hpText" style="color:var(--red)">100/100</span></div>
+        <div class="bar-track"><div class="bar-fill" id="hpBar"></div></div>
+      </div>
+      <div class="bar-block">
+        <div class="bar-labels"><span style="color:var(--blue)">EXP Progression</span><span id="expText" style="color:var(--blue)">0/100</span></div>
+        <div class="bar-track"><div class="bar-fill" id="expBar"></div></div>
+      </div>
+      <div class="gold-row">GOLD: <span class="gold-amt" id="goldDisplay">0</span>G</div>
+      <div class="stats-row">
+        <div class="stat-cell str"><div class="stat-val" id="statStr">10</div><div class="stat-lbl">STR</div></div>
+        <div class="stat-cell int"><div class="stat-val" id="statInt">10</div><div class="stat-lbl">INT</div></div>
+        <div class="stat-cell vit"><div class="stat-val" id="statVit">10</div><div class="stat-lbl">VIT</div></div>
+      </div>
+      <div style="margin-top:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
+          <span class="streak-label">DAILY STREAK</span><span class="streak-label" id="streakCount">0 days</span>
+        </div>
+        <div class="streak-bar" id="streakBar"></div>
+      </div>
+    </div>
+
+    <!-- DYNAMIC TARGET JOURNEY WITH SCALABLE HISTORY SCALE METER GRAPH -->
+    <div class="panel">
+      <div class="panel-hd"><div class="panel-title">⚖️ Weight Target Journey</div></div>
+      <div class="weight-grid">
+        <div class="weight-box"><label>Starting</label><input type="number" id="wStart" value="80" step="0.1" oninput="calculateWeightProgress()"></div>
+        <div class="weight-box"><label>Current</label><input type="number" id="wCurrent" value="77" step="0.1" oninput="calculateWeightProgress()"></div>
+        <div class="weight-box"><label>Target</label><input type="number" id="wTarget" value="70" step="0.1" oninput="calculateWeightProgress()"></div>
+      </div>
+      <div class="weight-bar-track"><div class="weight-bar-fill" id="weightBar"></div></div>
+      <div class="weight-labels"><span id="lblWStart">80kg</span><span id="lblWStatus" style="color:var(--blue);font-weight:bold;">0% Cleared</span><span id="lblWTarget">70kg</span></div>
+      
+      <!-- NEW UPGRADE: WEIGHT DATA STREAM METRIC GRAPH LINER -->
+      <div class="graph-container">
+        <canvas id="weightGraph"></canvas>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-hd"><div class="panel-title">⚔ Evolved Traits &amp; Inventory Elixirs</div></div>
+      <div class="inv-grid" id="inventoryContainer"></div>
+    </div>
+  </div>
+
+  <!-- TAB PANEL 2: ORIGINAL STANDARD QUEST DATA LOGS -->
+  <div class="tab-section" id="tab-quests">
+    <div class="panel">
+      <div class="panel-hd"><div class="panel-title">⚡ Habits — Continuous</div></div>
+      <div class="habit-item">
+        <div><div class="habit-name">Healthy Snacking / Hydration</div><div class="habit-reward" style="color:var(--green)">+2 EXP &nbsp;|&nbsp; +2 GOLD</div></div>
+        <div class="habit-btns">
+          <button class="hbtn plus" onclick="doHabit(2,2,true,event)">+</button>
+          <button class="hbtn minus" onclick="doHabit(-2,-5,false,event)">−</button>
+        </div>
+      </div>
+      <div class="habit-item">
+        <div><div class="habit-name">Junk Food / Slacking Off</div><div class="habit-reward" style="color:var(--red)">−15 HP Penalty</div></div>
+        <div class="habit-btns"><button class="hbtn minus" onclick="doHabit(-15,0,false,event,true)">−</button></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-hd"><div class="panel-title">📋 Daily Quests</div><span style="font-size:0.7rem;color:var(--muted);font-family:var(--font-mono)" id="dailyProgress">0/0</span></div>
+      <div id="dailiesContainer"></div>
+      <button class="btn-add-task" onclick="openAddModal()">+ Add New Quest</button>
+      <div class="reset-row" style="margin-top:12px"><button class="btn btn-primary" onclick="executeDailyReset()">⚡ Daily Reset Sequence</button></div>
+    </div>
+  </div>
+
+  <!-- NEW TAB PANEL 3: DEDICATED FITNESS ARENA WINDOW -->
+  <div class="tab-section" id="tab-fitness">
+    <div class="panel">
+      <div class="panel-hd">
+        <div class="panel-title">🔥 Calorie Engagement Ledger</div>
+        <span id="calorieGoalMode" style="font-size:0.75rem; color:var(--purple); font-family:var(--font-mono)">Calculating Target...</span>
+      </div>
+      <div class="fit-env-bar">
+        <button class="fit-env-btn active" id="dietPref-both" onclick="setDietPref('Both')">Omnivore/Both</button>
+        <button class="fit-env-btn" id="dietPref-veg" onclick="setDietPref('Veg')">Pure Veg</button>
+        <button class="fit-env-btn" id="dietPref-egg" onclick="setDietPref('Egg')">Eggitarian</button>
+      </div>
+      <div class="bar-block">
+        <div class="bar-labels"><span style="color:var(--gold)" id="dietGuidelineLabel">Caloric Intakes Matrix</span><span id="calText" style="color:var(--gold)">0 / 2000 kcal</span></div>
+        <div class="bar-track"><div class="bar-fill" id="calBar" style="background:linear-gradient(90deg, #cc9900, var(--gold));"></div></div>
+      </div>
+      
+      <!-- QUICK DIET RAPID PRESETS SHORTCUTS TOOLKIT -->
+      <div class="macro-grid-shortcuts">
+        <button class="macro-sc-btn" onclick="quickLogCal(150, 'Light Fuel / Fruit')">🍎 Fruit Fuel<br>+150 kcal</button>
+        <button class="macro-sc-btn" onclick="quickLogCal(250, 'Protein Shake Vector')">🥚 Protein Shake<br>+250 kcal</button>
+        <button class="macro-sc-btn" onclick="quickLogCal(600, 'Standard Core Meal')">🍗 Core Meal<br>+600 kcal</button>
+      </div>
+
+      <!-- DETAILED MULTI-PARAMETER INPUT REGISTRY -->
+      <div class="ledger-box-form">
+        <div class="ledger-field" style="grid-column: span 2"><label>Food Matrix Designation</label><input type="text" id="foodName" placeholder="e.g. Grilled Chicken, Paneer Rice"></div>
+        <div class="ledger-field"><label>Quantity Metric</label><input type="text" id="foodQty" placeholder="e.g. 200g, 2 pieces"></div>
+        <div class="ledger-field">
+          <label>Quality Classification</label>
+          <select id="foodQuality">
+            <option value="Clean">Whole / Clean Food</option>
+            <option value="Processed">Processed Tier</option>
+            <option value="Junk">Hyper-Palatable Junk</option>
+          </select>
+        </div>
+        <div class="ledger-field" style="grid-column: span 2"><label>Caloric Payload (kcal)</label><input type="number" id="foodCal" placeholder="Enter calories..."></div>
+        <button class="btn btn-primary btn-sm" style="grid-column: span 2; margin-top:4px;" onclick="logCustomFood(event)">+ Ingest Nutrient Entry</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-hd">
+        <div class="panel-title">🏋️ Training Log Arena</div>
+        <span id="invSyncLabel" style="font-size:0.7rem; font-family:var(--font-mono); color:var(--blue)">🔓 GEAR SYNC: BASIC</span>
+      </div>
+      <div class="fit-env-bar">
+        <button class="fit-env-btn active" id="envBtn-gym" onclick="setTrainingEnv('Gym')">Gym Grounds</button>
+        <button class="fit-env-btn" id="envBtn-home" onclick="setTrainingEnv('Home')">Home Perimeter</button>
+      </div>
+      
+      <!-- DYNAMIC SCALE WORKOUT BLOCK LIST -->
+      <div id="workoutProgramContainer"></div>
+      <button class="btn btn-outline btn-sm" style="width:100%; margin-top:8px;" onclick="completeActiveWorkoutSplit()">⚡ Transmit Workout Completion Token</button>
+    </div>
+  </div>
+
+  <!-- TAB PANEL 4: SHADOW ARMORY SHOP LAYER WITH ADDED ELIXIR POTIONS -->
+  <div class="tab-section" id="tab-shop">
+    <div class="panel">
+      <div class="panel-hd"><div class="panel-title">🔮 Shadow Armory</div><span style="font-size:0.75rem;color:var(--gold);font-family:var(--font-mono)"><span id="shopGold">0</span>G</span></div>
+      <div id="shopContainer"></div>
+    </div>
+  </div>
+
+  <!-- TAB PANEL 5: ACCOUNT PROFILES AND USER GRADUATION RECORDS -->
+  <div class="tab-section" id="tab-profile">
+    <div class="panel">
+      <div class="panel-hd"><div class="panel-title">👤 Player Profile</div></div>
+      <div class="profile-row"><span class="profile-label">Name</span><span class="profile-val" id="pName2">—</span></div>
+      <div class="profile-row"><span class="profile-label">Age</span><span class="profile-val" id="pAge2">—</span></div>
+      <div class="profile-row"><span class="profile-label">Gender</span><span class="profile-val" id="pGender2">—</span></div>
+      <div class="profile-row"><span class="profile-label">Level</span><span class="profile-val" id="pLevel2">—</span></div>
+      <div class="profile-row"><span class="profile-label">Rank</span><span class="profile-val" id="pRank2" style="color:var(--blue)">—</span></div>
+      <div class="profile-row" style="border:none"><span class="profile-label">Total Quests Completed</span><span class="profile-val" id="pTotal">0</span></div>
+    </div>
+    
+    <!-- WEEKLY GRADUATING METRIC SCOREBOARD ASSESSMENT CARD -->
+    <div class="panel">
+      <div class="panel-hd"><div class="panel-title">📊 Weekly Performance Evaluation</div></div>
+      <div style="text-align:center; padding:10px 0;">
+         <div id="weeklyGradeBadge" style="font-family:var(--font-title); font-size:2.8rem; color:var(--gold); text-shadow: 0 0 15px var(--gold); line-height:1;">A-RANK</div>
+         <div id="weeklyGradeDesc" style="font-size:0.8rem; color:var(--muted); font-family:var(--font-mono); margin-top:6px; letter-spacing:0.5px;">SYSTEM EVALUATION STATUS: STEADY PROGRESSION</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-hd"><div class="panel-title">⚙ Settings</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button class="btn btn-outline btn-sm" style="width:100%" onclick="openChangeProfile()">Edit Profile</button>
+        <button class="btn btn-sm" style="width:100%;background:rgba(255,45,85,0.1);color:var(--red);border:1px solid rgba(255,45,85,0.25)" onclick="confirmReset()">Reset All Progress</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+//Standalone Web Audio API Synth Core Matrix Engine
+const AudioFX = {
+  ctx: null,
+  init() { if(!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)(); },
+  play(freq, type, duration, vol=0.08) {
+    try {
+      this.init(); const osc = this.ctx.createOscillator(); const gain = this.ctx.createGain();
+      osc.type = type; osc.frequency.value = freq; gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.00001, this.ctx.currentTime + duration);
+      osc.connect(gain); gain.connect(this.ctx.destination); osc.start(); osc.stop(this.ctx.currentTime + duration);
+    } catch (e) {}
+  },
+  click() { this.play(580, 'sine', 0.08, 0.12); },
+  success() { this.play(523.25, 'sine', 0.1, 0.1); setTimeout(()=>this.play(659.25, 'sine', 0.14, 0.1), 70); },
+  levelUp() {
+    let t = 0; [440, 554, 659, 880].forEach(f => { setTimeout(()=>this.play(f, 'triangle', 0.22, 0.15), t); t+=100; });
+  },
+  penalty() { this.play(170, 'sawtooth', 0.35, 0.2); setTimeout(()=>this.play(110, 'sawtooth', 0.45, 0.2), 140); },
+  bladeClash() {
+    // Idea B Metallic weapon clash effect
+    let t = 0; [800, 350, 120].forEach(f => { setTimeout(()=>this.play(f, 'sawtooth', 0.25, 0.12), t); t+=60; });
+  }
+};
+
+//PERSISTENT STORAGE MATRIX CAPTURES
+const S = {
+  name: ls('sl_name',''),
+  age: ls('sl_age',''),
+  gender: ls('sl_gender','Male'),
+  level: lsInt('sl_level',1),
+  exp: lsInt('sl_exp',0),
+  hp: lsInt('sl_hp',100),
+  gold: lsInt('sl_gold',0),
+  str: lsInt('sl_str',10),
+  int: lsInt('sl_int',10),
+  vit: lsInt('sl_vit',10),
+  inventory: lsJSON('sl_inv',[]),
+  streak: lsInt('sl_streak',0),
+  lastReset: ls('sl_lastReset',''),
+  totalDone: lsInt('sl_totalDone',0),
+  wStart: lsFloat('sl_wStart', 102.75),
+  wCurrent: lsFloat('sl_wCurrent', 102.75),
+  wTarget: lsFloat('sl_wTarget', 70.0),
+  wHistory: lsJSON('sl_wHistory', [{w:102.75, d:"Base"}]),
+  caloriesToday: lsInt('sl_caloriesToday', 0),
+  dietPreference: ls('sl_dietPref', 'Both'),
+  trainingEnvironment: ls('sl_trainEnv', 'Gym'),
+  workoutsDoneToday: lsInt('sl_workoutsDoneToday', 0),
+  workoutCompletedState: lsBool('sl_workoutCompletedState', false),
+  unlockedTitle: ls('sl_unlockedTitle', 'Unawakened Cadet'),
+  weeklyWorkoutsCount: lsInt('sl_weeklyWorkoutsCount', 0),
+  weeklyCaloriesStreak: lsInt('sl_weeklyCaloriesStreak', 0),
+  tasks: lsJSON('sl_tasks', defaultTasks())
+};
+
+function defaultTasks() {
+  return [
+    {id:'t1', name:'100 Pushups & Sit-ups Core Track', amt:15, stat:'str', done:false},
+    {id:'t2', name:'10,000 Step Cardio Engine Run', amt:10, stat:'vit', done:false},
+    {id:'t3', name:'2+ Hours Intense Mental Study Block', amt:20, stat:'int', done:false},
+  ];
+}
+
+const SHOP = [
+  {id:'potion_h', name:'Kasaka Recovery Potion Elixir', cost:25, reqLv:1, icon:'🧪', elixir:true},
+  {id:'dense_muscle', name:'Dense Muscle Augmentation', cost:40, reqLv:2, icon:'💪', statBonus:{str:5}},
+  {id:'arms_guns', name:'Arms Like Guns Protocol', cost:80, reqLv:4, icon:'💪🔥', statBonus:{str:8}},
+  {id:'super_brain', name:'Super Brain Processing unit', cost:60, reqLv:3, icon:'🧠', statBonus:{int:5}},
+  {id:'iron_skin', name:'Iron Skin Nanite Infusion', cost:70, reqLv:3, icon:'🛡️', statBonus:{vit:5}}
+];
+
+const EXERCISE_DATABASE = {
+  Gym: {
+    Novice: [
+      {name: "Dumbbell Goblet Squat (Quads Focus)", prescription: "3 Sets x 12 Reps", guide: "Hold heavy dumbbell vertically at chest level. Plant feet outside hip width. Retract spine, break hips backwards, and lower drop smoothly until upper thighs crack horizontal level. Drive through heels to full lock."},
+      {name: "Dumbbell Flat Bench Press (Chest Multi)", prescription: "3 Sets x 10 Reps", guide: "Retract scapula flat against bench cushion pad. Hold dual dumbbells directly vertical above upper chest boundaries. Lower weights outward to right angles under complete control, then drive upward to center peak contraction line."}
+    ],
+    Elite: [
+      {name: "Barbell Back Squat (Power Progression)", prescription: "4 Sets x 8 Reps (Drop Set Last)", guide: "Unrack loaded Olympic barbell across high trap frame shelf lines. Step backward tightly. Unhinge lower engine grid to drop weight load vector down under absolute skeletal control, then accelerate through path out of bottom holes."},
+      {name: "Barbell Bench Press (Heavy Force Split)", prescription: "4 Sets x 8 Reps", guide: "Set thumb-length grip wide from ring notches. Keep feet driving massive tension through floorboards. Anchor bar path smoothly to lower breast plate line, keep elbows angled inward at 45 degrees, push forcefully out up to top arches."}
+    ],
+    Monarch: [
+      {name: "Heavy Deadlift (Absolute Sovereign Pull)", prescription: "5 Sets x 5 Reps (Top Intensity)", guide: "Step underneath loaded frame bar till it cuts mid-foot laces. Sink hips down to high wedge locks. Pull shoulder structures tight down to lock back, brace abdominal walls, and rip bar straight upward following shins to lock."},
+      {name: "Weighted Weighted Chin-ups", prescription: "4 Sets x 6 Reps (Heavy load load)", guide: "Attach auxiliary weight plates to dip chain belt framework. Grip overhead bar frame tightly with supinated handles. Pull clavicle smoothly to bar rim lines by compressing lat bands downward."}
+    ]
+  },
+  Home: {
+    Novice: [
+      {name: "Calisthenic Air Squats (Integrity Build)", prescription: "3 Sets x 15 Reps", guide: "Extend arms forward parallel. Drop weight smoothly into hips keeping heels weighted firmly to floorboard grids. Prevent knee collapses inward."},
+      {name: "Standard Push-ups (Pectoral Baseline)", prescription: "3 Sets x 12 Reps", guide: "Position hands cleanly outside shoulder lines. Keep whole body straight as rigid planks. Touch chest plates down to ground layers, then lock arm vectors fully out at top."}
+    ],
+    Elite: [
+      {name: "Decline Foot-Elevated Push-ups (Upper Chest)", prescription: "4 Sets x 12 Reps", guide: "Elevate foot vectors up onto rear structure chairs or bed frames. Dip upper chest smoothly forward to tap floor surfaces, driving target force directly onto upper fibers."},
+      {name: "Diamond Push-ups (Triceps Compression)", prescription: "3 Sets x 12 Reps", guide: "Form absolute tight finger index diamond link directly under chest frame anchors. Lower your core tracking framework under deep control, forcing elbows back tightly along side wings."}
+    ],
+    Monarch: [
+      {name: "Handstand Pike Push-ups (Sovereign Shoulders)", prescription: "4 Sets x 8 Reps", guide: "Elevate hip base high up into inverse V shapes, keeping foot anchors closer to palms. Dip head core down diagonally forward between your hands to load massive delta frames, push cleanly up."},
+      {name: "Doorframe Body Pull Rows (Back Lat Engine)", prescription: "4 Sets x 15 Reps", guide: "Grip outer boundaries of secure open doorframe columns with split fingers. Plant heels near baseline floor corners. Extend arms completely straight, then contract upper back planes to pull chest forward."}
+    ]
+  }
+};
+
+const RANKS = [[1,'E-Rank'],[3,'D-Rank'],[6,'C-Rank'],[10,'B-Rank'],[15,'A-Rank'],[20,'S-Rank']];
+function getRank(lv) { let r='E-Rank'; for(const [l,n] of RANKS) { if(lv>=l) r=n; } return r; }
+
+function ls(k,d='') { return localStorage.getItem(k) ?? d; }
+function lsInt(k,d=0) { return parseInt(localStorage.getItem(k)) || d; }
+function lsFloat(k,d=0.0) { return parseFloat(localStorage.getItem(k)) || d; }
+function lsBool(k,d=false) { return localStorage.getItem(k) === 'true' ? true : (localStorage.getItem(k) === 'false' ? false : d); }
+function lsJSON(k,d) { try { return JSON.parse(localStorage.getItem(k)) || d; } catch{ return d; } }
+function save() {
+  for(let key in S) {
+    if(typeof S[key] === 'object') localStorage.setItem('sl_'+key.replace('sl_',''), JSON.stringify(S[key]));
+    else localStorage.setItem('sl_'+key.replace('sl_',''), S[key]);
+  }
+}
+
+// MIFFLIN PROFILE ENGINE CALORIES CALCULATORS
+function getMifflinCalorieProfile() {
+  let w = S.wCurrent || 75; let a = parseInt(S.age) || 24; let g = S.gender || 'Male';
+  let bmr = (10 * w) + (6.25 * 175) - (5 * a);
+  if(g === 'Male') bmr += 5; else bmr -= 161;
+  let maint = Math.round(bmr * 1.35); // Lightly active multiplier index
+  
+  if (S.wCurrent > S.wTarget) return { target: maint - 500, label: "Cutting Phase (-500 kcal Deficit)" };
+  if (S.wCurrent < S.wTarget) return { target: maint + 400, label: "Bulking Phase (+400 kcal Surplus)" };
+  return { target: maint, label: "Maintenance Protocol" };
+}
+
+function initSystem() {
+  const n = document.getElementById('inputName').value.trim();
+  const a = document.getElementById('inputAge').value.trim();
+  const g = document.getElementById('inputGender').value;
+  if (!n || !a) { toast('All parameters required for sync.','danger'); return; }
+  S.name = n; S.age = a; S.gender = g; save();
+  document.getElementById('welcomeOverlay').style.opacity = '0';
+  setTimeout(() => document.getElementById('welcomeOverlay').style.display='none', 800);
+  try { AudioFX.levelUp(); } catch(e){}
+  toast(`Player Sync Complete: ${n}. Re-entering world matrix.`, 'success');
+  updateUI();
+}
+
+function toast(msg, type='info') {
+  const c = document.getElementById('toastContainer'); const t = document.createElement('div');
+  t.className = `toast ${type}`; t.innerHTML = msg; c.appendChild(t);
+  setTimeout(() => t.remove(), 3700);
+}
+
+function xpPop(text, el) {
+  if(!el) return; const rect = el.getBoundingClientRect(); const d = document.createElement('div');
+  d.className = 'xp-pop'; d.style.left = (rect.left + rect.width/2 - 30) + 'px'; d.style.top = (rect.top - 10) + 'px';
+  d.textContent = text; document.body.appendChild(d); setTimeout(() => d.remove(), 1300);
+}
+
+// NUTRIENT ENTRY HANDLERS
+function quickLogCal(amt, name) {
+  try { AudioFX.click(); } catch(e){}
+  S.caloriesToday += amt; save(); updateUI();
+  toast(`Logged instant ${amt} kcal via [${name}] vector.`, 'info');
+}
+
+function logCustomFood(e) {
+  let fCal = parseInt(document.getElementById('foodCal').value) || 0;
+  let fName = document.getElementById('foodName').value.trim() || "Nutrient Fuel Packet";
+  let fQty = document.getElementById('foodQty').value.trim() || "1 Unit";
+  let fQual = document.getElementById('foodQuality').value;
+  
+  if(fCal <= 0) { toast('Provide valid calorie metrics.','danger'); return; }
+  try { AudioFX.click(); } catch(err){}
+  
+  S.caloriesToday += fCal;
+  if(fQual === 'Junk') {
+    S.hp = Math.max(10, S.hp - 10);
+    toast('⚠️ Fast-acting toxic junk food entry detected. -10 HP Integrity.', 'danger');
+    try { AudioFX.penalty(); } catch(ex){}
+  }
+  document.getElementById('foodCal').value = '';
+  document.getElementById('foodName').value = '';
+  document.getElementById('foodQty').value = '';
+  save(); updateUI();
+  toast(`Ingested entry [${fName}] -> +${fCal} kcal added.`, 'success');
+}
+
+function setDietPref(val) {
+  try { AudioFX.click(); } catch(e){} S.dietPreference = val;
+  document.querySelectorAll('#tab-fitness .fit-env-bar:first-of-type .fit-env-btn').forEach(b => b.classList.remove('active'));
+  if(val==='Both') document.getElementById('dietPref-both').classList.add('active');
+  if(val==='Veg') document.getElementById('dietPref-veg').classList.add('active');
+  if(val==='Egg') document.getElementById('dietPref-egg').classList.add('active');
+  save(); updateUI();
+}
+
+function setTrainingEnv(val) {
+  try { AudioFX.click(); } catch(e){} S.trainingEnvironment = val;
+  document.getElementById('envBtn-gym').classList.toggle('active', val==='Gym');
+  document.getElementById('envBtn-home').classList.toggle('active', val==='Home');
+  save(); renderWorkoutTrack();
+}
+
+// DYNAMIC LEVEL SCALE WORKOUT RENDER TIER (IDEA D)
+function getActiveTierString() {
+  if (S.level >= 10) return "Monarch";
+  if (S.level >= 5) return "Elite";
+  return "Novice";
+}
+
+function renderWorkoutTrack() {
+  let tier = getActiveTierString();
+  let env = S.trainingEnvironment || 'Gym';
+  let container = document.getElementById('workoutProgramContainer');
+  let label = document.getElementById('invSyncLabel');
+  
+  // Dynamic header strings updates (Idea D)
+  if(tier === "Monarch") label.innerText = "🔓 INVENTORY LOG: SHADOW MONARCH ASSETS LOADED";
+  else if(tier === "Elite") label.innerText = "🔓 INVENTORY LOG: ADVANCED IRON BARBELL TIER OPENED";
+  else label.innerText = "🔓 INVENTORY LOG: BASIC GEAR ASSETS RUNNING";
+  
+  let exercises = EXERCISE_DATABASE[env][tier];
+  container.innerHTML = '';
+  
+  exercises.forEach((ex, idx) => {
+    let checkedStr = S.workoutCompletedState ? 'checked' : '';
+    container.innerHTML += `
+      <div class="ex-card-item">
+         <div class="ex-header-row">
+            <div class="cb ${S.workoutCompletedState?'checked':''}"></div>
+            <div class="ex-main-info">
+               <div class="ex-title-line">${ex.name}</div>
+               <div class="ex-sub-line">Target Volume: ${ex.prescription}</div>
+               <button class="ex-guide-trigger" onclick="toggleGuideBody(this)">📖 Toggle Execution Form Guide</button>
+               <div class="ex-guide-body">${ex.guide}</div>
+            </div>
+         </div>
+      </div>
+    `;
+  });
+}
+
+function toggleGuideBody(btn) {
+  try { AudioFX.click(); } catch(e){}
+  let body = btn.nextElementSibling;
+  body.style.display = (body.style.display === 'block') ? 'none' : 'block';
+}
+
+function completeActiveWorkoutSplit() {
+  // Excessive Exercise Safety Threshold Locks
+  if(S.workoutsDoneToday >= 2) {
+     try { AudioFX.penalty(); } catch(e){}
+     S.hp = Math.max(10, S.hp - 20);
+     triggerFatigueState(true);
+     alert("🚨 HARDWARE SAFETY TRIGGER: EXERCISE OVERLOAD DETECTED! INFLICTING FATIGUE DEBUFF PENALTY MATRIX.");
+     save(); updateUI(); return;
+  }
+  
+  if(S.workoutCompletedState) { toast('Workout split data files already processed today.', 'danger'); return; }
+  try { AudioFX.bladeClash(); } catch(e){} // Idea B blade sound fx
+  
+  S.workoutCompletedState = true;
+  S.workoutsDoneToday++;
+  S.weeklyWorkoutsCount++;
+  
+  let reward = getActiveTierString() === "Monarch" ? 40 : (getActiveTierString() === "Elite" ? 25 : 12);
+  let scaleExp = isFatigued() ? Math.round(reward * 0.9) : reward; // Idea C fatigue penalty
+  
+  S.exp += scaleExp; S.gold += reward; S.str++;
+  toast(`⚔️ DUNGEON CLEARED! Workout logged. +${scaleExp} EXP, +${reward}G, +1 STR`, 'gold');
+  checkLevelUp(); save(); updateUI();
+}
+
+// ACCUMULATED FITNESS DATA TRACKING ENGINE (IDEA H)
+function evaluateWeeklyHunterGrade() {
+  let gradeBadge = document.getElementById('weeklyGradeBadge');
+  let gradeDesc = document.getElementById('weeklyGradeDesc');
+  let score = S.weeklyWorkoutsCount + S.weeklyCaloriesStreak;
+  
+  if (score >= 9) { gradeBadge.innerText = "S-RANK"; gradeBadge.style.color = "var(--purple)"; gradeDesc.innerText = "SOVEREIGN STATUS: SUPREME CONTINUITY GAINED"; }
+  else if (score >= 6) { gradeBadge.innerText = "A-RANK"; gradeBadge.style.color = "var(--gold)"; gradeDesc.innerText = "ELITE ASCENSION STATUS: EXCELLENT COMPLIANCE"; }
+  else if (score >= 4) { gradeBadge.innerText = "C-RANK"; gradeBadge.style.color = "var(--blue)"; gradeDesc.innerText = "COMMON SOLDIER TRACK: STEADY MAINTENANCE"; }
+  else { gradeBadge.innerText = "F-RANK"; gradeBadge.style.color = "var(--red)"; gradeDesc.innerText = "SYSTEM CRITICAL PENALIZED: TRACKING FRAUD INFRINGED"; }
+}
+
+// FATIGUED DEBUFF ARCHITECTURE PRESETS (IDEA C)
+function triggerFatigueState(activate) {
+  if(activate) {
+    document.body.classList.add('state-fatigued');
+    document.getElementById('fatigueBanner').style.display = "block";
+  } else {
+    document.body.classList.remove('state-fatigued');
+    document.getElementById('fatigueBanner').style.display = "none";
+  }
+}
+function isFatigued() { return document.body.classList.contains('state-fatigued'); }
+
+function updateUI() {
+  const rank = getRank(S.level);
+  
+  // Title Assignment Engine rules (Idea F)
+  if(S.level >= 15) S.unlockedTitle = "Sovereign of Shadows";
+  else if(S.weeklyCaloriesStreak >= 5) S.unlockedTitle = "Dietary Conqueror";
+  else if(S.weeklyWorkoutsCount >= 4) S.unlockedTitle = "Iron Flesh Titan";
+  else S.unlockedTitle = "Active Awakening Candidate";
+  
+  document.getElementById('titleLine').innerText = `Title: [${S.unlockedTitle}]`;
+  
+  if (S.name) {
+    document.getElementById('playerLine').textContent = `${S.name} · ${S.age}yr · ${S.gender}`;
+    document.getElementById('pName2').textContent = S.name;
+    document.getElementById('pAge2').textContent = S.age;
+    document.getElementById('pGender2').textContent = S.gender;
+  }
+  
+  document.getElementById('level').textContent = S.level;
+  document.getElementById('rankBadge').textContent = rank;
+  document.getElementById('pLevel2').textContent = `LV.${S.level}`;
+  document.getElementById('pRank2').textContent = rank;
+  document.getElementById('pTotal').textContent = S.totalDone;
+
+  const expNeeded = 100 + (S.level-1)*20;
+  document.getElementById('hpText').textContent = `${S.hp}/100`;
+  document.getElementById('hpBar').style.width = Math.max(0,S.hp)+'%';
+  document.getElementById('expText').textContent = `${S.exp}/${expNeeded}`;
+  document.getElementById('expBar').style.width = Math.min(100, (S.exp/expNeeded)*100)+'%';
+  document.getElementById('goldDisplay').textContent = S.gold;
+  document.getElementById('shopGold').textContent = S.gold;
+  document.getElementById('statStr').textContent = S.str;
+  document.getElementById('statInt').textContent = S.int;
+  document.getElementById('statVit').textContent = S.vit;
+
+  document.getElementById('wStart').value = S.wStart;
+  document.getElementById('wCurrent').value = S.wCurrent;
+  document.getElementById('wTarget').value = S.wTarget;
+
+  // Calorie engine interface tracking updates
+  let calProfile = getMifflinCalorieProfile();
+  document.getElementById('calorieGoalMode').innerText = calProfile.label;
+  document.getElementById('calText').innerText = `${S.caloriesToday} / ${calProfile.target} kcal`;
+  document.getElementById('calBar').style.width = Math.min(100, (S.caloriesToday / calProfile.target) * 100) + '%';
+  
+  // Custom specific dietary guidelines text variations
+  let dietLabel = document.getElementById('dietGuidelineLabel');
+  if(S.dietPreference === 'Veg') dietLabel.innerText = "Macro Priority: Higher Plant Proteins / Amino Focus";
+  else if(S.dietPreference === 'Egg') dietLabel.innerText = "Macro Priority: Whole Egg Ovalbumin Targets Loaded";
+  else dietLabel.innerText = "Macro Priority: Balanced Bioavailable Animal Protections";
+
+  // System link sync bar state updates
+  let linkNode = document.getElementById('sysLinkNode');
+  let linkText = document.getElementById('sysLinkText');
+  if(S.hp <= 30) { linkNode.className = "sys-link-node critical"; linkText.innerText = "● LINK FAULT: CRITICAL"; }
+  else { linkNode.className = "sys-link-node"; linkText.innerText = "● LINK SYNC: ACTIVE"; }
+
+  const sb = document.getElementById('streakBar'); sb.innerHTML = '';
+  for (let i=0;i<7;i++) {
+    const d = document.createElement('div');
+    d.className = 'streak-dot' + (i < S.streak%7 || (S.streak>=7 && S.streak%7===0) ? ' lit' : '');
+    sb.appendChild(d);
+  }
+  document.getElementById('streakCount').textContent = `${S.streak} days`;
+
+  calculateWeightProgress();
+  renderInventory();
+  renderDailies();
+  renderShop();
+  renderWorkoutTrack();
+  evaluateWeeklyHunterGrade();
+  renderWeightHistoryScaleGraph();
+}
+
+function calculateWeightProgress() {
+  const start = parseFloat(document.getElementById('wStart').value) || 0;
+  const current = parseFloat(document.getElementById('wCurrent').value) || 0;
+  const target = parseFloat(document.getElementById('wTarget').value) || 0;
+  S.wStart = start; S.wCurrent = current; S.wTarget = target;
+
+  document.getElementById('lblWStart').innerText = start + "kg";
+  document.getElementById('lblWTarget').innerText = target + "kg";
+  let percentage = (start !== target) ? ((current - start) / (target - start)) * 100 : 0;
+  percentage = Math.max(0, Math.min(100, percentage));
+  document.getElementById('weightBar').style.width = percentage + "%";
+  document.getElementById('lblWStatus').innerText = `${percentage.toFixed(1)}% Cleared`;
+}
+
+// LINEAR WEIGHT TRACKING TIMELINE SCALE METER RENDERING ACCENTS
+function renderWeightHistoryScaleGraph() {
+  const canvas = document.getElementById('weightGraph'); if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width = canvas.parentElement.clientWidth;
+  const H = canvas.height = 110;
+  ctx.clearRect(0, 0, W, H);
+  
+  let history = S.wHistory || []; if(history.length === 0) return;
+  let weights = history.map(h => h.w);
+  let maxW = Math.max(...weights, S.wStart, S.wTarget) + 2;
+  let minW = Math.min(...weights, S.wStart, S.wTarget) - 2;
+  let range = maxW - minW || 1;
+
+  function getX(idx) { if(history.length<=1) return W/2; return 30 + (idx / (history.length - 1)) * (W - 60); }
+  function getY(val) { return H - 20 - ((val - minW) / range) * (H - 40); }
+
+  // Draw Static Target Anchor Base Horizontal Bars
+  ctx.strokeStyle = "rgba(0, 232, 122, 0.4)"; ctx.lineWidth = 1.5; ctx.setLineDash([4, 4]);
+  ctx.beginPath(); ctx.moveTo(0, getY(S.wTarget)); ctx.lineTo(W, getY(S.wTarget)); ctx.stroke();
+  ctx.fillStyle = "rgba(0, 232, 122, 0.7)"; ctx.font = "9px Share Tech Mono";
+  ctx.fillText(`Target Horizon (${S.wTarget}kg)`, 10, getY(S.wTarget) - 4);
+
+  // Draw Core Dynamic Connected Weight Plot Paths
+  ctx.setLineDash([]); ctx.strokeStyle = isFatigued() ? "rgba(255, 150, 0, 0.85)" : "rgba(0, 200, 255, 0.85)"; ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  history.forEach((pt, i) => { if(i===0) ctx.moveTo(getX(i), getY(pt.w)); else ctx.lineTo(getX(i), getY(pt.w)); });
+  ctx.stroke();
+
+  // Draw Plot Vertices Dots Points
+  history.forEach((pt, i) => {
+    ctx.fillStyle = isFatigued() ? "#ff9d00" : "var(--blue)"; ctx.beginPath();
+    ctx.arc(getX(i), getY(pt.w), 3.5, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = "#fff"; ctx.font = "8px Share Tech Mono";
+    ctx.fillText(`${pt.w}kg`, getX(i) - 10, getY(pt.w) - 8);
+  });
+}
+
+function renderInventory() {
+  const c = document.getElementById('inventoryContainer'); c.innerHTML = '';
+  if (S.inventory.length === 0) {
+    c.innerHTML = '<div class="inv-empty" style="grid-column:span 2">No traits or items active yet. Visit the Armory.</div>'; return;
+  }
+  S.inventory.forEach((item, idx) => {
+    let actionableButton = item.elixir ? `<button class="btn btn-gold btn-sm" style="padding:2px 6px; font-size:0.65rem;" onclick="consumeElixirPotion(${idx})">Drink</button>` : '';
+    c.innerHTML += `<div class="inv-card" style="justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><span class="inv-icon">${item.icon}</span><span>${item.name}</span></div>${actionableButton}</div>`;
+  });
+}
+
+// INVENTORY POTION APPLICATION RECOVERIES (IDEA E)
+function consumeElixirPotion(index) {
+  let item = S.inventory[index];
+  if(!item || !item.elixir) return;
+  try { AudioFX.success(); } catch(e){}
+  S.hp = Math.min(100, S.hp + 20);
+  triggerFatigueState(false); // Instantly purges Fatigue debuff!
+  S.inventory.splice(index, 1);
+  toast("🧪 DRUNK KASAKA ELIXIR POTION. +20 HP. CURED FATIGUE STATUS MATRIX INSTANTLY!", "success");
+  save(); updateUI();
+}
+
+function renderDailies() {
+  const c = document.getElementById('dailiesContainer'); const done = S.tasks.filter(t=>t.done).length;
+  document.getElementById('dailyProgress').textContent = `${done}/${S.tasks.length}`; c.innerHTML = '';
+  S.tasks.forEach(task => {
+    const div = document.createElement('div'); div.className = 'daily-item' + (task.done?' done':'');
+    div.innerHTML = `
+      <div class="cb${task.done?' checked':''}" onclick="toggleTask('${task.id}',this)"></div>
+      <div class="daily-main">
+        <div class="daily-name">${task.name}</div>
+        <div class="daily-reward">+${task.amt}G &nbsp;|&nbsp; +${task.amt} EXP &nbsp;|&nbsp; ${task.stat.toUpperCase()}++</div>
+      </div>
+      <button class="edit-task-btn" onclick="openEditTask('${task.id}')" title="Edit quest">✏</button>
+    `;
+    c.appendChild(div);
+  });
+}
+
+function renderShop() {
+  const c = document.getElementById('shopContainer'); c.innerHTML = '';
+  SHOP.forEach(item => {
+    const owned = S.inventory.some(i=>i.id===item.id) && !item.elixir;
+    const canAfford = S.gold >= item.cost; const canLevel = S.level >= item.reqLv;
+    const div = document.createElement('div'); div.className = 'shop-item' + (owned?' owned':'');
+    div.innerHTML = `
+      <div style="font-size:1.4rem">${item.icon}</div>
+      <div class="shop-info">
+        <div class="shop-name">${item.name}</div>
+        <div class="shop-meta">
+          <span class="cost">${item.cost}G</span><span class="req"> · Req LV.${item.reqLv}</span>
+          ${item.statBonus ? Object.entries(item.statBonus).map(([k,v])=>`<span style="color:var(--blue)"> · +${v} ${k.toUpperCase()}</span>`).join('') : '<span style="color:var(--purple)"> · Recovery Potion (Cures Fatigue)</span>'}
+        </div>
+      </div>
+      ${owned ? '<span class="owned-badge">OWNED</span>' : `<button class="btn btn-gold" onclick="buyTrait('${item.id}')" ${(!canAfford||!canLevel)?'style="opacity:0.45"':''}>Acquire</button>`}
+    `;
+    c.appendChild(div);
+  });
+}
+
+function toggleTask(id, el) {
+  const task = S.tasks.find(t=>t.id===id); if (!task) return;
+  try { AudioFX.click(); } catch(e){}
+  if (!task.done) {
+    task.done = true; S.exp += isFatigued() ? Math.round(task.amt * 0.9) : task.amt; S.gold += task.amt;
+    if (task.stat==='str') S.str++; else if (task.stat==='int') S.int++; else if (task.stat==='vit') S.vit++;
+    S.totalDone++; xpPop(`+${task.amt} EXP`, el); checkLevelUp();
+  } else {
+    task.done = false; S.exp = Math.max(0, S.exp - task.amt); S.gold = Math.max(0, S.gold - task.amt);
+    if (task.stat==='str') S.str = Math.max(10,S.str-1); else if (task.stat==='int') S.int = Math.max(10,S.int-1); else if (task.stat==='vit') S.vit = Math.max(10,S.vit-1);
+    S.totalDone = Math.max(0,S.totalDone-1);
+  }
+  save(); updateUI();
+}
+
+function openEditTask(id) {
+  editingTaskId = id; const task = S.tasks.find(t=>t.id===id);
+  document.getElementById('editTaskName').value = task.name;
+  document.getElementById('editTaskAmt').value = task.amt;
+  document.getElementById('editTaskStat').value = task.stat;
+  document.getElementById('editModal').classList.remove('hidden');
+}
+
+function saveEditTask() {
+  const task = S.tasks.find(t=>t.id===editingTaskId); if (!task) return;
+  const name = document.getElementById('editTaskName').value.trim();
+  const amt = parseInt(document.getElementById('editTaskAmt').value) || 10;
+  const stat = document.getElementById('editTaskStat').value;
+  if (!name) { toast('Quest name cannot be empty','danger'); return; }
+  task.name = name; task.amt = amt; task.stat = stat;
+  closeModal(); save(); updateUI(); toast('Quest updated!', 'info');
+}
+
+function deleteTask() {
+  S.tasks = S.tasks.filter(t=>t.id!==editingTaskId); closeModal(); save(); updateUI(); toast('Quest removed.', 'danger');
+}
+
+function openAddModal() {
+  document.getElementById('addTaskName').value = ''; document.getElementById('addTaskAmt').value = '10';
+  document.getElementById('addModal').classList.remove('hidden');
+}
+
+function confirmAddTask() {
+  const name = document.getElementById('addTaskName').value.trim();
+  const amt = parseInt(document.getElementById('addTaskAmt').value) || 10;
+  const stat = document.getElementById('addTaskStat').value;
+  if (!name) { toast('Enter a quest name','danger'); return; }
+  const id = 't'+Date.now(); S.tasks.push({id, name, amt, stat, done:false});
+  document.getElementById('addModal').classList.add('hidden'); save(); updateUI();
+  toast(`New quest added: <strong>${name}</strong>`, 'success');
+}
+
+function closeModal() { document.getElementById('editModal').classList.add('hidden'); editingTaskId = null; }
+
+function doHabit(hpD, goldD, isPos, ev, hpPenalty=false) {
+  if (isPos) {
+    let rewardExp = isFatigued() ? Math.round(Math.abs(hpD) * 0.9) : Math.abs(hpD);
+    S.exp += rewardExp; S.gold += goldD; try { AudioFX.success(); } catch(e){}
+    xpPop(`+${rewardExp}EXP`, ev.target); checkLevelUp();
+  } else if (hpPenalty) {
+    S.hp = Math.max(0, S.hp + hpD); try { AudioFX.penalty(); } catch(e){}
+    xpPop(`${hpD} HP`, ev.target); checkDeath();
+  } else {
+    S.gold = Math.max(0, S.gold + goldD); S.exp = Math.max(0, S.exp + Math.abs(hpD));
+  }
+  save(); updateUI();
+}
+
+// UNIFIED MASTER RESET CONFLICT LOGIC RESOLUTION
+function executeDailyReset() {
+  const done = S.tasks.filter(t=>t.done).length; const total = S.tasks.length;
+  const allQuestsDone = done === total;
+  const workoutDone = S.workoutCompletedState;
+  
+  let calProfile = getMifflinCalorieProfile();
+  let calorieBreach = false;
+  // If cutting, check over-consumption constraints
+  if(S.wCurrent > S.wTarget && S.caloriesToday > (calProfile.target + 300)) { calorieBreach = true; }
+
+  // Record active weight entry to data streams history ledger array
+  let todayStr = new Date().toISOString().split('T')[0];
+  S.wHistory.push({ w: S.wCurrent, d: todayStr });
+  if(S.wHistory.length > 7) S.wHistory.shift(); // Bound history layout lengths
+
+  // Master synchronization processing evaluations
+  if (allQuestsDone && workoutDone && !calorieBreach) {
+    let bonusGold = 20;
+    // Idea A: Payout structural gold bonus for accurate diet alignment
+    if(S.caloriesToday > 0 && S.caloriesToday <= calProfile.target) {
+       bonusGold += 15; S.weeklyCaloriesStreak++;
+       toast('🎉 DIETARY MASTERY CLEARANCE: +15G Bonus tokens deployed.', 'gold');
+    }
+    S.gold += bonusGold; S.exp += 20; S.vit++; S.streak++;
+    try { AudioFX.levelUp(); } catch(e){}
+    alert("🎉 PARAGON COMPLETE VALIANT PROGRESSION! ALL QUOTAS CONQUERED.");
+  } else {
+    // Compound failure calculations
+    let baseLoss = (total - done) * 10;
+    if(!workoutDone) baseLoss += 15;
+    if(calorieBreach) {
+       baseLoss += 25; triggerFatigueState(true);
+       alert("🚨 SYSTEM INTRUSION WARNING: CRITICAL OVER-CONSUMPTION METRICS DETECTED.");
+    }
+    
+    S.hp = Math.max(1, S.hp - baseLoss);
+    if (S.streak > 0) S.streak--;
+    try { AudioFX.penalty(); } catch(e){}
+    alert(`⚠️ RESET SEVERITY INFLICTED: -${baseLoss} HP structural damage applied.`);
+    checkDeath();
+  }
+
+  // Clear tracking metrics files for the subsequent 24 hours cycles
+  S.tasks.forEach(t => t.done = false);
+  S.caloriesToday = 0;
+  S.workoutsDoneToday = 0;
+  S.workoutCompletedState = false;
+  S.lastReset = todayStr;
+  
+  checkLevelUp(); save(); updateUI();
+}
+
+function buyTrait(id) {
+  const item = SHOP.find(s=>s.id===id); if (!item) return;
+  if (S.level < item.reqLv) { toast(`Requires LV.${item.reqLv}.`, 'danger'); try { AudioFX.penalty(); } catch(e){} return; }
+  if (S.gold < item.cost) { toast(`Insufficient Gold. Need ${item.cost}G.`, 'danger'); try { AudioFX.penalty(); } catch(e){} return; }
+  
+  S.gold -= item.cost;
+  if(item.elixir) {
+    S.inventory.push({id: item.id+'_'+Date.now(), name: item.name, icon: item.icon, elixir: true});
+    toast(`🧪 PURCHASED: [${item.name}] stored in active layout pouch.`, 'success');
+  } else {
+    S.inventory.push({id: item.id, name:item.name, icon:item.icon});
+    Object.entries(item.statBonus).forEach(([k,v]) => { S[k] += v; });
+    toast(`🧬 EVOLVED: [${item.name}] — Permanent stat boosts synced!`, 'gold');
+  }
+  try { AudioFX.levelUp(); } catch(e){}
+  save(); updateUI();
+}
+
+function checkLevelUp() {
+  const expNeeded = 100 + (S.level-1)*20;
+  while (S.exp >= expNeeded) {
+    S.exp -= expNeeded; S.level++; S.hp = 100;
+    document.getElementById('lvlFlash').classList.add('active');
+    setTimeout(()=>document.getElementById('lvlFlash').classList.remove('active'),1000);
+    try { AudioFX.levelUp(); } catch(e){}
+    toast(`🎉 LEVEL UP! You are now LV.${S.level} — ${getRank(S.level)}`, 'lvlup');
+  }
+}
+
+function checkDeath() {
+  if (S.hp <= 0) {
+    toast('☠ HP CRITICAL COMPROMISE. Stat loss penalization triggered.', 'danger');
+    S.hp = 30; S.str = Math.max(10, S.str-2); S.int = Math.max(10, S.int-2); S.vit = Math.max(10, S.vit-2);
+    triggerFatigueState(true);
+  }
+}
+
+function openChangeProfile() {
+  document.getElementById('inputName').value = S.name; document.getElementById('inputAge').value = S.age; document.getElementById('inputGender').value = S.gender;
+  const ov = document.getElementById('welcomeOverlay'); ov.style.opacity = '1'; ov.style.display = 'flex';
+}
+
+function confirmReset() {
+  if (!confirm('Reset ALL progress? This cannot be undone.')) return;
+  localStorage.clear(); location.reload();
+}
+
+function switchTab(name, btn) {
+  try { AudioFX.click(); } catch(e){}
+  document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-nav .tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Particle Canvas Animation Code
+(function() {
+  const canvas = document.getElementById('particles'); const ctx = canvas.getContext('2d');
+  let W, H, pts = [];
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  for (let i=0;i<40;i++) pts.push({ x:Math.random()*window.innerWidth, y:Math.random()*window.innerHeight, vx:(Math.random()-0.5)*0.3, vy:(Math.random()-0.5)*0.3, r:Math.random()*1.5+0.5, a:Math.random() });
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p => {
+      p.x+=p.vx; p.y+=p.vy; if(p.x<0) p.x=W; if(p.x>W) p.x=0; if(p.y<0) p.y=H; if(p.y>H) p.y=0;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle = `rgba(0,200,255,${p.a*0.25})`; ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+updateUI();
+</script>
+</body>
+</html>
