@@ -119,10 +119,13 @@ body.state-fatigued { --blue: #ff9d00; --border: rgba(255,150,0,0.2); }
 @keyframes slideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: translateX(60px); } }
 
-/* FIXED RESPONSIVE APP LEAN STRUCT */
-.app { position: relative; z-index: 1; width: 100%; max-width: 480px; margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 14px; }
+/* DYNAMIC RESPON-GRID BASE (ADAPTS FOR MOBILE, APP AND WIDE COMPUTER MONITORS) */
+.app { 
+  position: relative; z-index: 1; width: 100%; max-width: 1100px; 
+  margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 14px; 
+}
 
-/* PANEL BASES */
+/* PANEL LAYOUTS */
 .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); width: 100%; }
 .hud-panel {
   background: linear-gradient(160deg, #0a1a3a, #050c1c); border: 1px solid var(--blue);
@@ -176,7 +179,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .inv-icon { font-size: 1.3rem; }
 .inv-empty { color: var(--muted); font-size: 0.82rem; font-family: var(--font-mono); }
 
-/* FITNESS MODULES */
+/* FITNESS LAYOUT MODULES */
 .fit-env-bar { display: flex; gap: 6px; margin-bottom: 12px; width: 100%; }
 .fit-env-btn { flex: 1; padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid rgba(0,200,255,0.2); color: var(--muted); border-radius: 6px; font-family: var(--font-hud); font-weight: bold; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; text-align: center; }
 .fit-env-btn.active { background: rgba(0,200,255,0.15); border-color: var(--blue); color: var(--blue); box-shadow: 0 0 10px rgba(0,200,255,0.2); }
@@ -184,7 +187,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .macro-grid-shortcuts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; width: 100%; }
 .macro-sc-btn { padding: 8px 4px; background: rgba(240,192,64,0.06); border: 1px dashed rgba(240,192,64,0.3); border-radius: 6px; color: var(--gold); font-family: var(--font-mono); font-size: 0.68rem; cursor: pointer; text-align: center; }
 
-.ledger-box-form { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; border: 1px solid rgba(0,200,255,0.03); width: 100%; }
+.ledger-box-form { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.03); width: 100%; }
 .ledger-field { display: flex; flex-direction: column; gap: 4px; }
 .ledger-field label { font-size: 0.6rem; font-family: var(--font-mono); color: var(--muted); text-transform: uppercase; }
 .ledger-field input, .ledger-field select { background: rgba(0,5,15,0.8); border: 1px solid rgba(0,200,255,0.15); border-radius: 4px; padding: 6px 8px; color: #fff; font-family: var(--font-hud); font-size: 0.85rem; }
@@ -228,7 +231,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .modal h3 { font-family: var(--font-title); font-size: 0.7rem; letter-spacing: 3px; color: var(--blue); margin-bottom: 16px; }
 .modal-btns { display: flex; gap: 8px; margin-top: 16px; }
 
-/* APP BUTTON MATRICES */
+/* UNIVERSAL APP BUTTON MATRICES */
 .btn { border: none; border-radius: 8px; cursor: pointer; font-family: var(--font-hud); font-weight: 700; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; padding: 11px 16px; width: 100%; transition: all 0.2s; text-align: center; }
 .btn:active { transform: scale(0.97); }
 .btn-primary { background: linear-gradient(135deg, #0055cc, #00a8ff); color: #fff; box-shadow: 0 4px 15px rgba(0,120,255,0.25); }
@@ -274,9 +277,27 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .tab-btn.active { color: var(--blue); font-weight: bold; text-shadow: 0 0 8px rgba(0,200,255,0.2); }
 .tab-btn.active span { transform: scale(1.15); }
 
-/* VISIBILITY MODULES FIX */
+/* TAB ACCORDIONS VIEW CONFIGURATIONS */
 .tab-section { display: none !important; width: 100%; }
-.tab-section.active { display: flex !important; flex-direction: column; gap: 14px; }
+
+/* CROSS-PLATFORM SYSTEM MEDIA QUERY BREAKPOINTS MATRIX */
+@media (max-width: 799px) {
+  /* Mobile / Android App Optimization Configuration */
+  .tab-section.active { display: flex !important; flex-direction: column; gap: 14px; }
+}
+
+@media (min-width: 800px) {
+  /* Wide Computer Screen Monitor Optimization Configuration */
+  body { padding-top: 75px; }
+  .tab-section.active { 
+     display: grid !important; 
+     grid-template-columns: 1fr 1fr; 
+     align-items: start; 
+     gap: 20px; 
+  }
+  /* Force heavy layout elements like banners, graphs or full scales to take up full horizontal space even in desktop split mode */
+  .hud-panel, .panel:has(canvas#weightGraph), .reset-row { grid-column: span 2; }
+}
 </style>
 </head>
 <body>
@@ -474,7 +495,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
         <button class="fit-env-btn" id="dietPref-egg" onclick="setDietPref('Egg')">Eggitarian</button>
       </div>
       
-      <!-- HISTORICAL RUNNING MACRO METRIC LEDGERS FOR THE DAY -->
       <div style="font-family:var(--font-mono); font-size:0.72rem; color:var(--muted); display:flex; justify-content:space-between; margin-bottom:4px;">
         <span id="dayProt">Protein: 0g</span><span id="dayCarb">Carbs: 0g</span><span id="dayFat">Fats: 0g</span>
       </div>
@@ -508,7 +528,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
           </select>
         </div>
         
-        <!-- AUTO GENERATED LIVE TICKER DISPLAY PREVIEW -->
         <div class="macro-live-preview" id="macroLiveTicker">
            System Estimation Matrix: 0 kcal | P: 0g | C: 0g | F: 0g
         </div>
@@ -606,7 +625,6 @@ const AudioFX = {
 
 let editingTaskId = null;
 
-// EMBEDDED SYSTEM DICTIONARY (Values per 100g structure vectors)
 const FOOD_DATABASE = [
   { keywords: ['chicken', 'meat'], cal: 165, p: 31, c: 0, f: 3.6 },
   { keywords: ['paneer', 'cottage cheese'], cal: 265, p: 18, c: 1.2, f: 20 },
@@ -714,9 +732,8 @@ function save() {
   }
 }
 
-// REALTIME ESTIMATOR LOGIC FOR AUTOMATIC MACRO BALANCES
 function queryFoodDatabase(name) {
-  let matched = { cal: 120, p: 4, c: 15, f: 2 }; // Default baseline fallback profile
+  let matched = { cal: 120, p: 4, c: 15, f: 2 }; 
   let lower = name.toLowerCase();
   for (let entry of FOOD_DATABASE) {
     if (entry.keywords.some(k => lower.includes(k))) {
@@ -778,7 +795,7 @@ function toast(msg, type='info') {
 function quickLogCal(amt, name) {
   try { AudioFX.click(); } catch(e){}
   S.caloriesToday += amt;
-  S.proteinToday += Math.round(amt * 0.05); // General estimation for rapid presets
+  S.proteinToday += Math.round(amt * 0.05); 
   S.carbsToday += Math.round(amt * 0.1);
   S.fatsToday += Math.round(amt * 0.02);
   save(); updateUI();
@@ -965,7 +982,6 @@ function updateUI() {
   document.getElementById('calText').innerText = `${S.caloriesToday} / ${calProfile.target} kcal`;
   document.getElementById('calBar').style.width = Math.min(100, (S.caloriesToday / calProfile.target) * 100) + '%';
   
-  // Realtime rendering updates for nutrient scoreboard tracking lines
   document.getElementById('dayProt').innerText = `Protein: ${S.proteinToday}g`;
   document.getElementById('dayCarb').innerText = `Carbs: ${S.carbsToday}g`;
   document.getElementById('dayFat').innerText = `Fats: ${S.fatsToday}g`;
@@ -1259,7 +1275,7 @@ function switchTab(name, btn) {
   try { AudioFX.click(); } catch(e){}
   document.querySelectorAll('.tab-section').forEach(s => s.style.setProperty('display', 'none', 'important'));
   document.querySelectorAll('.tab-nav .tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-'+name).style.setProperty('display', 'flex', 'important');
+  document.getElementById('tab-'+name).style.setProperty('display', null, 'important');
   btn.classList.add('active');
 }
 
@@ -1288,4 +1304,3 @@ updateUI();
 </script>
 </body>
 </html>
-
