@@ -39,7 +39,7 @@ body {
   padding-bottom: 90px;
 }
 
-/* TOP HUD BAR */
+/* CUSTOM WEBINTOAPP IMMERSIVE HUD HEADER BANNER */
 .sys-header-bar {
   position: fixed; top: 0; left: 0; right: 0; height: 46px;
   background: #040a18; border-bottom: 1px solid var(--blue);
@@ -62,7 +62,7 @@ body {
 }
 @keyframes pulseAnim { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 
-/* Background Canvas */
+/* Ambient FX */
 .bg-fx { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 .bg-fx::before {
   content: ''; position: absolute; inset: 0;
@@ -70,12 +70,12 @@ body {
 }
 canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 
-/* FATIGUE STYLING */
+/* SYSTEM DEBUFF: FATIGUED OVERLAY SYNC */
 body.state-fatigued { --blue: #ff9d00; --border: rgba(255,150,0,0.2); }
 .fatigue-banner-hud {
   background: rgba(255,150,0,0.1); border: 1px dashed var(--blue);
-  border-radius: 6px; padding: 6px; font-size: 0.75rem; text-align: center;
-  font-family: var(--font-mono); color: var(--blue); margin-bottom: 8px; display: none;
+  border-radius: 6px; padding: 8px; font-size: 0.75rem; text-align: center;
+  font-family: var(--font-mono); color: var(--blue); margin-bottom: 12px; display: none;
 }
 
 /* INITIALIZATION POPUP OVERLAY */
@@ -105,7 +105,7 @@ body.state-fatigued { --blue: #ff9d00; --border: rgba(255,150,0,0.2); }
   border-radius: 6px; padding: 10px 12px; color: var(--text); font-family: var(--font-hud); font-size: 1rem;
 }
 
-/* TOAST PANELS */
+/* TOAST FLOATING PANELS */
 #toastContainer { position: fixed; top: 60px; right: 20px; z-index: 8888; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
 .toast {
   background: var(--panel2); border-left: 3px solid var(--blue); border-radius: 8px; padding: 12px 16px;
@@ -119,13 +119,13 @@ body.state-fatigued { --blue: #ff9d00; --border: rgba(255,150,0,0.2); }
 @keyframes slideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: translateX(60px); } }
 
-/* DYNAMIC RESPON-GRID BASE (ADAPTS FOR MOBILE, APP AND WIDE COMPUTER MONITORS) */
+/* MASTER RESPON-GRID FRAMEWORK (PERFECT MOBILE + DESKTOP ADAPTATION) */
 .app { 
-  position: relative; z-index: 1; width: 100%; max-width: 1100px; 
+  position: relative; z-index: 1; width: 100%; max-width: 1000px; 
   margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 14px; 
 }
 
-/* PANEL LAYOUTS */
+/* UNIVERSAL HUD DESIGN CARDS */
 .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); width: 100%; }
 .hud-panel {
   background: linear-gradient(160deg, #0a1a3a, #050c1c); border: 1px solid var(--blue);
@@ -166,20 +166,20 @@ body.state-fatigued { --blue: #ff9d00; --border: rgba(255,150,0,0.2); }
 .panel-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(0,200,255,0.1); }
 .panel-title { font-family: var(--font-title); font-size: 0.65rem; letter-spacing: 3px; color: var(--blue); text-transform: uppercase; }
 
-/* WEIGHT TRACK METRIC GRAPH DISPLAY */
+/* SCALABLE HORIZONTAL HISTORY GRAPH */
 .graph-container {
   background: rgba(0,5,15,0.6); border: 1px solid rgba(0,200,255,0.1);
-  border-radius: 8px; padding: 8px; margin-top: 12px; position: relative;
+  border-radius: 8px; padding: 8px; margin-top: 12px; position: relative; width: 100%;
 }
 canvas#weightGraph { width: 100%; height: 110px; display: block; }
 
-/* INVENTORY LISTS */
+/* INVENTORY SLOTS */
 .inv-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
 .inv-card { background: linear-gradient(135deg, #0d1e3e, #07111f); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 10px; display: flex; align-items: center; gap: 10px; font-size: 0.82rem; }
 .inv-icon { font-size: 1.3rem; }
 .inv-empty { color: var(--muted); font-size: 0.82rem; font-family: var(--font-mono); }
 
-/* FITNESS LAYOUT MODULES */
+/* TRAINING COMPONENT ASSETS */
 .fit-env-bar { display: flex; gap: 6px; margin-bottom: 12px; width: 100%; }
 .fit-env-btn { flex: 1; padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid rgba(0,200,255,0.2); color: var(--muted); border-radius: 6px; font-family: var(--font-hud); font-weight: bold; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; text-align: center; }
 .fit-env-btn.active { background: rgba(0,200,255,0.15); border-color: var(--blue); color: var(--blue); box-shadow: 0 0 10px rgba(0,200,255,0.2); }
@@ -192,7 +192,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .ledger-field label { font-size: 0.6rem; font-family: var(--font-mono); color: var(--muted); text-transform: uppercase; }
 .ledger-field input, .ledger-field select { background: rgba(0,5,15,0.8); border: 1px solid rgba(0,200,255,0.15); border-radius: 4px; padding: 6px 8px; color: #fff; font-family: var(--font-hud); font-size: 0.85rem; }
 
-/* MACRO REAL-TIME TICKER PREVIEW BOX */
 .macro-live-preview {
   grid-column: span 2; background: rgba(0,200,255,0.04); border: 1px solid rgba(0,200,255,0.15);
   border-radius: 6px; padding: 8px; text-align: center; font-family: var(--font-mono); font-size: 0.75rem; color: var(--blue);
@@ -231,7 +230,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .modal h3 { font-family: var(--font-title); font-size: 0.7rem; letter-spacing: 3px; color: var(--blue); margin-bottom: 16px; }
 .modal-btns { display: flex; gap: 8px; margin-top: 16px; }
 
-/* UNIVERSAL APP BUTTON MATRICES */
+/* GLOBAL BUTTON ARCHITECTURE */
 .btn { border: none; border-radius: 8px; cursor: pointer; font-family: var(--font-hud); font-weight: 700; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; padding: 11px 16px; width: 100%; transition: all 0.2s; text-align: center; }
 .btn:active { transform: scale(0.97); }
 .btn-primary { background: linear-gradient(135deg, #0055cc, #00a8ff); color: #fff; box-shadow: 0 4px 15px rgba(0,120,255,0.25); }
@@ -248,19 +247,19 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .weight-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--purple), var(--blue)); transition: width 0.5s ease; }
 .weight-labels { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--muted); font-family: var(--font-mono); width: 100%; }
 
-/* SHOP GRID PANELS */
+/* SHOP SYSTEM STRUCTURES */
 .shop-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); gap: 10px; width: 100%; }
 .shop-info { flex: 1; }
 .shop-name { font-size: 0.95rem; font-weight: 600; color: #fff; }
 .shop-meta { font-size: 0.72rem; font-family: var(--font-mono); color: var(--muted); margin-top: 2px; }
 .shop-meta .cost { color: var(--gold); font-weight: bold; }
 
-/* PROFILE ROWS */
+/* ACCOUNT PROFILE SLOTS */
 .profile-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.92rem; width: 100%; }
 .profile-label { color: var(--muted); font-family: var(--font-mono); text-transform: uppercase; font-size: 0.75rem; }
 .profile-val { color: #fff; font-weight: 600; }
 
-/* NAV NAVIGATION FIX */
+/* SOLIDIFIED NAVIGATION FOOTER BAR */
 .tab-nav {
   position: fixed; bottom: 0; left: 0; right: 0; height: 64px; z-index: 9990;
   background: rgba(6,12,26,0.98); backdrop-filter: blur(12px);
@@ -277,17 +276,17 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .tab-btn.active { color: var(--blue); font-weight: bold; text-shadow: 0 0 8px rgba(0,200,255,0.2); }
 .tab-btn.active span { transform: scale(1.15); }
 
-/* TAB ACCORDIONS VIEW CONFIGURATIONS */
-.tab-section { display: none !important; width: 100%; }
+/* CORE TAB VISIBILITY ACCORDION CONTROLLERS */
+.tab-section { display: none; width: 100%; }
 
-/* CROSS-PLATFORM SYSTEM MEDIA QUERY BREAKPOINTS MATRIX */
+/* CROSS-PLATFORM INTERFACE ENGINE MATRIX BREAKPOINTS */
 @media (max-width: 799px) {
-  /* Mobile / Android App Optimization Configuration */
+  /* Phone App Force Stream Layout */
   .tab-section.active { display: flex !important; flex-direction: column; gap: 14px; }
 }
 
 @media (min-width: 800px) {
-  /* Wide Computer Screen Monitor Optimization Configuration */
+  /* Desktop Wide Screen Grid Optimization Command Center */
   body { padding-top: 75px; }
   .tab-section.active { 
      display: grid !important; 
@@ -295,14 +294,13 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
      align-items: start; 
      gap: 20px; 
   }
-  /* Force heavy layout elements like banners, graphs or full scales to take up full horizontal space even in desktop split mode */
+  /* Enforce full browser width horizontal spans for massive analytical cards */
   .hud-panel, .panel:has(canvas#weightGraph), .reset-row { grid-column: span 2; }
 }
 </style>
 </head>
 <body>
 
-<!-- FIXED HUD BAR HEAD AREA -->
 <header class="sys-header-bar">
   <div class="sys-header-logo">⚡ S Y S T E M : O V E R L O R D ⚡</div>
   <div class="sys-link-node" id="sysLinkNode"><div class="pulse-dot"></div><span id="sysLinkText">● LINK SYNC: ACTIVE</span></div>
@@ -312,7 +310,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 <div class="bg-fx"></div>
 <div id="toastContainer"></div>
 
-<!-- ACCOUNT LOCK POPUP SETUP INTRUDER VIEW OVERLAY -->
+<!-- USER PARAMETER DISCOVERY INITIALIZATION BOX OVERLAY -->
 <div id="welcomeOverlay">
   <div class="welcome-inner">
     <div class="alert-banner">System Notification</div>
@@ -343,7 +341,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
   </div>
 </div>
 
-<!-- QUEST ENGINE MODALS LOGISTICS MAP -->
+<!-- DATA COMPILING EDIT QUEST OVERLAY INJECTIONS -->
 <div class="modal-overlay hidden" id="editModal">
   <div class="modal">
     <h3>✏ Edit Quest</h3>
@@ -401,10 +399,10 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
   </div>
 </div>
 
-<!-- LEAN MAIN APP CONTAINER BOUNDS -->
+<!-- LEAN UNIVERSAL ARENA CONTAINER SCREEN -->
 <div class="app" id="mainApp">
 
-  <!-- TAB AREA 1: CHARACTERS DASHBOARD PANELS -->
+  <!-- TAB ROW 1: STATUS MODULE COMMANDS -->
   <div class="tab-section active" id="tab-status">
     <div class="hud-panel" id="hudPanel">
       <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
@@ -434,7 +432,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
       </div>
     </div>
 
-    <!-- TARGET METRICS WITH DATA GRAPH -->
+    <!-- DYNAMIC CORE JOURNEY WITH SCALABLE ACCUMULATION TIMELINE LOG GRAPH -->
     <div class="panel">
       <div class="panel-hd"><div class="panel-title">⚖️ Weight Target Journey</div></div>
       <div class="weight-grid">
@@ -445,6 +443,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
       <div class="weight-bar-track"><div class="weight-bar-fill" id="weightBar"></div></div>
       <div class="weight-labels"><span id="lblWStart">102.75kg</span><span id="lblWStatus" style="color:var(--blue);font-weight:bold;">0% Cleared</span><span id="lblWTarget">70kg</span></div>
       
+      <!-- CHRONOLOGICAL TIMELINE DATA STREAM MATRIX PLOT -->
       <div class="graph-container">
         <canvas id="weightGraph"></canvas>
       </div>
@@ -456,7 +455,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
-  <!-- TAB AREA 2: TRADITIONAL HABIT TASKS -->
+  <!-- TAB ROW 2: HABIT QUEST MODULE LOGGERS -->
   <div class="tab-section" id="tab-quests">
     <div class="panel">
       <div class="panel-hd"><div class="panel-title">⚡ Habits — Continuous</div></div>
@@ -481,9 +480,8 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
-  <!-- TAB AREA 3: SEPARATED FITNESS ATHLETIC GRID MAP -->
+  <!-- TAB ROW 3: DETAILED FITNESS MATRIX FOR ADVANCED ATHLETICS -->
   <div class="tab-section" id="tab-fitness">
-    <!-- Card Block 1: Calorie Control -->
     <div class="panel">
       <div class="panel-hd">
         <div class="panel-title">🔥 Calorie Engagement Ledger</div>
@@ -495,7 +493,8 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
         <button class="fit-env-btn" id="dietPref-egg" onclick="setDietPref('Egg')">Eggitarian</button>
       </div>
       
-      <div style="font-family:var(--font-mono); font-size:0.72rem; color:var(--muted); display:flex; justify-content:space-between; margin-bottom:4px;">
+      <!-- RUNNING DYNAMIC TRACK SCORE OVERVIEWS -->
+      <div style="font-family:var(--font-mono); font-size:0.72rem; color:var(--muted); display:flex; justify-content:space-between; margin-bottom:6px;">
         <span id="dayProt">Protein: 0g</span><span id="dayCarb">Carbs: 0g</span><span id="dayFat">Fats: 0g</span>
       </div>
 
@@ -536,7 +535,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
       </div>
     </div>
 
-    <!-- Card Block 2: Workout Routine -->
     <div class="panel">
       <div class="panel-hd">
         <div class="panel-title">🏋️ Training Log Arena</div>
@@ -552,7 +550,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
-  <!-- TAB AREA 4: SHADOW ARMORY SELLER SHOPPED CARDS -->
+  <!-- TAB ROW 4: MERCHANT ARMORIES METADATA PANELS -->
   <div class="tab-section" id="tab-shop">
     <div class="panel">
       <div class="panel-hd"><div class="panel-title">🔮 Shadow Armory</div><span style="font-size:0.75rem;color:var(--gold);font-family:var(--font-mono)"><span id="shopGold">0</span>G</span></div>
@@ -560,7 +558,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
-  <!-- TAB AREA 5: PROFILES SUMMARY LEDGERS -->
+  <!-- TAB ROW 5: PLAYER ACCOUNT LOGISTICS SHEETS -->
   <div class="tab-section" id="tab-profile">
     <div class="panel">
       <div class="panel-hd"><div class="panel-title">👤 Player Profile</div></div>
@@ -591,7 +589,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 
 </div>
 
-<!-- BOTTOM HUD NAVIGATION CONTROLLERS -->
+<!-- HUD FOOTER NAVIGATION MATRIX -->
 <nav class="tab-nav">
   <button class="tab-btn active" onclick="switchTab('status', this)"><span>⚔️</span>Status</button>
   <button class="tab-btn" onclick="switchTab('quests', this)"><span>📋</span>Quests</button>
@@ -689,11 +687,11 @@ const SHOP = [
 const EXERCISE_DATABASE = {
   Gym: {
     Novice: [
-      {name: "Dumbbell Goblet Squat (Quads)", prescription: "3 Sets x 12 Reps", guide: "Hold a heavy dumbbell vertically at chest level. Plant feet wider than hips. Lower deep under control until hips clear below parallel, then drive back upwards to standard stance."},
+      {name: "Dumbbell Goblet Squat (Quads Focus)", prescription: "3 Sets x 12 Reps", guide: "Hold heavy dumbbell vertically at chest level. Plant feet outside hip width. Retract spine, break hips backwards, and lower drop smoothly until upper thighs crack horizontal level. Drive through heels to full lock."},
       {name: "Dumbbell Flat Bench Press", prescription: "3 Sets x 10 Reps", guide: "Lie flat on the bench. Press shoulders down tight. Lower dumbbells outward to right angles under complete muscle control, then drive upward to chest peak line."}
     ],
     Elite: [
-      {name: "Barbell Back Squat (Advanced)", prescription: "4 Sets x 8 Reps", guide: "Unrack barbell across high traps. Stand firmly. Lower down under complete balance control, explode up dynamically through heels out of bottom positions."},
+      {name: "Barbell Back Squat (Power Tiers)", prescription: "4 Sets x 8 Reps", guide: "Unrack barbell across high traps. Stand firmly. Lower down under complete balance control, explode up dynamically through heels out of bottom positions."},
       {name: "Barbell Bench Press (Heavy Split)", prescription: "4 Sets x 8 Reps", guide: "Set standard wide grip lines. Lower bar smoothly to touch mid-chest plate, keep elbows angled at 45 degrees, push forcefully up to full lock."}
     ],
     Monarch: [
@@ -1273,9 +1271,12 @@ function confirmReset() {
 
 function switchTab(name, btn) {
   try { AudioFX.click(); } catch(e){}
-  document.querySelectorAll('.tab-section').forEach(s => s.style.setProperty('display', 'none', 'important'));
+  document.querySelectorAll('.tab-section').forEach(s => s.style.display = 'none');
   document.querySelectorAll('.tab-nav .tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-'+name).style.setProperty('display', null, 'important');
+  
+  const isDesktop = window.innerWidth >= 800;
+  document.getElementById('tab-'+name).style.display = isDesktop ? 'grid' : 'flex';
+  
   btn.classList.add('active');
 }
 
@@ -1304,4 +1305,3 @@ updateUI();
 </script>
 </body>
 </html>
-
