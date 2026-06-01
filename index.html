@@ -119,13 +119,13 @@ body.state-fatigued { --blue: #ff9d00; --border: rgba(255,150,0,0.2); }
 @keyframes slideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: translateX(60px); } }
 
-/* DYNAMIC RESPON-GRID BASE (ADAPTS FOR MOBILE, APP AND WIDE COMPUTER MONITORS) */
+/* DYNAMIC RESPON-GRID CONTAINER */
 .app { 
   position: relative; z-index: 1; width: 100%; max-width: 1100px; 
   margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 14px; 
 }
 
-/* PANEL LAYOUTS */
+/* PANEL BASES */
 .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); width: 100%; }
 .hud-panel {
   background: linear-gradient(160deg, #0a1a3a, #050c1c); border: 1px solid var(--blue);
@@ -141,7 +141,7 @@ body.state-fatigued { --blue: #ff9d00; --border: rgba(255,150,0,0.2); }
 .player-line { text-align: center; font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 1px; margin-bottom: 4px; }
 .title-line { text-align: center; font-family: var(--font-title); font-size: 0.75rem; color: var(--gold); letter-spacing: 2px; margin-bottom: 10px; font-weight: bold; }
 .level-row { display: flex; align-items: baseline; justify-content: center; gap: 4px; margin-bottom: 16px; }
-.lv-label { font-family: var(--font-title); font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; }
+.lv-label { font-family: var(--font-title); font-size: 0.7 Blom; color: var(--muted); letter-spacing: 2px; }
 #level { font-family: var(--font-title); font-size: 3rem; color: var(--blue); line-height: 1; text-shadow: 0 0 20px var(--blue); }
 .rank-badge { font-family: var(--font-mono); font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; background: rgba(0,200,255,0.1); border: 1px solid rgba(0,200,255,0.3); color: var(--blue); align-self: center; }
 
@@ -163,9 +163,6 @@ body.state-fatigued { --blue: #ff9d00; --border: rgba(255,150,0,0.2); }
 .stat-cell.int .stat-val { color: #a78bfa; }
 .stat-cell.vit .stat-val { color: #34d399; }
 
-.panel-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(0,200,255,0.1); }
-.panel-title { font-family: var(--font-title); font-size: 0.65rem; letter-spacing: 3px; color: var(--blue); text-transform: uppercase; }
-
 /* WEIGHT TRACK METRIC GRAPH DISPLAY */
 .graph-container {
   background: rgba(0,5,15,0.6); border: 1px solid rgba(0,200,255,0.1);
@@ -179,7 +176,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .inv-icon { font-size: 1.3rem; }
 .inv-empty { color: var(--muted); font-size: 0.82rem; font-family: var(--font-mono); }
 
-/* FITNESS LAYOUT MODULES */
+/* FITNESS MODULES */
 .fit-env-bar { display: flex; gap: 6px; margin-bottom: 12px; width: 100%; }
 .fit-env-btn { flex: 1; padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid rgba(0,200,255,0.2); color: var(--muted); border-radius: 6px; font-family: var(--font-hud); font-weight: bold; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; text-align: center; }
 .fit-env-btn.active { background: rgba(0,200,255,0.15); border-color: var(--blue); color: var(--blue); box-shadow: 0 0 10px rgba(0,200,255,0.2); }
@@ -192,7 +189,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .ledger-field label { font-size: 0.6rem; font-family: var(--font-mono); color: var(--muted); text-transform: uppercase; }
 .ledger-field input, .ledger-field select { background: rgba(0,5,15,0.8); border: 1px solid rgba(0,200,255,0.15); border-radius: 4px; padding: 6px 8px; color: #fff; font-family: var(--font-hud); font-size: 0.85rem; }
 
-/* MACRO REAL-TIME TICKER PREVIEW BOX */
 .macro-live-preview {
   grid-column: span 2; background: rgba(0,200,255,0.04); border: 1px solid rgba(0,200,255,0.15);
   border-radius: 6px; padding: 8px; text-align: center; font-family: var(--font-mono); font-size: 0.75rem; color: var(--blue);
@@ -231,7 +227,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .modal h3 { font-family: var(--font-title); font-size: 0.7rem; letter-spacing: 3px; color: var(--blue); margin-bottom: 16px; }
 .modal-btns { display: flex; gap: 8px; margin-top: 16px; }
 
-/* UNIVERSAL APP BUTTON MATRICES */
+/* APP BUTTON MATRICES */
 .btn { border: none; border-radius: 8px; cursor: pointer; font-family: var(--font-hud); font-weight: 700; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; padding: 11px 16px; width: 100%; transition: all 0.2s; text-align: center; }
 .btn:active { transform: scale(0.97); }
 .btn-primary { background: linear-gradient(135deg, #0055cc, #00a8ff); color: #fff; box-shadow: 0 4px 15px rgba(0,120,255,0.25); }
@@ -277,32 +273,27 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .tab-btn.active { color: var(--blue); font-weight: bold; text-shadow: 0 0 8px rgba(0,200,255,0.2); }
 .tab-btn.active span { transform: scale(1.15); }
 
-/* TAB ACCORDIONS VIEW CONFIGURATIONS */
-.tab-section { display: none !important; width: 100%; }
+/* FIXED VISIBILITY FILTER REGIME: REMOVED THE WRONG DUMB DISPLAY OVERRIDES */
+.tab-section { display: none; width: 100%; }
 
-/* CROSS-PLATFORM SYSTEM MEDIA QUERY BREAKPOINTS MATRIX */
+/* CROSS-PLATFORM OVERRIDE MECHANICS */
 @media (max-width: 799px) {
-  /* Mobile / Android App Optimization Configuration */
-  .tab-section.active { display: flex !important; flex-direction: column; gap: 14px; }
+  .tab-section.active { display: flex; flex-direction: column; gap: 14px; }
 }
-
 @media (min-width: 800px) {
-  /* Wide Computer Screen Monitor Optimization Configuration */
   body { padding-top: 75px; }
   .tab-section.active { 
-     display: grid !important; 
+     display: grid; 
      grid-template-columns: 1fr 1fr; 
      align-items: start; 
      gap: 20px; 
   }
-  /* Force heavy layout elements like banners, graphs or full scales to take up full horizontal space even in desktop split mode */
   .hud-panel, .panel:has(canvas#weightGraph), .reset-row { grid-column: span 2; }
 }
 </style>
 </head>
 <body>
 
-<!-- FIXED HUD BAR HEAD AREA -->
 <header class="sys-header-bar">
   <div class="sys-header-logo">⚡ S Y S T E M : O V E R L O R D ⚡</div>
   <div class="sys-link-node" id="sysLinkNode"><div class="pulse-dot"></div><span id="sysLinkText">● LINK SYNC: ACTIVE</span></div>
@@ -312,7 +303,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 <div class="bg-fx"></div>
 <div id="toastContainer"></div>
 
-<!-- ACCOUNT LOCK POPUP SETUP INTRUDER VIEW OVERLAY -->
 <div id="welcomeOverlay">
   <div class="welcome-inner">
     <div class="alert-banner">System Notification</div>
@@ -343,7 +333,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
   </div>
 </div>
 
-<!-- QUEST ENGINE MODALS LOGISTICS MAP -->
 <div class="modal-overlay hidden" id="editModal">
   <div class="modal">
     <h3>✏ Edit Quest</h3>
@@ -401,10 +390,8 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
   </div>
 </div>
 
-<!-- LEAN MAIN APP CONTAINER BOUNDS -->
 <div class="app" id="mainApp">
 
-  <!-- TAB AREA 1: CHARACTERS DASHBOARD PANELS -->
   <div class="tab-section active" id="tab-status">
     <div class="hud-panel" id="hudPanel">
       <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
@@ -434,7 +421,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
       </div>
     </div>
 
-    <!-- TARGET METRICS WITH DATA GRAPH -->
     <div class="panel">
       <div class="panel-hd"><div class="panel-title">⚖️ Weight Target Journey</div></div>
       <div class="weight-grid">
@@ -456,7 +442,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
-  <!-- TAB AREA 2: TRADITIONAL HABIT TASKS -->
   <div class="tab-section" id="tab-quests">
     <div class="panel">
       <div class="panel-hd"><div class="panel-title">⚡ Habits — Continuous</div></div>
@@ -481,9 +466,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
-  <!-- TAB AREA 3: SEPARATED FITNESS ATHLETIC GRID MAP -->
   <div class="tab-section" id="tab-fitness">
-    <!-- Card Block 1: Calorie Control -->
     <div class="panel">
       <div class="panel-hd">
         <div class="panel-title">🔥 Calorie Engagement Ledger</div>
@@ -536,7 +519,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
       </div>
     </div>
 
-    <!-- Card Block 2: Workout Routine -->
     <div class="panel">
       <div class="panel-hd">
         <div class="panel-title">🏋️ Training Log Arena</div>
@@ -552,7 +534,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
-  <!-- TAB AREA 4: SHADOW ARMORY SELLER SHOPPED CARDS -->
   <div class="tab-section" id="tab-shop">
     <div class="panel">
       <div class="panel-hd"><div class="panel-title">🔮 Shadow Armory</div><span style="font-size:0.75rem;color:var(--gold);font-family:var(--font-mono)"><span id="shopGold">0</span>G</span></div>
@@ -560,7 +541,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
-  <!-- TAB AREA 5: PROFILES SUMMARY LEDGERS -->
   <div class="tab-section" id="tab-profile">
     <div class="panel">
       <div class="panel-hd"><div class="panel-title">👤 Player Profile</div></div>
@@ -591,7 +571,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 
 </div>
 
-<!-- BOTTOM HUD NAVIGATION CONTROLLERS -->
 <nav class="tab-nav">
   <button class="tab-btn active" onclick="switchTab('status', this)"><span>⚔️</span>Status</button>
   <button class="tab-btn" onclick="switchTab('quests', this)"><span>📋</span>Quests</button>
@@ -1273,9 +1252,13 @@ function confirmReset() {
 
 function switchTab(name, btn) {
   try { AudioFX.click(); } catch(e){}
-  document.querySelectorAll('.tab-section').forEach(s => s.style.setProperty('display', 'none', 'important'));
+  document.querySelectorAll('.tab-section').forEach(s => s.style.display = 'none');
   document.querySelectorAll('.tab-nav .tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-'+name).style.setProperty('display', null, 'important');
+  
+  // Strict Responsive CSS Display Handler
+  const isDesktop = window.innerWidth >= 800;
+  document.getElementById('tab-'+name).style.display = isDesktop ? 'grid' : 'flex';
+  
   btn.classList.add('active');
 }
 
@@ -1304,3 +1287,4 @@ updateUI();
 </script>
 </body>
 </html>
+
