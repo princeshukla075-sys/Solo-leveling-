@@ -119,13 +119,14 @@ body.state-fatigued { --blue: #ff9d00; --border: rgba(255,150,0,0.2); }
 @keyframes slideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: translateX(60px); } }
 
-/* FIXED RESPONSIVE APP LEAN STRUCT (STRETCHES BEAUTIFULLY TO SCREEN EDGES) */
+/* FIXED RESPONSIVE APP LEAN STRUCT */
 .app { position: relative; z-index: 1; width: 100%; max-width: 480px; margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 14px; }
 
 /* PANEL BASES */
+.panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); width: 100%; }
 .hud-panel {
   background: linear-gradient(160deg, #0a1a3a, #050c1c); border: 1px solid var(--blue);
-  border-radius: 14px; padding: 22px 18px; box-shadow: 0 0 30px rgba(0,200,255,0.08); position: relative;
+  border-radius: 14px; padding: 22px 18px; box-shadow: 0 0 30px rgba(0,200,255,0.08); position: relative; width: 100%;
 }
 .hud-corner { position: absolute; width: 10px; height: 10px; border-color: var(--blue); border-style: solid; opacity: 0.6; }
 .hud-corner.tl { top: 6px; left: 6px; border-width: 2px 0 0 2px; }
@@ -159,7 +160,6 @@ body.state-fatigued { --blue: #ff9d00; --border: rgba(255,150,0,0.2); }
 .stat-cell.int .stat-val { color: #a78bfa; }
 .stat-cell.vit .stat-val { color: #34d399; }
 
-.panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
 .panel-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(0,200,255,0.1); }
 .panel-title { font-family: var(--font-title); font-size: 0.65rem; letter-spacing: 3px; color: var(--blue); text-transform: uppercase; }
 
@@ -176,26 +176,32 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .inv-icon { font-size: 1.3rem; }
 .inv-empty { color: var(--muted); font-size: 0.82rem; font-family: var(--font-mono); }
 
-/* FITNESS LAYOUT MODULES */
-.fit-env-bar { display: flex; gap: 6px; margin-bottom: 12px; }
-.fit-env-btn { flex: 1; padding: 9px; background: rgba(0,0,0,0.4); border: 1px solid rgba(0,200,255,0.2); color: var(--muted); border-radius: 6px; font-family: var(--font-hud); font-weight: bold; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; }
+/* FITNESS MODULES */
+.fit-env-bar { display: flex; gap: 6px; margin-bottom: 12px; width: 100%; }
+.fit-env-btn { flex: 1; padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid rgba(0,200,255,0.2); color: var(--muted); border-radius: 6px; font-family: var(--font-hud); font-weight: bold; font-size: 0.8rem; letter-spacing: 1px; cursor: pointer; text-align: center; }
 .fit-env-btn.active { background: rgba(0,200,255,0.15); border-color: var(--blue); color: var(--blue); box-shadow: 0 0 10px rgba(0,200,255,0.2); }
 
-.macro-grid-shortcuts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; }
+.macro-grid-shortcuts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; width: 100%; }
 .macro-sc-btn { padding: 8px 4px; background: rgba(240,192,64,0.06); border: 1px dashed rgba(240,192,64,0.3); border-radius: 6px; color: var(--gold); font-family: var(--font-mono); font-size: 0.68rem; cursor: pointer; text-align: center; }
 
-.ledger-box-form { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.03); }
+.ledger-box-form { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; border: 1px solid rgba(0,200,255,0.03); width: 100%; }
 .ledger-field { display: flex; flex-direction: column; gap: 4px; }
 .ledger-field label { font-size: 0.6rem; font-family: var(--font-mono); color: var(--muted); text-transform: uppercase; }
 .ledger-field input, .ledger-field select { background: rgba(0,5,15,0.8); border: 1px solid rgba(0,200,255,0.15); border-radius: 4px; padding: 6px 8px; color: #fff; font-family: var(--font-hud); font-size: 0.85rem; }
 
-.ex-card-item { background: rgba(0,10,25,0.4); border: 1px solid rgba(255,255,255,0.03); border-radius: 8px; padding: 10px; margin-bottom: 8px; }
+/* MACRO REAL-TIME TICKER PREVIEW BOX */
+.macro-live-preview {
+  grid-column: span 2; background: rgba(0,200,255,0.04); border: 1px solid rgba(0,200,255,0.15);
+  border-radius: 6px; padding: 8px; text-align: center; font-family: var(--font-mono); font-size: 0.75rem; color: var(--blue);
+}
+
+.ex-card-item { background: rgba(0,10,25,0.4); border: 1px solid rgba(255,255,255,0.03); border-radius: 8px; padding: 12px; margin-bottom: 8px; width: 100%; }
 .ex-card-item:last-child { margin-bottom: 0; }
-.ex-header-row { display: flex; align-items: flex-start; gap: 10px; }
-.ex-main-info { flex: 1; }
-.ex-title-line { font-size: 0.9rem; font-weight: 600; color: #fff; }
-.ex-sub-line { font-size: 0.72rem; font-family: var(--font-mono); color: var(--muted); margin-top: 2px; }
-.ex-guide-trigger { background: none; border: none; color: var(--blue); font-size: 0.72rem; font-family: var(--font-mono); cursor: pointer; padding: 2px 0; margin-top: 4px; display: block; }
+.ex-header-row { display: flex; align-items: flex-start; gap: 10px; width: 100%; }
+.ex-main-info { flex: 1; min-width: 0; }
+.ex-title-line { font-size: 0.95rem; font-weight: 600; color: #fff; }
+.ex-sub-line { font-size: 0.75rem; font-family: var(--font-mono); color: var(--gold); margin-top: 3px; }
+.ex-guide-trigger { background: none; border: none; color: var(--blue); font-size: 0.72rem; font-family: var(--font-mono); cursor: pointer; padding: 4px 0; margin-top: 4px; display: block; text-align: left; }
 .ex-guide-body { display: none; background: rgba(0,0,0,0.3); border-left: 2px solid var(--blue); padding: 6px 8px; font-size: 0.78rem; color: #b0c4e0; line-height: 1.4; margin-top: 6px; border-radius: 0 4px 4px 0; }
 
 /* QUESTS ITEMS */
@@ -207,9 +213,9 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .hbtn.plus { background: rgba(0,232,122,0.15); color: var(--green); border: 1px solid rgba(0,232,122,0.3); }
 .hbtn.minus { background: rgba(255,45,85,0.12); color: var(--red); border: 1px solid rgba(255,45,85,0.3); }
 
-.daily-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.daily-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); width: 100%; }
 .daily-item.done { opacity: 0.55; }
-.daily-main { flex: 1; min-width: 0; }
+.daily-main { flex: 1; min-width: 0; margin-left: 8px; }
 .daily-name { font-size: 0.9rem; font-weight: 600; }
 .daily-reward { font-size: 0.7rem; color: var(--green); font-family: var(--font-mono); margin-top: 2px; }
 .edit-task-btn { background: none; border: none; color: var(--muted); cursor: pointer; padding: 4px 8px; font-size: 0.9rem; }
@@ -222,7 +228,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .modal h3 { font-family: var(--font-title); font-size: 0.7rem; letter-spacing: 3px; color: var(--blue); margin-bottom: 16px; }
 .modal-btns { display: flex; gap: 8px; margin-top: 16px; }
 
-/* UNIVERSAL APP BUTTON MATRICES */
+/* APP BUTTON MATRICES */
 .btn { border: none; border-radius: 8px; cursor: pointer; font-family: var(--font-hud); font-weight: 700; font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; padding: 11px 16px; width: 100%; transition: all 0.2s; text-align: center; }
 .btn:active { transform: scale(0.97); }
 .btn-primary { background: linear-gradient(135deg, #0055cc, #00a8ff); color: #fff; box-shadow: 0 4px 15px rgba(0,120,255,0.25); }
@@ -235,23 +241,23 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .weight-box { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .weight-box label { font-size: 0.62rem; color: var(--muted); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.5px; }
 .weight-box input { background: rgba(0,10,30,0.6); border: 1px solid rgba(0,200,255,0.2); border-radius: 6px; padding: 6px 4px; color: #fff; font-family: var(--font-hud); font-size: 0.9rem; text-align: center; width: 100%; }
-.weight-bar-track { background: rgba(255,255,255,0.04); border-radius: 4px; height: 8px; position: relative; margin: 12px 0 6px 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); }
+.weight-bar-track { background: rgba(255,255,255,0.04); border-radius: 4px; height: 8px; position: relative; margin: 12px 0 6px 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); width: 100%; }
 .weight-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--purple), var(--blue)); transition: width 0.5s ease; }
-.weight-labels { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--muted); font-family: var(--font-mono); }
+.weight-labels { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--muted); font-family: var(--font-mono); width: 100%; }
 
 /* SHOP GRID PANELS */
-.shop-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); gap: 10px; }
+.shop-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); gap: 10px; width: 100%; }
 .shop-info { flex: 1; }
 .shop-name { font-size: 0.95rem; font-weight: 600; color: #fff; }
 .shop-meta { font-size: 0.72rem; font-family: var(--font-mono); color: var(--muted); margin-top: 2px; }
 .shop-meta .cost { color: var(--gold); font-weight: bold; }
 
 /* PROFILE ROWS */
-.profile-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.92rem; }
+.profile-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.92rem; width: 100%; }
 .profile-label { color: var(--muted); font-family: var(--font-mono); text-transform: uppercase; font-size: 0.75rem; }
 .profile-val { color: #fff; font-weight: 600; }
 
-/* THE FIX: ABSOLUTE NAV TABS VIEWPORT RENDERING GRID CONTROLLER */
+/* NAV NAVIGATION FIX */
 .tab-nav {
   position: fixed; bottom: 0; left: 0; right: 0; height: 64px; z-index: 9990;
   background: rgba(6,12,26,0.98); backdrop-filter: blur(12px);
@@ -268,8 +274,8 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .tab-btn.active { color: var(--blue); font-weight: bold; text-shadow: 0 0 8px rgba(0,200,255,0.2); }
 .tab-btn.active span { transform: scale(1.15); }
 
-/* VISIBILITY TAB SECTIONS SWITCHERS */
-.tab-section { display: none !important; }
+/* VISIBILITY MODULES FIX */
+.tab-section { display: none !important; width: 100%; }
 .tab-section.active { display: flex !important; flex-direction: column; gap: 14px; }
 </style>
 </head>
@@ -407,7 +413,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
       </div>
     </div>
 
-    <!-- TARGET METRICS WITH DATA TIMELINE CANVAS GRID GRAPH SCALES -->
+    <!-- TARGET METRICS WITH DATA GRAPH -->
     <div class="panel">
       <div class="panel-hd"><div class="panel-title">⚖️ Weight Target Journey</div></div>
       <div class="weight-grid">
@@ -418,7 +424,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
       <div class="weight-bar-track"><div class="weight-bar-fill" id="weightBar"></div></div>
       <div class="weight-labels"><span id="lblWStart">102.75kg</span><span id="lblWStatus" style="color:var(--blue);font-weight:bold;">0% Cleared</span><span id="lblWTarget">70kg</span></div>
       
-      <!-- TIMELINE DATA RECORDER CHART GRID -->
       <div class="graph-container">
         <canvas id="weightGraph"></canvas>
       </div>
@@ -457,6 +462,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 
   <!-- TAB AREA 3: SEPARATED FITNESS ATHLETIC GRID MAP -->
   <div class="tab-section" id="tab-fitness">
+    <!-- Card Block 1: Calorie Control -->
     <div class="panel">
       <div class="panel-hd">
         <div class="panel-title">🔥 Calorie Engagement Ledger</div>
@@ -467,6 +473,12 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
         <button class="fit-env-btn" id="dietPref-veg" onclick="setDietPref('Veg')">Pure Veg</button>
         <button class="fit-env-btn" id="dietPref-egg" onclick="setDietPref('Egg')">Eggitarian</button>
       </div>
+      
+      <!-- HISTORICAL RUNNING MACRO METRIC LEDGERS FOR THE DAY -->
+      <div style="font-family:var(--font-mono); font-size:0.72rem; color:var(--muted); display:flex; justify-content:space-between; margin-bottom:4px;">
+        <span id="dayProt">Protein: 0g</span><span id="dayCarb">Carbs: 0g</span><span id="dayFat">Fats: 0g</span>
+      </div>
+
       <div class="bar-block">
         <div class="bar-labels"><span style="color:var(--gold)" id="dietGuidelineLabel">Caloric Intakes Matrix</span><span id="calText" style="color:var(--gold)">0 / 2000 kcal</span></div>
         <div class="bar-track"><div class="bar-fill" id="calBar" style="background:linear-gradient(90deg, #cc9900, var(--gold));"></div></div>
@@ -479,8 +491,14 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
       </div>
 
       <div class="ledger-box-form">
-        <div class="ledger-field" style="grid-column: span 2"><label>Food Matrix Designation</label><input type="text" id="foodName" placeholder="e.g. Grilled Chicken, Paneer Rice"></div>
-        <div class="ledger-field"><label>Quantity Metric</label><input type="text" id="foodQty" placeholder="e.g. 200g, 2 pieces"></div>
+        <div class="ledger-field" style="grid-column: span 2">
+           <label>Food Item Matrix Blueprint (Type keywords like Chicken, Paneer, Rice, Egg, Milk)</label>
+           <input type="text" id="foodName" placeholder="e.g. Grilled Chicken, Paneer Rice" oninput="liveUpdateFoodMacros()">
+        </div>
+        <div class="ledger-field">
+           <label>Weight Metric (Grams)</label>
+           <input type="number" id="foodQtyGrams" placeholder="e.g. 150" value="100" oninput="liveUpdateFoodMacros()">
+        </div>
         <div class="ledger-field">
           <label>Quality Classification</label>
           <select id="foodQuality">
@@ -489,11 +507,17 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
             <option value="Junk">Hyper-Palatable Junk</option>
           </select>
         </div>
-        <div class="ledger-field" style="grid-column: span 2"><label>Caloric Payload (kcal)</label><input type="number" id="foodCal" placeholder="Enter calories..."></div>
+        
+        <!-- AUTO GENERATED LIVE TICKER DISPLAY PREVIEW -->
+        <div class="macro-live-preview" id="macroLiveTicker">
+           System Estimation Matrix: 0 kcal | P: 0g | C: 0g | F: 0g
+        </div>
+
         <button class="btn btn-primary btn-sm" style="grid-column: span 2; margin-top:4px;" onclick="logCustomFood(event)">+ Ingest Nutrient Entry</button>
       </div>
     </div>
 
+    <!-- Card Block 2: Workout Routine -->
     <div class="panel">
       <div class="panel-hd">
         <div class="panel-title">🏋️ Training Log Arena</div>
@@ -505,7 +529,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
       </div>
       
       <div id="workoutProgramContainer"></div>
-      <button class="btn btn-outline btn-sm" style="width:100%; margin-top:8px;" onclick="completeActiveWorkoutSplit()">⚡ Transmit Workout Completion Token</button>
+      <button class="btn btn-outline btn-sm" style="width:100%; margin-top:12px;" onclick="completeActiveWorkoutSplit()">⚡ Transmit Workout Completion Token</button>
     </div>
   </div>
 
@@ -548,7 +572,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 
 </div>
 
-<!-- CRITICAL FIX: SOLIDLY PLACED IMMERSIVE HUD TAB NAVIGATION SYSTEM CONTROLLERS -->
+<!-- BOTTOM HUD NAVIGATION CONTROLLERS -->
 <nav class="tab-nav">
   <button class="tab-btn active" onclick="switchTab('status', this)"><span>⚔️</span>Status</button>
   <button class="tab-btn" onclick="switchTab('quests', this)"><span>📋</span>Quests</button>
@@ -582,6 +606,19 @@ const AudioFX = {
 
 let editingTaskId = null;
 
+// EMBEDDED SYSTEM DICTIONARY (Values per 100g structure vectors)
+const FOOD_DATABASE = [
+  { keywords: ['chicken', 'meat'], cal: 165, p: 31, c: 0, f: 3.6 },
+  { keywords: ['paneer', 'cottage cheese'], cal: 265, p: 18, c: 1.2, f: 20 },
+  { keywords: ['rice', 'chawal'], cal: 130, p: 2.7, c: 28, f: 0.3 },
+  { keywords: ['egg', 'anda'], cal: 155, p: 13, c: 1.1, f: 11 },
+  { keywords: ['milk', 'doodh'], cal: 60, p: 3.2, c: 4.8, f: 3.2 },
+  { keywords: ['roti', 'chapati', 'wheat'], cal: 260, p: 9, c: 55, f: 1.5 },
+  { keywords: ['dal', 'lentil'], cal: 116, p: 9, c: 20, f: 0.4 },
+  { keywords: ['fish', 'machli'], cal: 120, p: 20, c: 0, f: 4 },
+  { keywords: ['whey', 'protein powder'], cal: 390, p: 76, c: 8, f: 6 }
+];
+
 const S = {
   name: ls('sl_name',''),
   age: ls('sl_age',''),
@@ -602,6 +639,9 @@ const S = {
   wTarget: lsFloat('sl_wTarget', 70.0),
   wHistory: lsJSON('sl_wHistory', [{w:102.75, d:"Base"}]),
   caloriesToday: lsInt('sl_caloriesToday', 0),
+  proteinToday: lsInt('sl_proteinToday', 0),
+  carbsToday: lsInt('sl_carbsToday', 0),
+  fatsToday: lsInt('sl_fatsToday', 0),
   dietPreference: ls('sl_dietPref', 'Both'),
   trainingEnvironment: ls('sl_trainEnv', 'Gym'),
   workoutsDoneToday: lsInt('sl_workoutsDoneToday', 0),
@@ -631,16 +671,16 @@ const SHOP = [
 const EXERCISE_DATABASE = {
   Gym: {
     Novice: [
-      {name: "Dumbbell Goblet Squat (Quads Focus)", prescription: "3 Sets x 12 Reps", guide: "Hold heavy dumbbell vertically at chest level. Plant feet outside hip width. Lower hips smoothly until thighs crack horizontal level. Drive up forcefully."},
-      {name: "Dumbbell Flat Bench Press", prescription: "3 Sets x 10 Reps", guide: "Lie flat on the bench. Press shoulders down. Hold dumbbells vertically above chest. Lower outward to right angles under complete control, then drive upward to top."}
+      {name: "Dumbbell Goblet Squat (Quads)", prescription: "3 Sets x 12 Reps", guide: "Hold a heavy dumbbell vertically at chest level. Plant feet wider than hips. Lower deep under control until hips clear below parallel, then drive back upwards to standard stance."},
+      {name: "Dumbbell Flat Bench Press", prescription: "3 Sets x 10 Reps", guide: "Lie flat on the bench. Press shoulders down tight. Lower dumbbells outward to right angles under complete muscle control, then drive upward to chest peak line."}
     ],
     Elite: [
-      {name: "Barbell Back Squat (Power Tiers)", prescription: "4 Sets x 8 Reps", guide: "Unrack barbell across high traps. Stand firmly. Lower down under complete skeletal balance control, explode up dynamically through heels out of bottom positions."},
-      {name: "Barbell Bench Press (Heavy Force Split)", prescription: "4 Sets x 8 Reps", guide: "Set standard wide grip lines. Lower bar smoothly to touch mid-chest plate, keep elbows angled at 45 degrees, push forcefully up to full lock."}
+      {name: "Barbell Back Squat (Advanced)", prescription: "4 Sets x 8 Reps", guide: "Unrack barbell across high traps. Stand firmly. Lower down under complete balance control, explode up dynamically through heels out of bottom positions."},
+      {name: "Barbell Bench Press (Heavy Split)", prescription: "4 Sets x 8 Reps", guide: "Set standard wide grip lines. Lower bar smoothly to touch mid-chest plate, keep elbows angled at 45 degrees, push forcefully up to full lock."}
     ],
     Monarch: [
       {name: "Heavy Deadlift (Sovereign Pull)", prescription: "5 Sets x 5 Reps", guide: "Step tightly up to the bar. Sink hips to load hamstrings. Lock spinal alignment flat, brace your entire abdominal wall, pull bar straight up past knees to full vertical lock."},
-      {name: "Weighted Chin-ups (Monarch Volume)", prescription: "4 Sets x 6 Reps", guide: "Attach weighted belt fixtures. Grip overhead bars with underhand palms. Pull chest cleanly to touch bar rim by squeezing lat muscles downwards."}
+      {name: "Weighted Chin-ups (Monarch Mode)", prescription: "4 Sets x 6 Reps", guide: "Attach weighted belt fixtures. Grip overhead bars with underhand palms. Pull chest cleanly to touch bar rim by squeezing lat muscles downwards."}
     ]
   },
   Home: {
@@ -672,6 +712,37 @@ function save() {
     if(typeof S[key] === 'object') localStorage.setItem('sl_'+key.replace('sl_',''), JSON.stringify(S[key]));
     else localStorage.setItem('sl_'+key.replace('sl_',''), S[key]);
   }
+}
+
+// REALTIME ESTIMATOR LOGIC FOR AUTOMATIC MACRO BALANCES
+function queryFoodDatabase(name) {
+  let matched = { cal: 120, p: 4, c: 15, f: 2 }; // Default baseline fallback profile
+  let lower = name.toLowerCase();
+  for (let entry of FOOD_DATABASE) {
+    if (entry.keywords.some(k => lower.includes(k))) {
+       return entry;
+    }
+  }
+  return matched;
+}
+
+function liveUpdateFoodMacros() {
+  let fName = document.getElementById('foodName').value.trim();
+  let grams = parseFloat(document.getElementById('foodQtyGrams').value) || 0;
+  let ticker = document.getElementById('macroLiveTicker');
+  
+  if(!fName || grams <= 0) {
+    ticker.innerText = "System Matrix: 0 kcal | P: 0g | C: 0g | F: 0g"; return;
+  }
+  
+  let match = queryFoodDatabase(fName);
+  let scale = grams / 100;
+  let c = Math.round(match.cal * scale);
+  let p = Math.round(match.p * scale);
+  let carbs = Math.round(match.c * scale);
+  let f = Math.round(match.f * scale);
+  
+  ticker.innerText = `System Calc: ${c} kcal | Protein: ${p}g | Carbs: ${carbs}g | Fats: ${f}g`;
 }
 
 function getMifflinCalorieProfile() {
@@ -706,30 +777,46 @@ function toast(msg, type='info') {
 
 function quickLogCal(amt, name) {
   try { AudioFX.click(); } catch(e){}
-  S.caloriesToday += amt; save(); updateUI();
-  toast(`Logged instant +${amt} kcal via [${name}].`, 'info');
+  S.caloriesToday += amt;
+  S.proteinToday += Math.round(amt * 0.05); // General estimation for rapid presets
+  S.carbsToday += Math.round(amt * 0.1);
+  S.fatsToday += Math.round(amt * 0.02);
+  save(); updateUI();
+  toast(`Logged +${amt} kcal via [${name}].`, 'info');
 }
 
 function logCustomFood(e) {
-  let fCal = parseInt(document.getElementById('foodCal').value) || 0;
   let fName = document.getElementById('foodName').value.trim() || "Nutrient Entry";
-  let fQty = document.getElementById('foodQty').value.trim() || "1 Unit";
+  let grams = parseFloat(document.getElementById('foodQtyGrams').value) || 0;
   let fQual = document.getElementById('foodQuality').value;
   
-  if(fCal <= 0) { toast('Provide valid calorie metrics.','danger'); return; }
+  if(!fName || grams <= 0) { toast('Provide valid food description and grams metrics.','danger'); return; }
   try { AudioFX.click(); } catch(err){}
   
-  S.caloriesToday += fCal;
+  let match = queryFoodDatabase(fName);
+  let scale = grams / 100;
+  let c = Math.round(match.cal * scale);
+  let p = Math.round(match.p * scale);
+  let carbs = Math.round(match.c * scale);
+  let f = Math.round(match.f * scale);
+  
+  S.caloriesToday += c;
+  S.proteinToday += p;
+  S.carbsToday += carbs;
+  S.fatsToday += f;
+  
   if(fQual === 'Junk') {
     S.hp = Math.max(10, S.hp - 10);
     toast('⚠️ Junk food entry flagged. -10 HP Integrity penalty.', 'danger');
     try { AudioFX.penalty(); } catch(ex){}
   }
-  document.getElementById('foodCal').value = '';
+  
   document.getElementById('foodName').value = '';
-  document.getElementById('foodQty').value = '';
+  document.getElementById('foodQtyGrams').value = '100';
+  document.getElementById('macroLiveTicker').innerText = "System Matrix: 0 kcal | P: 0g | C: 0g | F: 0g";
+  
   save(); updateUI();
-  toast(`Ingested [${fName}] -> +${fCal} kcal added.`, 'success');
+  toast(`Ingested [${fName}] -> +${c} kcal, P:${p}g, C:${carbs}g, F:${f}g added.`, 'success');
 }
 
 function setDietPref(val) {
@@ -809,7 +896,7 @@ function completeActiveWorkoutSplit() {
   let scaleExp = isFatigued() ? Math.round(reward * 0.9) : reward;
   
   S.exp += scaleExp; S.gold += reward; S.str++;
-  toast(`⚔️ DUNGEON REMOVED! +${scaleExp} EXP, +${reward}G, +1 STR`, 'gold');
+  toast(`⚔️ DUNGEON REWARD: +${scaleExp} EXP, +${reward}G, +1 STR`, 'gold');
   checkLevelUp(); save(); updateUI();
 }
 
@@ -878,6 +965,11 @@ function updateUI() {
   document.getElementById('calText').innerText = `${S.caloriesToday} / ${calProfile.target} kcal`;
   document.getElementById('calBar').style.width = Math.min(100, (S.caloriesToday / calProfile.target) * 100) + '%';
   
+  // Realtime rendering updates for nutrient scoreboard tracking lines
+  document.getElementById('dayProt').innerText = `Protein: ${S.proteinToday}g`;
+  document.getElementById('dayCarb').innerText = `Carbs: ${S.carbsToday}g`;
+  document.getElementById('dayFat').innerText = `Fats: ${S.fatsToday}g`;
+
   let dietLabel = document.getElementById('dietGuidelineLabel');
   if(S.dietPreference === 'Veg') dietLabel.innerText = "Guidelines: Lean Plant Amino Chains Loaded";
   else if(S.dietPreference === 'Egg') dietLabel.innerText = "Guidelines: Egg Ovalbumin Targets In Sync";
@@ -973,7 +1065,7 @@ function renderDailies() {
     const div = document.createElement('div'); div.className = 'daily-item' + (task.done?' done':'');
     div.innerHTML = `
       <input type="checkbox" ${task.done?'checked':''} style="width:20px;height:20px;margin-top:2px;" onclick="toggleTask('${task.id}',this)">
-      <div class="daily-main" style="margin-left:8px;">
+      <div class="daily-main">
         <div class="daily-name">${task.name}</div>
         <div class="daily-reward">+${task.amt}G &nbsp;|&nbsp; +${task.amt} EXP</div>
       </div>
@@ -1093,7 +1185,7 @@ function executeDailyReset() {
     }
     S.gold += bonusGold; S.exp += 20; S.vit++; S.streak++;
     try { AudioFX.levelUp(); } catch(e){}
-    alert("🎉 DUNGEON CLEAR CONQUERED! CALORIES AND WORKOUT QUOTAS SATISFIED.");
+    alert("🎉 PARAGON COMPLETE! CALORIES AND WORKOUT QUOTAS SATISFIED.");
   } else {
     let baseLoss = (total - done) * 10;
     if(!workoutDone) baseLoss += 15;
@@ -1108,6 +1200,9 @@ function executeDailyReset() {
 
   S.tasks.forEach(t => t.done = false);
   S.caloriesToday = 0;
+  S.proteinToday = 0;
+  S.carbsToday = 0;
+  S.fatsToday = 0;
   S.workoutsDoneToday = 0;
   S.workoutCompletedState = false;
   S.lastReset = todayStr;
@@ -1185,7 +1280,6 @@ function switchTab(name, btn) {
   draw();
 })();
 
-// Initialize Pop-up handling checks
 if (S.name) {
   document.getElementById('welcomeOverlay').style.display = 'none';
 }
