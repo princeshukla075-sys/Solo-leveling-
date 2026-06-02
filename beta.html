@@ -99,13 +99,13 @@ body.state-fatigued { --blue: #ff9d00; --border: rgba(255,150,0,0.2); }
   font-family: var(--font-hud); font-size: 0.9rem; max-width: 300px; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
 }
 
-/* STRICT MOBILE VIEW LAYOUT ENGINE (MAX-WIDTH LOCKED TO MOBILE SPEC ONLY) */
+/* STABLE MOB-FIRST CHASSIS LAYOUT */
 .app { 
   position: relative; z-index: 1; width: 100% !important; max-width: 480px !important; 
   margin: 0 auto !important; padding: 12px !important; display: flex !important; flex-direction: column !important; gap: 14px !important; 
 }
 
-/* STABILIZE ALL CARDS FOR SECURE VERTICAL STREAM LOADING ONLY */
+/* CONTENT CONTAINER BLOCKS */
 .panel { 
   background: var(--panel) !important; border: 1px solid var(--border) !important; border-radius: 12px !important; 
   padding: 16px !important; box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important; width: 100% !important; max-width: 100% !important; 
@@ -149,7 +149,7 @@ body.state-fatigued { --blue: #ff9d00; --border: rgba(255,150,0,0.2); }
 .stat-val { font-family: var(--font-title); font-size: 1.2rem; color: var(--blue); }
 .stat-lbl { font-size: 0.6rem; color: var(--muted); letter-spacing: 2px; font-family: var(--font-mono); }
 
-/* MEASUREMENT SCALE CHART PRESET */
+/* WEIGHT TRACK METRIC CHART GRAPH */
 .graph-container {
   background: rgba(0,5,15,0.6); border: 1px solid rgba(0,200,255,0.1);
   border-radius: 8px; padding: 8px; margin-top: 12px; position: relative; width: 100%;
@@ -158,6 +158,19 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 
 .inv-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
 .inv-card { background: linear-gradient(135deg, #0d1e3e, #07111f); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; display: flex; align-items: center; justify-content: space-between; font-size: 0.88rem; width: 100%; }
+
+/* REPAIRED HIGH TECH NEON HUD TOGGLE SELECTORS FOR THE DIET AND GROUND MODES */
+.fit-env-bar { display: flex; gap: 8px; margin-bottom: 12px; width: 100%; }
+.fit-env-btn { 
+  flex: 1; padding: 10px 6px; border-radius: 6px; font-family: var(--font-hud); 
+  font-weight: 600; font-size: 0.85rem; letter-spacing: 0.5px; cursor: pointer; text-align: center;
+  background: rgba(0, 10, 25, 0.5); border: 1px solid rgba(0, 200, 255, 0.25); color: var(--muted);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fit-env-btn.active { 
+  background: rgba(0, 200, 255, 0.12); border: 1px solid var(--blue); color: var(--blue); 
+  box-shadow: 0 0 12px var(--blue-glow); text-shadow: 0 0 5px var(--blue);
+}
 
 .macro-grid-shortcuts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; width: 100%; margin-bottom: 12px; }
 .macro-sc-btn { padding: 8px 4px; background: rgba(240,192,64,0.06); border: 1px dashed rgba(240,192,64,0.3); border-radius: 6px; color: var(--gold); font-family: var(--font-mono); font-size: 0.68rem; cursor: pointer; text-align: center; }
@@ -224,7 +237,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .profile-label { color: var(--muted); font-family: var(--font-mono); text-transform: uppercase; font-size: 0.78rem; }
 .profile-val { color: #fff; font-weight: 600; }
 
-/* FIX NAV TABS POSITION */
+/* FIX NAV TABS MAIN PLACEMENTS */
 .tab-nav {
   position: fixed; bottom: 0; left: 0; right: 0; height: 64px; z-index: 9990;
   background: rgba(6,12,26,0.98); backdrop-filter: blur(12px);
@@ -239,7 +252,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .tab-btn span { font-size: 1.2rem; display: block; }
 .tab-btn.active { color: var(--blue); font-weight: bold; text-shadow: 0 0 8px rgba(0,200,255,0.2); }
 
-/* DYNAMIC CONTENT CONTAINER PURGE: NO GRIDS OR WRAPS ALLOWED ON ANY MEDIA TIERS */
+/* VERTICAL FORCE ONLY ACCORDIONS STRUCTURE CONTROLLER */
 .tab-section { display: none !important; width: 100% !important; box-sizing: border-box !important; }
 .tab-section.active { display: flex !important; flex-direction: column !important; gap: 14px !important; }
 
@@ -339,6 +352,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 
 <div class="app" id="mainApp">
 
+  <!-- TAB ROW 1: STATUS WINDOW -->
   <div class="tab-section active" id="tab-status">
     <div class="hud-panel" id="hudPanel">
       <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
@@ -389,6 +403,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
+  <!-- TAB ROW 2: QUESTS WINDOW -->
   <div class="tab-section" id="tab-quests">
     <div class="panel upside-down-card">
       <div class="upside-down-top-data">
@@ -421,6 +436,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
+  <!-- TAB ROW 3: FITNESS WINDOW -->
   <div class="tab-section" id="tab-fitness">
     <div class="panel upside-down-card">
       <div class="upside-down-top-data">
@@ -428,11 +444,13 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
           <div class="panel-title">🔥 Calorie Engagement Ledger</div>
           <span id="calorieGoalMode" style="font-size:0.75rem; color:var(--purple); font-family:var(--font-mono)">Calculating Target...</span>
         </div>
+        
+        <!-- UPDATED PRESET BUTTON SELECTION TOGGLES MATRIX: REPAIRED GLITCHED WHITE TILES -->
         <div class="fit-env-bar">
-          <button class="fit-env-btn active" id="dietPref-both" onclick="setDietPref('Both')">Omnivore/Both</button>
-          <button class="fit-env-btn" id="dietPref-veg" onclick="setDietPref('Veg')">Pure Veg</button>
-          <button class="fit-env-btn" id="dietPref-egg" onclick="setDietPref('Egg')">Eggitarian</button>
+          <button class="fit-env-btn active" id="dietPref-both" onclick="setDietPref('Both')">Non-Vegetarian</button>
+          <button class="fit-env-btn" id="dietPref-veg" onclick="setDietPref('Veg')">Pure Vegetarian</button>
         </div>
+        
         <div style="font-family:var(--font-mono); font-size:0.72rem; color:var(--muted); display:flex; justify-content:space-between; margin-bottom:4px;">
           <span id="dayProt">Protein: 0g</span><span id="dayCarb">Carbs: 0g</span><span id="dayFat">Fats: 0g</span>
         </div>
@@ -471,10 +489,13 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
           <div class="panel-title">🏋️ Training Log Arena</div>
           <span id="invSyncLabel" style="font-size:0.7rem; font-family:var(--font-mono); color:var(--blue)">🔓 GEAR SYNC: BASIC</span>
         </div>
+        
+        <!-- REPAIRED TRAINING TRACK TOGGLES SYSTEM DESIGN CHASSIS -->
         <div class="fit-env-bar">
           <button class="fit-env-btn active" id="envBtn-gym" onclick="setTrainingEnv('Gym')">Gym Grounds</button>
           <button class="fit-env-btn" id="envBtn-home" onclick="setTrainingEnv('Home')">Home Perimeter</button>
         </div>
+        
         <div id="workoutProgramContainer"></div>
       </div>
       <div class="upside-down-bottom-actions" style="margin-top:10px;">
@@ -483,6 +504,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
+  <!-- TAB ROW 4: SHOP WINDOW -->
   <div class="tab-section" id="tab-shop">
     <div class="panel">
       <div class="panel-hd"><div class="panel-title">🔮 Shadow Armory</div><span style="font-size:0.75rem;color:var(--gold);font-family:var(--font-mono)"><span id="shopGold">0</span>G</span></div>
@@ -490,6 +512,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
+  <!-- TAB ROW 5: PROFILE WINDOW -->
   <div class="tab-section" id="tab-profile">
     <div class="panel">
       <div class="panel-hd"><div class="panel-title">👤 Player Profile</div></div>
@@ -519,14 +542,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
   </div>
 
 </div>
-
-<nav class="tab-nav">
-  <button class="tab-btn active" onclick="switchTab('status', this)"><span>⚔️</span>Status</button>
-  <button class="tab-btn" onclick="switchTab('quests', this)"><span>📋</span>Quests</button>
-  <button class="tab-btn" onclick="switchTab('fitness', this)"><span>🏋️</span>Fitness</button>
-  <button class="tab-btn" onclick="switchTab('shop', this)"><span>🔮</span>Armory</button>
-  <button class="tab-btn" onclick="switchTab('profile', this)"><span>👤</span>Profile</button>
-</nav>
 
 <script>
 const AudioFX = {
@@ -770,7 +785,6 @@ function setDietPref(val) {
   document.querySelectorAll('#tab-fitness .fit-env-bar:first-of-type .fit-env-btn').forEach(b => b.classList.remove('active'));
   if(val=='Both') document.getElementById('dietPref-both').classList.add('active');
   if(val=='Veg') document.getElementById('dietPref-veg').classList.add('active');
-  if(val=='Egg') document.getElementById('dietPref-egg').classList.add('active');
   save(); updateUI();
 }
 
@@ -816,7 +830,6 @@ function renderWorkoutTrack() {
   });
 }
 
-// INTRINSIC DROP VISIBILITY COMMANDS FOR Movement Guides
 function toggleGuideBody(btn) {
   try { AudioFX.click(); } catch(e){}
   let body = btn.nextElementSibling;
@@ -918,7 +931,6 @@ function updateUI() {
 
   let dietLabel = document.getElementById('dietGuidelineLabel');
   if(S.dietPreference === 'Veg') dietLabel.innerText = "Guidelines: Lean Plant Amino Chains Loaded";
-  else if(S.dietPreference === 'Egg') dietLabel.innerText = "Guidelines: Egg Ovalbumin Targets In Sync";
   else dietLabel.innerText = "Guidelines: Balanced Animal Protein Synthesis";
 
   let linkNode = document.getElementById('sysLinkNode');
@@ -1203,14 +1215,11 @@ function confirmReset() {
 
 function switchTab(name, btn) {
   try { AudioFX.click(); } catch(e){}
-  
-  // Hard clean reset hidden parameters
   document.querySelectorAll('.tab-section').forEach(s => {
     s.style.setProperty('display', 'none', 'important');
   });
   document.querySelectorAll('.tab-nav .tab-btn').forEach(b => b.classList.remove('active'));
   
-  // Enforces solid vertical flex stream mapping exclusively
   const targetTab = document.getElementById('tab-' + name);
   targetTab.style.setProperty('display', 'flex', 'important');
   targetTab.style.setProperty('flex-direction', 'column', 'important');
