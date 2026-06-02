@@ -39,7 +39,7 @@ body {
   padding-bottom: 90px;
 }
 
-/* BRANDING HEADER ANCHOR */
+/* BRANDING STATUS HEADER */
 .sys-header-bar {
   position: fixed; top: 0; left: 0; right: 0; height: 46px;
   background: #040a18; border-bottom: 1px solid var(--blue);
@@ -61,7 +61,7 @@ body {
 }
 @keyframes pulseAnim { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 
-/* Backdrop */
+/* Space Backdrop Particles */
 .bg-fx { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 .bg-fx::before {
   content: ''; position: absolute; inset: 0;
@@ -69,14 +69,14 @@ body {
 }
 canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 
-/* FATIGUE BANNER CONTROLS */
+body.state-fatigued { --blue: #ff9d00; --border: rgba(255,150,0,0.2); }
 .fatigue-banner-hud {
   background: rgba(255,150,0,0.1); border: 1px dashed var(--blue);
   border-radius: 6px; padding: 8px; font-size: 0.75rem; text-align: center;
   font-family: var(--font-mono); color: var(--blue); margin-bottom: 12px; display: none;
 }
 
-/* INITIALIZATION MODAL */
+/* INITIALIZATION POPUP OVERLAY */
 #welcomeOverlay {
   position: fixed; inset: 0; z-index: 9999; background: #010510;
   display: flex; align-items: center; justify-content: center; padding: 20px;
@@ -99,20 +99,20 @@ canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; 
   font-family: var(--font-hud); font-size: 0.9rem; max-width: 300px; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
 }
 
-/* MOBILE APP VIEW REPAIR CHASSIS: STRICT STRIP DOWN TO SINGLE VERTICAL LAYER OVERRIDES */
+/* STRICT MOBILE VIEW LAYOUT ENGINE (MAX-WIDTH LOCKED TO MOBILE SPEC ONLY) */
 .app { 
   position: relative; z-index: 1; width: 100% !important; max-width: 480px !important; 
   margin: 0 auto !important; padding: 12px !important; display: flex !important; flex-direction: column !important; gap: 14px !important; 
 }
 
-/* STABILIZE ALL PANEL CONTAINER MODULES FROM SPLITTING OUT */
+/* STABILIZE ALL CARDS FOR SECURE VERTICAL STREAM LOADING ONLY */
 .panel { 
   background: var(--panel) !important; border: 1px solid var(--border) !important; border-radius: 12px !important; 
   padding: 16px !important; box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important; width: 100% !important; max-width: 100% !important; 
   display: block !important; float: none !important; clear: both !important; box-sizing: border-box !important;
 }
 
-/* UPSIDE DOWN ARCHITECTURE CONSTRAINTS */
+/* ERGONOMIC FLIPPED STACK RULES */
 .panel.upside-down-card { display: flex !important; flex-direction: column !important; }
 .upside-down-top-data { order: 1 !important; margin-bottom: 12px !important; width: 100% !important; }
 .upside-down-bottom-actions { order: 2 !important; width: 100% !important; }
@@ -149,7 +149,7 @@ canvas#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; 
 .stat-val { font-family: var(--font-title); font-size: 1.2rem; color: var(--blue); }
 .stat-lbl { font-size: 0.6rem; color: var(--muted); letter-spacing: 2px; font-family: var(--font-mono); }
 
-/* GRAPH DATA DISPLAY PLATFORMS */
+/* MEASUREMENT SCALE CHART PRESET */
 .graph-container {
   background: rgba(0,5,15,0.6); border: 1px solid rgba(0,200,255,0.1);
   border-radius: 8px; padding: 8px; margin-top: 12px; position: relative; width: 100%;
@@ -224,7 +224,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .profile-label { color: var(--muted); font-family: var(--font-mono); text-transform: uppercase; font-size: 0.78rem; }
 .profile-val { color: #fff; font-weight: 600; }
 
-/* REPAIRED FOOTER FIXED NAV PANELS */
+/* FIX NAV TABS POSITION */
 .tab-nav {
   position: fixed; bottom: 0; left: 0; right: 0; height: 64px; z-index: 9990;
   background: rgba(6,12,26,0.98); backdrop-filter: blur(12px);
@@ -239,22 +239,10 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .tab-btn span { font-size: 1.2rem; display: block; }
 .tab-btn.active { color: var(--blue); font-weight: bold; text-shadow: 0 0 8px rgba(0,200,255,0.2); }
 
-/* THE SANITIZER BLOCK RULE: LOCKS CONTENT SECTION STATE TO SINGLE-STREAM LAYERS BY DEFAULT */
+/* DYNAMIC CONTENT CONTAINER PURGE: NO GRIDS OR WRAPS ALLOWED ON ANY MEDIA TIERS */
 .tab-section { display: none !important; width: 100% !important; box-sizing: border-box !important; }
 .tab-section.active { display: flex !important; flex-direction: column !important; gap: 14px !important; }
 
-/* RESPON-GRID ONLY TRIGGERS ON EXTENDED COMPUTER TERMINALS WINDOWS */
-@media (min-width: 800px) {
-  body { padding-top: 75px; }
-  .app { max-width: 1000px !important; }
-  .tab-section.active { 
-     display: grid !important; 
-     grid-template-columns: 1fr 1fr !important; 
-     align-items: start !important; 
-     gap: 20px !important; 
-  }
-  .hud-panel, .panel:has(canvas#weightGraph), .reset-row { grid-column: span 2 !important; }
-}
 </style>
 </head>
 <body>
@@ -351,7 +339,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 
 <div class="app" id="mainApp">
 
-  <!-- TAB ROW 1: CORE PANEL -->
   <div class="tab-section active" id="tab-status">
     <div class="hud-panel" id="hudPanel">
       <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
@@ -402,7 +389,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
-  <!-- TAB ROW 2: QUEST PACKS -->
   <div class="tab-section" id="tab-quests">
     <div class="panel upside-down-card">
       <div class="upside-down-top-data">
@@ -435,7 +421,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
-  <!-- TAB ROW 3: FITNESS PACK -->
   <div class="tab-section" id="tab-fitness">
     <div class="panel upside-down-card">
       <div class="upside-down-top-data">
@@ -498,7 +483,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
-  <!-- TAB ROW 4: STORE -->
   <div class="tab-section" id="tab-shop">
     <div class="panel">
       <div class="panel-hd"><div class="panel-title">🔮 Shadow Armory</div><span style="font-size:0.75rem;color:var(--gold);font-family:var(--font-mono)"><span id="shopGold">0</span>G</span></div>
@@ -506,7 +490,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
-  <!-- TAB ROW 5: PROFILE -->
   <div class="tab-section" id="tab-profile">
     <div class="panel">
       <div class="panel-hd"><div class="panel-title">👤 Player Profile</div></div>
@@ -536,6 +519,14 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
   </div>
 
 </div>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('status', this)"><span>⚔️</span>Status</button>
+  <button class="tab-btn" onclick="switchTab('quests', this)"><span>📋</span>Quests</button>
+  <button class="tab-btn" onclick="switchTab('fitness', this)"><span>🏋️</span>Fitness</button>
+  <button class="tab-btn" onclick="switchTab('shop', this)"><span>🔮</span>Armory</button>
+  <button class="tab-btn" onclick="switchTab('profile', this)"><span>👤</span>Profile</button>
+</nav>
 
 <script>
 const AudioFX = {
@@ -825,6 +816,7 @@ function renderWorkoutTrack() {
   });
 }
 
+// INTRINSIC DROP VISIBILITY COMMANDS FOR Movement Guides
 function toggleGuideBody(btn) {
   try { AudioFX.click(); } catch(e){}
   let body = btn.nextElementSibling;
@@ -1176,7 +1168,7 @@ function buyTrait(id) {
   } else {
     S.inventory.push({id: item.id, name:item.name, icon:item.icon});
     Object.entries(item.statBonus).forEach(([k,v]) => { S[k] += v; });
-    toast("🔓 TRAIT ACQUIRED: Permanent attributes scaled.", "gold");
+    toast('🔓 TRAIT ACQUIRED: Permanent attributes scaled.', 'gold');
   }
   try { AudioFX.levelUp(); } catch(e){}
   save(); updateUI();
@@ -1211,12 +1203,17 @@ function confirmReset() {
 
 function switchTab(name, btn) {
   try { AudioFX.click(); } catch(e){}
-  document.querySelectorAll('.tab-section').forEach(s => s.style.setProperty('display', 'none', 'important'));
+  
+  // Hard clean reset hidden parameters
+  document.querySelectorAll('.tab-section').forEach(s => {
+    s.style.setProperty('display', 'none', 'important');
+  });
   document.querySelectorAll('.tab-nav .tab-btn').forEach(b => b.classList.remove('active'));
   
-  // Clean Mobile/Desktop Tab State Handler
-  const isDesktop = window.innerWidth >= 800;
-  document.getElementById('tab-'+name).style.setProperty('display', isDesktop ? 'grid' : 'flex', 'important');
+  // Enforces solid vertical flex stream mapping exclusively
+  const targetTab = document.getElementById('tab-' + name);
+  targetTab.style.setProperty('display', 'flex', 'important');
+  targetTab.style.setProperty('flex-direction', 'column', 'important');
   
   btn.classList.add('active');
 }
@@ -1246,4 +1243,3 @@ updateUI();
 </script>
 </body>
 </html>
-
