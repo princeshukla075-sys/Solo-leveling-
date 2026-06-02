@@ -39,7 +39,7 @@ body {
   padding-bottom: 90px;
 }
 
-/* BRANDING STATUS HEADER */
+/* TOP STATUS HUD BAR BRANDING */
 .sys-header-bar {
   position: fixed; top: 0; left: 0; right: 0; height: 46px;
   background: #040a18; border-bottom: 1px solid var(--blue);
@@ -61,7 +61,7 @@ body {
 }
 @keyframes pulseAnim { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 
-/* Space Backdrop Particles */
+/* Particle Space Canvas Backdrop */
 .bg-fx { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 .bg-fx::before {
   content: ''; position: absolute; inset: 0;
@@ -99,20 +99,20 @@ body.state-fatigued { --blue: #ff9d00; --border: rgba(255,150,0,0.2); }
   font-family: var(--font-hud); font-size: 0.9rem; max-width: 300px; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
 }
 
-/* STABLE MOB-FIRST CHASSIS LAYOUT */
+/* STRICT MANDATORY MOBILE APPS VIEWPORT CONTAINER OVERRIDES */
 .app { 
   position: relative; z-index: 1; width: 100% !important; max-width: 480px !important; 
   margin: 0 auto !important; padding: 12px !important; display: flex !important; flex-direction: column !important; gap: 14px !important; 
 }
 
-/* CONTENT CONTAINER BLOCKS */
+/* LOCK ALL DISPLAY CARDS INTO A PURE STREAM FLOW LAYER ONLY */
 .panel { 
   background: var(--panel) !important; border: 1px solid var(--border) !important; border-radius: 12px !important; 
   padding: 16px !important; box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important; width: 100% !important; max-width: 100% !important; 
   display: block !important; float: none !important; clear: both !important; box-sizing: border-box !important;
 }
 
-/* ERGONOMIC FLIPPED STACK RULES */
+/* ERGONOMIC FLIPPED LAYOUT MODIFIERS */
 .panel.upside-down-card { display: flex !important; flex-direction: column !important; }
 .upside-down-top-data { order: 1 !important; margin-bottom: 12px !important; width: 100% !important; }
 .upside-down-bottom-actions { order: 2 !important; width: 100% !important; }
@@ -149,7 +149,7 @@ body.state-fatigued { --blue: #ff9d00; --border: rgba(255,150,0,0.2); }
 .stat-val { font-family: var(--font-title); font-size: 1.2rem; color: var(--blue); }
 .stat-lbl { font-size: 0.6rem; color: var(--muted); letter-spacing: 2px; font-family: var(--font-mono); }
 
-/* WEIGHT TRACK METRIC CHART GRAPH */
+/* CHRONOLOGICAL CHART REGISTRY */
 .graph-container {
   background: rgba(0,5,15,0.6); border: 1px solid rgba(0,200,255,0.1);
   border-radius: 8px; padding: 8px; margin-top: 12px; position: relative; width: 100%;
@@ -159,17 +159,17 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .inv-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
 .inv-card { background: linear-gradient(135deg, #0d1e3e, #07111f); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; display: flex; align-items: center; justify-content: space-between; font-size: 0.88rem; width: 100%; }
 
-/* REPAIRED HIGH TECH NEON HUD TOGGLE SELECTORS FOR THE DIET AND GROUND MODES */
+/* SCI-FI GLOW HUD INTERACTIVE SWITCHES TOGGLES */
 .fit-env-bar { display: flex; gap: 8px; margin-bottom: 12px; width: 100%; }
 .fit-env-btn { 
-  flex: 1; padding: 10px 6px; border-radius: 6px; font-family: var(--font-hud); 
-  font-weight: 600; font-size: 0.85rem; letter-spacing: 0.5px; cursor: pointer; text-align: center;
-  background: rgba(0, 10, 25, 0.5); border: 1px solid rgba(0, 200, 255, 0.25); color: var(--muted);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  flex: 1; padding: 11px 6px; border-radius: 6px; font-family: var(--font-hud); 
+  font-weight: 700; font-size: 0.82rem; letter-spacing: 0.5px; cursor: pointer; text-align: center;
+  background: rgba(0, 10, 25, 0.6); border: 1px solid rgba(0, 200, 255, 0.22); color: var(--muted);
+  transition: all 0.2s ease-in-out; text-transform: uppercase;
 }
 .fit-env-btn.active { 
-  background: rgba(0, 200, 255, 0.12); border: 1px solid var(--blue); color: var(--blue); 
-  box-shadow: 0 0 12px var(--blue-glow); text-shadow: 0 0 5px var(--blue);
+  background: rgba(0, 200, 255, 0.15) !important; border: 1px solid var(--blue) !important; color: var(--blue) !important; 
+  box-shadow: 0 0 14px rgba(0,200,255,0.3) !important; text-shadow: 0 0 5px var(--blue) !important;
 }
 
 .macro-grid-shortcuts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; width: 100%; margin-bottom: 12px; }
@@ -237,7 +237,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .profile-label { color: var(--muted); font-family: var(--font-mono); text-transform: uppercase; font-size: 0.78rem; }
 .profile-val { color: #fff; font-weight: 600; }
 
-/* FIX NAV TABS MAIN PLACEMENTS */
+/* FIXED NAV MATRIX AT HIGH ELEVATION INDEX */
 .tab-nav {
   position: fixed; bottom: 0; left: 0; right: 0; height: 64px; z-index: 9990;
   background: rgba(6,12,26,0.98); backdrop-filter: blur(12px);
@@ -252,8 +252,8 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .tab-btn span { font-size: 1.2rem; display: block; }
 .tab-btn.active { color: var(--blue); font-weight: bold; text-shadow: 0 0 8px rgba(0,200,255,0.2); }
 
-/* VERTICAL FORCE ONLY ACCORDIONS STRUCTURE CONTROLLER */
-.tab-section { display: none !important; width: 100% !important; box-sizing: border-box !important; }
+/* ABSOLUTE FORCE FIELD SANITIZER RULES: DESTROYS GRID INHERITANCE ON TELEPHONES PERMANENTLY */
+.tab-section { display: none !important; width: 100% !important; box-sizing: border-box !important; float: none !important; }
 .tab-section.active { display: flex !important; flex-direction: column !important; gap: 14px !important; }
 
 </style>
@@ -445,7 +445,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
           <span id="calorieGoalMode" style="font-size:0.75rem; color:var(--purple); font-family:var(--font-mono)">Calculating Target...</span>
         </div>
         
-        <!-- UPDATED PRESET BUTTON SELECTION TOGGLES MATRIX: REPAIRED GLITCHED WHITE TILES -->
+        <!-- PURE VEG & NON-VEG ONLY (HIGH-TECH HUD STYLE TILES FIXED) -->
         <div class="fit-env-bar">
           <button class="fit-env-btn active" id="dietPref-both" onclick="setDietPref('Both')">Non-Vegetarian</button>
           <button class="fit-env-btn" id="dietPref-veg" onclick="setDietPref('Veg')">Pure Vegetarian</button>
@@ -490,7 +490,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
           <span id="invSyncLabel" style="font-size:0.7rem; font-family:var(--font-mono); color:var(--blue)">🔓 GEAR SYNC: BASIC</span>
         </div>
         
-        <!-- REPAIRED TRAINING TRACK TOGGLES SYSTEM DESIGN CHASSIS -->
+        <!-- HIGH-TECH HUD STYLE GYM/HOME TOGGLE FIXED -->
         <div class="fit-env-bar">
           <button class="fit-env-btn active" id="envBtn-gym" onclick="setTrainingEnv('Gym')">Gym Grounds</button>
           <button class="fit-env-btn" id="envBtn-home" onclick="setTrainingEnv('Home')">Home Perimeter</button>
@@ -542,6 +542,14 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
   </div>
 
 </div>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('status', this)"><span>⚔️</span>Status</button>
+  <button class="tab-btn" onclick="switchTab('quests', this)"><span>📋</span>Quests</button>
+  <button class="tab-btn" onclick="switchTab('fitness', this)"><span>🏋️</span>Fitness</button>
+  <button class="tab-btn" onclick="switchTab('shop', this)"><span>🔮</span>Armory</button>
+  <button class="tab-btn" onclick="switchTab('profile', this)"><span>👤</span>Profile</button>
+</nav>
 
 <script>
 const AudioFX = {
@@ -1215,6 +1223,7 @@ function confirmReset() {
 
 function switchTab(name, btn) {
   try { AudioFX.click(); } catch(e){}
+  
   document.querySelectorAll('.tab-section').forEach(s => {
     s.style.setProperty('display', 'none', 'important');
   });
