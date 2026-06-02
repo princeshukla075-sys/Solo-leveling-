@@ -176,6 +176,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .macro-sc-btn { padding: 8px 4px; background: rgba(240,192,64,0.06); border: 1px dashed rgba(240,192,64,0.3); border-radius: 6px; color: var(--gold); font-family: var(--font-mono); font-size: 0.68rem; cursor: pointer; text-align: center; }
 
 .ledger-box-form { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.03); width: 100%; }
+.ledger-box-form { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.03); width: 100%; }
 .ledger-field { display: flex; flex-direction: column; gap: 4px; }
 .ledger-field label { font-size: 0.6rem; font-family: var(--font-mono); color: var(--muted); text-transform: uppercase; }
 .ledger-field input, .ledger-field select { background: rgba(0,5,15,0.8); border: 1px solid rgba(0,200,255,0.15); border-radius: 4px; padding: 6px 8px; color: #fff; font-family: var(--font-hud); font-size: 0.85rem; }
@@ -237,7 +238,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .profile-label { color: var(--muted); font-family: var(--font-mono); text-transform: uppercase; font-size: 0.78rem; }
 .profile-val { color: #fff; font-weight: 600; }
 
-/* FIXED NAV MATRIX AT HIGH ELEVATION INDEX */
+/* FIXED NAV TABS MAIN PLACEMENTS */
 .tab-nav {
   position: fixed; bottom: 0; left: 0; right: 0; height: 64px; z-index: 9990;
   background: rgba(6,12,26,0.98); backdrop-filter: blur(12px);
@@ -445,7 +446,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
           <span id="calorieGoalMode" style="font-size:0.75rem; color:var(--purple); font-family:var(--font-mono)">Calculating Target...</span>
         </div>
         
-        <!-- PURE VEG & NON-VEG ONLY (HIGH-TECH HUD STYLE TILES FIXED) -->
+        <!-- PURE VEG & NON-VEG ONLY WITH DARK HIGH-TECH TOGGLES FIX -->
         <div class="fit-env-bar">
           <button class="fit-env-btn active" id="dietPref-both" onclick="setDietPref('Both')">Non-Vegetarian</button>
           <button class="fit-env-btn" id="dietPref-veg" onclick="setDietPref('Veg')">Pure Vegetarian</button>
@@ -490,7 +491,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
           <span id="invSyncLabel" style="font-size:0.7rem; font-family:var(--font-mono); color:var(--blue)">🔓 GEAR SYNC: BASIC</span>
         </div>
         
-        <!-- HIGH-TECH HUD STYLE GYM/HOME TOGGLE FIXED -->
+        <!-- DARK SCI-FI TOGGLES FOR TRAINING ENVIRONMENT FIX -->
         <div class="fit-env-bar">
           <button class="fit-env-btn active" id="envBtn-gym" onclick="setTrainingEnv('Gym')">Gym Grounds</button>
           <button class="fit-env-btn" id="envBtn-home" onclick="setTrainingEnv('Home')">Home Perimeter</button>
@@ -1261,3 +1262,4 @@ updateUI();
 </script>
 </body>
 </html>
+
