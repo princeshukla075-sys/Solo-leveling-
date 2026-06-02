@@ -99,20 +99,20 @@ body.state-fatigued { --blue: #ff9d00; --border: rgba(255,150,0,0.2); }
   font-family: var(--font-hud); font-size: 0.9rem; max-width: 300px; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
 }
 
-/* STRICT MOBILE VERTICAL STREAM OVERRIDES */
+/* STRICT MOBILE VIEW LAYOUT (LOCKS CONTENT TO PURE VERTICAL FLOW ONLY) */
 .app { 
   position: relative; z-index: 1; width: 100% !important; max-width: 480px !important; 
   margin: 0 auto !important; padding: 12px !important; display: flex !important; flex-direction: column !important; gap: 14px !important; 
 }
 
-/* LOCK ALL CARDS TO 100% MOBILE WIDTH ONLY */
+/* STABILIZE ALL CARDS FOR STACK LAYOUT ONLY */
 .panel { 
   background: var(--panel) !important; border: 1px solid var(--border) !important; border-radius: 12px !important; 
   padding: 16px !important; box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important; width: 100% !important; max-width: 100% !important; 
   display: block !important; float: none !important; clear: both !important; box-sizing: border-box !important;
 }
 
-/* ERGONOMIC FLIPPED LAYOUT MODIFIERS */
+/* ERGONOMIC FLIPPED LAYOUT STRATEGY */
 .panel.upside-down-card { display: flex !important; flex-direction: column !important; }
 .upside-down-top-data { order: 1 !important; margin-bottom: 12px !important; width: 100% !important; }
 .upside-down-bottom-actions { order: 2 !important; width: 100% !important; }
@@ -149,6 +149,7 @@ body.state-fatigued { --blue: #ff9d00; --border: rgba(255,150,0,0.2); }
 .stat-val { font-family: var(--font-title); font-size: 1.2rem; color: var(--blue); }
 .stat-lbl { font-size: 0.6rem; color: var(--muted); letter-spacing: 2px; font-family: var(--font-mono); }
 
+/* CHRONOLOGICAL CHART REGISTRY */
 .graph-container {
   background: rgba(0,5,15,0.6); border: 1px solid rgba(0,200,255,0.1);
   border-radius: 8px; padding: 8px; margin-top: 12px; position: relative; width: 100%;
@@ -158,7 +159,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .inv-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
 .inv-card { background: linear-gradient(135deg, #0d1e3e, #07111f); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px; display: flex; align-items: center; justify-content: space-between; font-size: 0.88rem; width: 100%; }
 
-/* HIGH-TECH HUD STYLE TOGGLE BUTTONS */
+/* HIGH-TECH HUD STYLE TOGGLE BUTTON FIX */
 .fit-env-bar { display: flex; gap: 8px; margin-bottom: 12px; width: 100%; }
 .fit-env-btn { 
   flex: 1; padding: 11px 6px; border-radius: 6px; font-family: var(--font-hud); 
@@ -251,7 +252,7 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 .tab-btn span { font-size: 1.2rem; display: block; }
 .tab-btn.active { color: var(--blue); font-weight: bold; text-shadow: 0 0 8px rgba(0,200,255,0.2); }
 
-/* VERTICAL FORCE FIELD LAYOUT CONTROLLERS */
+/* VERTICAL FORCE ACCORDION RULES: LOCKS DISPLAY LAYOUT SECURELY AWAY FROM HORIZONTAL OVERLAPS PERMANENTLY */
 .tab-section { display: none !important; width: 100% !important; box-sizing: border-box !important; float: none !important; }
 .tab-section.active { display: flex !important; flex-direction: column !important; gap: 14px !important; }
 
@@ -351,7 +352,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 
 <div class="app" id="mainApp">
 
-  <!-- TAB ROW 1: STATUS WINDOW -->
   <div class="tab-section active" id="tab-status">
     <div class="hud-panel" id="hudPanel">
       <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
@@ -402,7 +402,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
-  <!-- TAB ROW 2: QUESTS WINDOW -->
   <div class="tab-section" id="tab-quests">
     <div class="panel upside-down-card">
       <div class="upside-down-top-data">
@@ -435,7 +434,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
-  <!-- TAB ROW 3: FITNESS WINDOW -->
   <div class="tab-section" id="tab-fitness">
     <div class="panel upside-down-card">
       <div class="upside-down-top-data">
@@ -444,7 +442,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
           <span id="calorieGoalMode" style="font-size:0.75rem; color:var(--purple); font-family:var(--font-mono)">Calculating Target...</span>
         </div>
         
-        <!-- NON-VEGETARIAN & PURE VEGETARIAN HUD BLOCKS OVERRIDE -->
         <div class="fit-env-bar">
           <button class="fit-env-btn active" id="dietPref-both" onclick="setDietPref('Both')">Non-Vegetarian</button>
           <button class="fit-env-btn" id="dietPref-veg" onclick="setDietPref('Veg')">Pure Vegetarian</button>
@@ -489,7 +486,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
           <span id="invSyncLabel" style="font-size:0.7rem; font-family:var(--font-mono); color:var(--blue)">🔓 GEAR SYNC: BASIC</span>
         </div>
         
-        <!-- SCI-FI TRAINING BLOCKS OVERRIDE -->
         <div class="fit-env-bar">
           <button class="fit-env-btn active" id="envBtn-gym" onclick="setTrainingEnv('Gym')">Gym Grounds</button>
           <button class="fit-env-btn" id="envBtn-home" onclick="setTrainingEnv('Home')">Home Perimeter</button>
@@ -503,7 +499,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
-  <!-- TAB ROW 4: SHOP WINDOW -->
   <div class="tab-section" id="tab-shop">
     <div class="panel">
       <div class="panel-hd"><div class="panel-title">🔮 Shadow Armory</div><span style="font-size:0.75rem;color:var(--gold);font-family:var(--font-mono)"><span id="shopGold">0</span>G</span></div>
@@ -511,7 +506,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
     </div>
   </div>
 
-  <!-- TAB ROW 5: PROFILE WINDOW -->
   <div class="tab-section" id="tab-profile">
     <div class="panel">
       <div class="panel-hd"><div class="panel-title">👤 Player Profile</div></div>
@@ -542,7 +536,6 @@ canvas#weightGraph { width: 100%; height: 110px; display: block; }
 
 </div>
 
-<!-- HUD FOOTER NAVIGATION MATRIX -->
 <nav class="tab-nav">
   <button class="tab-btn active" onclick="switchTab('status', this)"><span>⚔️</span>Status</button>
   <button class="tab-btn" onclick="switchTab('quests', this)"><span>📋</span>Quests</button>
@@ -1261,4 +1254,3 @@ updateUI();
 </script>
 </body>
 </html>
-
